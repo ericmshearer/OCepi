@@ -41,6 +41,7 @@ freq_tbl <- data.frame(location = letters[1:5], patients = c(10, 20, 11, 3, 16))
 
 freq_tbl %>%
   add_percent(digits = 1, multiply = TRUE)
+
 ##   location patients proportion
 ## 1        a       10       16.7
 ## 2        b       20       33.3
@@ -71,6 +72,7 @@ test_df <- data.frame(Ages = floor(runif(200, min = 0, max = 99)))
 test_df$agegrp <- age_groups(test_df$Ages, type = "decade")
 
 table(test_df$agegrp)
+
 ## 
 ##             0-9           10-19           20-29           30-39           40-49 
 ##              14              22              28              24              26 
@@ -117,6 +119,7 @@ option `keep_extra` to keep/remove extra address information (e.g. Apt
 patient_address = "1234 Main Street Apt 204"
 
 clean_address(patient_address, keep_extra = TRUE)
+
 ## [1] "1234 Main Street Apartment 204"
 ```
 
@@ -131,10 +134,6 @@ Beach). Final pass will compare city to list of cleanly formatted city
 names and return the closest match below the set `threshold` (default
 set to 0.15). You may adjust the `threshold` but a word of caution - the
 higher the value, the more likely a false match.
-
-<<<<<<< HEAD
-To run this function, you will need: package stringdist and a helper
-file with clean city names.
 
 ``` r
 oc_cities <- read.csv("G:\\file_path\\files\\oc_zips.csv", na.strings = "", stringsAsFactors = FALSE) %>%
@@ -178,6 +177,7 @@ tseries$Dates <- as.Date(tseries$Dates)
 
 tseries %>%
   complete_dates(start_date = min(tseries$Dates), level = "month")
+
 ##        Dates Cases
 ## 1 2023-01-01     2
 ## 2 2023-02-01     4
@@ -200,6 +200,7 @@ Convert messy string to title casing.
 test_string = "MeSsY dAtA gIvEs Me A hEaDaChe"
 
 pretty_words(test_string)
+
 ## [1] "Messy Data Gives Me A Headache"
 ```
 
@@ -217,6 +218,7 @@ fake_udf <- data.frame(Gender = c("F","M","D","D","U","TF","TF","TM","I","G",NA)
 
 fake_udf %>%
   mutate(Gender_new = recode_gender(Gender, ordered = TRUE))
+
 ##    Gender             Gender_new
 ## 1       F                 Female
 ## 2       M                   Male
@@ -241,6 +243,7 @@ completely empty.
 ``` r
 test <- data.frame(a = c(NA,NA,NA), b = c("","",""), c = c(1,2,3))
 remove_empty_cols(test)
+
 ##   c
 ## 1 1
 ## 2 2
@@ -287,6 +290,7 @@ Calculate month from input date. Returned format is `YYYY-MM-01`.
 episode_date = as.Date("2015-01-01")
 
 to_month(episode_date)
+
 ## [1] "2015-01-01"
 ```
 
@@ -300,6 +304,7 @@ Calculate week ending date (Saturday) from input date.
 episode_date = as.Date("2015-01-01")
 
 week_ending_date(episode_date)
+
 ## [1] "2015-01-03"
 ```
 
@@ -315,6 +320,7 @@ Remove iterations of “baby” from recipient first name.
 
 ``` r
 baby_name("BABYBOY")
+
 ## [1] NA
 
 baby_name("Twin Girl")
