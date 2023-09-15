@@ -81,7 +81,6 @@ table(test_df$agegrp)
 ##              15              23              22              20              21 
 ##           50-59           60-69           70-79             80+ Missing/Unknown 
 ##              23              21              14              41               0
->>>>>>> 989afcdad5aa4655e02b73496ce97aa6572b3486
 ```
 
 <br>
@@ -94,23 +93,18 @@ This function is limited to just loading VRBIS, but if you have multiple
 names), then you *could* load in non-VRBIS files.
 
 ``` r
-<<<<<<< HEAD
 death_files <- list.files(path = "G:\\file_path\\files\\", full.names = TRUE, pattern = "^death")[31:38]
 
 combo_death <- batch_load_vrbis(death_files)
-=======
-death_files <- list.files(path = "G:\\Surveillance\\Death Files\\", full.names = TRUE, pattern = "^death")[31:38]
 
-combo_death <- batch_load_vrbis(death_files)
-## [1] "G:\\Surveillance\\Death Files\\death2020.csv completed."
-## [1] "G:\\Surveillance\\Death Files\\death2020reallocate.csv completed."
-## [1] "G:\\Surveillance\\Death Files\\death2021.csv completed."
-## [1] "G:\\Surveillance\\Death Files\\death2021reallocate.csv completed."
-## [1] "G:\\Surveillance\\Death Files\\death2022.csv completed."
-## [1] "G:\\Surveillance\\Death Files\\death2022reallocate.csv completed."
-## [1] "G:\\Surveillance\\Death Files\\death2023.csv completed."
-## [1] "G:\\Surveillance\\Death Files\\death2023reallocate.csv completed."
->>>>>>> 989afcdad5aa4655e02b73496ce97aa6572b3486
+## [1] "G:\\file_path\\files\\death2020.csv completed."
+## [1] "G:\\file_path\\files\\death2020reallocate.csv completed."
+## [1] "G:\\file_path\\files\\death2021.csv completed."
+## [1] "G:\\file_path\\files\\death2021reallocate.csv completed."
+## [1] "G:\\file_path\\files\\death2022.csv completed."
+## [1] "G:\\file_path\\files\\death2022reallocate.csv completed."
+## [1] "G:\\file_path\\files\\death2023.csv completed."
+## [1] "G:\\file_path\\files\\death2023reallocate.csv completed."
 ```
 
 <br>
@@ -145,14 +139,7 @@ To run this function, you will need: package stringdist and a helper
 file with clean city names.
 
 ``` r
-oc_cities <- read.csv("G:\\file_path\\helper_files\\oc_zips.csv", na.strings = "", stringsAsFactors = FALSE) %>%
-=======
-To run this function, you will need: package stringdist and oc_zips
-helper file from `G:\Surveillance\Population`.
-
-``` r
-oc_cities <- read.csv("G:\\Surveillance\\Population\\oc_zips.csv", na.strings = "", stringsAsFactors = FALSE) %>%
->>>>>>> 989afcdad5aa4655e02b73496ce97aa6572b3486
+oc_cities <- read.csv("G:\\file_path\\files\\oc_zips.csv", na.strings = "", stringsAsFactors = FALSE) %>%
   select(City) %>%
   unique()
 
@@ -161,8 +148,7 @@ fake_data <- data.frame(City = c("Anahem","El Toro","Los Angeles","Hntington Bch
 fake_data %>%
   rowwise() %>%
   mutate(clean_city = closest_city_match(City, oc_cities$City, threshold = 0.15))
-<<<<<<< HEAD
-=======
+
 ## # A tibble: 7 × 2
 ## # Rowwise: 
 ##   City             clean_city      
@@ -174,7 +160,6 @@ fake_data %>%
 ## 5 " Ornge"         Orange          
 ## 6 "Capo Beach"     Dana Point      
 ## 7 "FOOTHILL RANCH" Lake Forest
->>>>>>> 989afcdad5aa4655e02b73496ce97aa6572b3486
 ```
 
 <br>
