@@ -73,11 +73,9 @@ test_df$agegrp <- age_groups(test_df$Ages, type = "decade")
 table(test_df$agegrp)
 ## 
 ##             0-9           10-19           20-29           30-39           40-49 
-<<<<<<< HEAD
 ##              14              22              28              24              26 
 ##           50-59           60-69           70-79             80+ Missing/Unknown 
 ##              16              21              17              32               0
-=======
 ##              15              23              22              20              21 
 ##           50-59           60-69           70-79             80+ Missing/Unknown 
 ##              23              21              14              41               0
