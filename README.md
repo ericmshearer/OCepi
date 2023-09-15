@@ -73,9 +73,15 @@ test_df$agegrp <- age_groups(test_df$Ages, type = "decade")
 table(test_df$agegrp)
 ## 
 ##             0-9           10-19           20-29           30-39           40-49 
+<<<<<<< HEAD
 ##              14              22              28              24              26 
 ##           50-59           60-69           70-79             80+ Missing/Unknown 
 ##              16              21              17              32               0
+=======
+##              15              23              22              20              21 
+##           50-59           60-69           70-79             80+ Missing/Unknown 
+##              23              21              14              41               0
+>>>>>>> 989afcdad5aa4655e02b73496ce97aa6572b3486
 ```
 
 <br>
@@ -88,9 +94,23 @@ This function is limited to just loading VRBIS, but if you have multiple
 names), then you *could* load in non-VRBIS files.
 
 ``` r
+<<<<<<< HEAD
 death_files <- list.files(path = "G:\\file_path\\files\\", full.names = TRUE, pattern = "^death")[31:38]
 
 combo_death <- batch_load_vrbis(death_files)
+=======
+death_files <- list.files(path = "G:\\Surveillance\\Death Files\\", full.names = TRUE, pattern = "^death")[31:38]
+
+combo_death <- batch_load_vrbis(death_files)
+## [1] "G:\\Surveillance\\Death Files\\death2020.csv completed."
+## [1] "G:\\Surveillance\\Death Files\\death2020reallocate.csv completed."
+## [1] "G:\\Surveillance\\Death Files\\death2021.csv completed."
+## [1] "G:\\Surveillance\\Death Files\\death2021reallocate.csv completed."
+## [1] "G:\\Surveillance\\Death Files\\death2022.csv completed."
+## [1] "G:\\Surveillance\\Death Files\\death2022reallocate.csv completed."
+## [1] "G:\\Surveillance\\Death Files\\death2023.csv completed."
+## [1] "G:\\Surveillance\\Death Files\\death2023reallocate.csv completed."
+>>>>>>> 989afcdad5aa4655e02b73496ce97aa6572b3486
 ```
 
 <br>
@@ -120,11 +140,19 @@ names and return the closest match below the set `threshold` (default
 set to 0.15). You may adjust the `threshold` but a word of caution - the
 higher the value, the more likely a false match.
 
+<<<<<<< HEAD
 To run this function, you will need: package stringdist and a helper
 file with clean city names.
 
 ``` r
 oc_cities <- read.csv("G:\\file_path\\helper_files\\oc_zips.csv", na.strings = "", stringsAsFactors = FALSE) %>%
+=======
+To run this function, you will need: package stringdist and oc_zips
+helper file from `G:\Surveillance\Population`.
+
+``` r
+oc_cities <- read.csv("G:\\Surveillance\\Population\\oc_zips.csv", na.strings = "", stringsAsFactors = FALSE) %>%
+>>>>>>> 989afcdad5aa4655e02b73496ce97aa6572b3486
   select(City) %>%
   unique()
 
@@ -133,6 +161,20 @@ fake_data <- data.frame(City = c("Anahem","El Toro","Los Angeles","Hntington Bch
 fake_data %>%
   rowwise() %>%
   mutate(clean_city = closest_city_match(City, oc_cities$City, threshold = 0.15))
+<<<<<<< HEAD
+=======
+## # A tibble: 7 × 2
+## # Rowwise: 
+##   City             clean_city      
+##   <chr>            <chr>           
+## 1 "Anahem"         Anaheim         
+## 2 "El Toro"        Lake Forest     
+## 3 "Los Angeles"    <NA>            
+## 4 "Hntington Bch"  Huntington Beach
+## 5 " Ornge"         Orange          
+## 6 "Capo Beach"     Dana Point      
+## 7 "FOOTHILL RANCH" Lake Forest
+>>>>>>> 989afcdad5aa4655e02b73496ce97aa6572b3486
 ```
 
 <br>
