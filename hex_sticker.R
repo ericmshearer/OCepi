@@ -3,7 +3,7 @@ library(hexSticker)
 
 #font_add_google("Roboto", "Roboto")
 
-orange <- "C:\\Users\\eric shearer\\OneDrive - County of Orange\\Pictures\\orange_food_fruit_icon_182571.png"
+orange <- "C:\\file_path\\orange.png"
 
 hexSticker::sticker(orange,
                     package = "epi", #title
@@ -14,6 +14,5 @@ hexSticker::sticker(orange,
                     p_y = 1.5, 
                     s_x = 1,
                     s_y = 0.75,
-                    s_width = 0.5,
-                    filename = "G:\\Surveillance\\R Scripts\\OCepi\\imgfile.png" #output path
+                    s_width = 0.5
                     )
