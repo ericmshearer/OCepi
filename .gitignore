@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+hex_sticker.R
+.Rdata
+.httr-oauth
+.DS_Store
