@@ -1,0 +1,42 @@
+---
+title: "Epi Workflow Documentation"
+author: "Epidemiologist Name; e-mail address"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme:
+      bg: "#FFFFFF"
+      fg: "#000000"
+      primary: "#113a72"
+      secondary: "#00DAC6"
+---
+
+```{r setup, include=FALSE}
+
+```
+\
+# Disease/Condition Name
+
+## Purpose
+
+Describe what your analysis is trying to achieve/do.
+
+"The purpose of this R Markdown document is to..."
+
+## Required Data Files
+
+Specify what datasets are required to run script. Be specific, where/how to get them, and include file paths where they are stored.
+
+## Instructions
+
+Include instructions how to run script. Be sure to discuss any parameters or filters that need to be updated, and/or data checks.
+
+**Bold Title Above Bulleted List**
+
+-   Parameter 1: describe here
+-   Parameter 2: describe here
+-   Filter 1: line 100, update to X
+
+## Output
+
+Describe your output, how's it used i.e. dashboards, line lists, plots, etc.

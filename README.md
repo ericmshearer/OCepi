@@ -1,34 +1,50 @@
 OCepi Package
 ================
 
-- [Common Data Cleaning Functions](#common-data-cleaning-functions)
-  - [Add Percent](#add-percent)
-  - [Age Groups](#age-groups)
-  - [Batch loading VRBIS](#batch-loading-vrbis)
-  - [Clean Address](#clean-address)
-  - [Closest City Match](#closest-city-match)
-  - [Complete Dates](#complete-dates)
-  - [Pretty Words](#pretty-words)
-  - [Recode Gender](#recode-gender)
-  - [Remove Empty Columns](#remove-empty-columns)
-  - [Split and Print Dataframe](#split-and-print-dataframe)
-  - [Find MMWR Date](#find-mmwr-date)
-  - [Find Month Date](#find-month-date)
-  - [Find Week Ending Date](#find-week-ending-date)
-- [CAIR2 Data Cleaning Functions](#cair2-data-cleaning-functions)
-  - [Baby First Name](#baby-first-name)
+- <a href="#common-data-cleaning-functions"
+  id="toc-common-data-cleaning-functions">Common Data Cleaning
+  Functions</a>
+  - <a href="#add-percent" id="toc-add-percent">Add Percent</a>
+  - <a href="#age-groups" id="toc-age-groups">Age Groups</a>
+  - <a href="#apply-suppression" id="toc-apply-suppression">Apply
+    Suppression</a>
+  - <a href="#assign-respiratory-season"
+    id="toc-assign-respiratory-season">Assign Respiratory Season</a>
+  - <a href="#batch-loading-vrbis" id="toc-batch-loading-vrbis">Batch
+    loading VRBIS</a>
+  - <a href="#clean-address" id="toc-clean-address">Clean Address</a>
+  - <a href="#closest-city-match" id="toc-closest-city-match">Closest City
+    Match</a>
+  - <a href="#complete-dates" id="toc-complete-dates">Complete Dates</a>
+  - <a href="#pretty-words" id="toc-pretty-words">Pretty Words</a>
+  - <a href="#recode-gender" id="toc-recode-gender">Recode Gender</a>
+  - <a href="#recode-raceethnicity" id="toc-recode-raceethnicity">Recode
+    Race/Ethnicity</a>
+  - <a href="#remove-empty-columns" id="toc-remove-empty-columns">Remove
+    Empty Columns</a>
+  - <a href="#split-and-print-dataframe"
+    id="toc-split-and-print-dataframe">Split and Print Dataframe</a>
+  - <a href="#find-mmwr-date" id="toc-find-mmwr-date">Find MMWR Date</a>
+  - <a href="#find-month-date" id="toc-find-month-date">Find Month Date</a>
+  - <a href="#find-week-ending-date" id="toc-find-week-ending-date">Find
+    Week Ending Date</a>
+- <a href="#cair2-data-cleaning-functions"
+  id="toc-cair2-data-cleaning-functions">CAIR2 Data Cleaning Functions</a>
+  - <a href="#baby-first-name" id="toc-baby-first-name">Baby First Name</a>
+- <a href="#r-markdown-templates" id="toc-r-markdown-templates">R Markdown
+  Templates</a>
+  - <a href="#workflow-documentation"
+    id="toc-workflow-documentation">Workflow Documentation</a>
 
 <img src="www/hex_sticker.png" width="318" />
 
-**Last Updated:** 09/15/2023
+**Last Updated:** 10/20/2023
 
 This R Markdown document provides an overview of the available data
 cleaning functions in the OCepi package. This package is under active
 development - any issues/bugs found please contact <eshearer@ochca.com>.
 
 ## Common Data Cleaning Functions
-
-<br>
 
 ### Add Percent
 
@@ -41,7 +57,6 @@ freq_tbl <- data.frame(location = letters[1:5], patients = c(10, 20, 11, 3, 16))
 
 freq_tbl %>%
   add_percent(digits = 1, multiply = TRUE)
-
 ##   location patients proportion
 ## 1        a       10       16.7
 ## 2        b       20       33.3
@@ -63,6 +78,7 @@ specified. Current options:
 - **enteric:** 0-4, 5-14, 15-24, 25-44, 45-64, 65+
 - **flu vax:** 0-18, 19-49, 50-64, 65+
 - **hcv:** 0-17, 18-29, 30-39, 40-49, 50+
+- **mpox:** 0-15, 16-24, 25-34, 35-44, 45-54, 55-64, 65+
 - **school:** 0-4, 5-11, 12-17, 18-64, 65+
 - **wnv:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65+
 
@@ -72,15 +88,50 @@ test_df <- data.frame(Ages = floor(runif(200, min = 0, max = 99)))
 test_df$agegrp <- age_groups(test_df$Ages, type = "decade")
 
 table(test_df$agegrp)
-
 ## 
 ##             0-9           10-19           20-29           30-39           40-49 
-##              14              22              28              24              26 
+##              23              23              17              24              14 
 ##           50-59           60-69           70-79             80+ Missing/Unknown 
-##              16              21              17              32               0
-##              15              23              22              20              21 
-##           50-59           60-69           70-79             80+ Missing/Unknown 
-##              23              21              14              41               0
+##              21              16              29              33               0
+```
+
+<br>
+
+### Apply Suppression
+
+Useful for masking categorical counts below a specified threshold when
+reporting data externally. User can specify `threshold` when suppression
+occurs and what value to replace suppressed values with
+(`replace_with`).
+
+``` r
+df <- data.frame(Counts = c(5, 1, 10, 3, 12, 9, 4))
+
+df$Counts_Suppressed <- apply_suppression(df$Counts, threshold = 5, replace_with = "**")
+
+print(df)
+##   Counts Counts_Suppressed
+## 1      5                 5
+## 2      1                **
+## 3     10                10
+## 4      3                **
+## 5     12                12
+## 6      9                 9
+## 7      4                **
+```
+
+<br>
+
+### Assign Respiratory Season
+
+Made specifically for respiratory virus surveillance. Function
+calculates season in XXXX-XX format from input date. Season is defined
+as week 40 of current year to week 39 of following year.
+
+``` r
+x = as.Date("2023-10-01")
+
+assign_season(x)
 ```
 
 <br>
@@ -88,23 +139,13 @@ table(test_df$agegrp)
 ### Batch loading VRBIS
 
 Use this function to pull a list of death files into R for analysis.
-This function is limited to just loading VRBIS, but if you have multiple
-.CSV files using the same structure (i.e. number of columns, same column
-names), then you *could* load in non-VRBIS files.
+This function is limited to just loading VRBIS. This function assumes
+your files do not have column names.
 
 ``` r
-death_files <- list.files(path = "G:\\file_path\\files\\", full.names = TRUE, pattern = "^death")[31:38]
+death_files <- list.files(path = "G:/file_path/", full.names = TRUE, pattern = "^death")[31:38]
 
 combo_death <- batch_load_vrbis(death_files)
-
-## [1] "G:\\file_path\\files\\death2020.csv completed."
-## [1] "G:\\file_path\\files\\death2020reallocate.csv completed."
-## [1] "G:\\file_path\\files\\death2021.csv completed."
-## [1] "G:\\file_path\\files\\death2021reallocate.csv completed."
-## [1] "G:\\file_path\\files\\death2022.csv completed."
-## [1] "G:\\file_path\\files\\death2022reallocate.csv completed."
-## [1] "G:\\file_path\\files\\death2023.csv completed."
-## [1] "G:\\file_path\\files\\death2023reallocate.csv completed."
 ```
 
 <br>
@@ -119,7 +160,6 @@ option `keep_extra` to keep/remove extra address information (e.g. Apt
 patient_address = "1234 Main Street Apt 204"
 
 clean_address(patient_address, keep_extra = TRUE)
-
 ## [1] "1234 Main Street Apartment 204"
 ```
 
@@ -135,8 +175,11 @@ names and return the closest match below the set `threshold` (default
 set to 0.15). You may adjust the `threshold` but a word of caution - the
 higher the value, the more likely a false match.
 
+To run this function, you will need: package stringdist and a helper
+file with clean city names.
+
 ``` r
-oc_cities <- read.csv("G:\\file_path\\files\\oc_zips.csv", na.strings = "", stringsAsFactors = FALSE) %>%
+oc_cities <- read.csv("G:/file_path/helper_file.csv", na.strings = "", stringsAsFactors = FALSE) %>%
   select(City) %>%
   unique()
 
@@ -145,18 +188,6 @@ fake_data <- data.frame(City = c("Anahem","El Toro","Los Angeles","Hntington Bch
 fake_data %>%
   rowwise() %>%
   mutate(clean_city = closest_city_match(City, oc_cities$City, threshold = 0.15))
-
-## # A tibble: 7 × 2
-## # Rowwise: 
-##   City             clean_city      
-##   <chr>            <chr>           
-## 1 "Anahem"         Anaheim         
-## 2 "El Toro"        Lake Forest     
-## 3 "Los Angeles"    <NA>            
-## 4 "Hntington Bch"  Huntington Beach
-## 5 " Ornge"         Orange          
-## 6 "Capo Beach"     Dana Point      
-## 7 "FOOTHILL RANCH" Lake Forest
 ```
 
 <br>
@@ -177,7 +208,6 @@ tseries$Dates <- as.Date(tseries$Dates)
 
 tseries %>%
   complete_dates(start_date = min(tseries$Dates), level = "month")
-
 ##        Dates Cases
 ## 1 2023-01-01     2
 ## 2 2023-02-01     4
@@ -200,7 +230,6 @@ Convert messy string to title casing.
 test_string = "MeSsY dAtA gIvEs Me A hEaDaChe"
 
 pretty_words(test_string)
-
 ## [1] "Messy Data Gives Me A Headache"
 ```
 
@@ -209,16 +238,14 @@ pretty_words(test_string)
 ### Recode Gender
 
 Function specifically for cleaning CalREDIE data. CalREDIE uses 1-2
-letter abbreviations for gender. Use argument `ordered` to specify
-whether you want to return output as factor (default or TRUE) or
-character(FALSE).
+letter abbreviations for gender. Use argument `ordered` to return output
+as factor (default = TRUE) or character (FALSE).
 
 ``` r
 fake_udf <- data.frame(Gender = c("F","M","D","D","U","TF","TF","TM","I","G",NA))
 
 fake_udf %>%
   mutate(Gender_new = recode_gender(Gender, ordered = TRUE))
-
 ##    Gender             Gender_new
 ## 1       F                 Female
 ## 2       M                   Male
@@ -235,6 +262,26 @@ fake_udf %>%
 
 <br>
 
+### Recode Race/Ethnicity
+
+Function specifically for cleaning CalREDIE and CAIR2 data. Hierarchy
+defaults to Hispanic/Latinx regardless of reported race. Able to accept
+ethnicity and race, or just one single race/ethnicity variable. If using
+ethnicity and race, argument order should be ethnicity then race.
+
+``` r
+recode_race("Hispanic or Latino","Asian")
+## [1] "Hispanic/Latinx"
+
+recode_race("Black or African American")
+## [1] "Black/African American"
+
+recode_race("Not Hispanic or Latino","Black or African American")
+## [1] "Black/African American"
+```
+
+<br>
+
 ### Remove Empty Columns
 
 Make large datasets more manageable by dropping columns that are
@@ -243,7 +290,6 @@ completely empty.
 ``` r
 test <- data.frame(a = c(NA,NA,NA), b = c("","",""), c = c(1,2,3))
 remove_empty_cols(test)
-
 ##   c
 ## 1 1
 ## 2 2
@@ -290,7 +336,6 @@ Calculate month from input date. Returned format is `YYYY-MM-01`.
 episode_date = as.Date("2015-01-01")
 
 to_month(episode_date)
-
 ## [1] "2015-01-01"
 ```
 
@@ -304,7 +349,6 @@ Calculate week ending date (Saturday) from input date.
 episode_date = as.Date("2015-01-01")
 
 week_ending_date(episode_date)
-
 ## [1] "2015-01-03"
 ```
 
@@ -312,17 +356,26 @@ week_ending_date(episode_date)
 
 ## CAIR2 Data Cleaning Functions
 
-<br>
-
 ### Baby First Name
 
 Remove iterations of “baby” from recipient first name.
 
 ``` r
 baby_name("BABYBOY")
-
 ## [1] NA
 
 baby_name("Twin Girl")
 ## [1] NA
 ```
+
+<br>
+
+## R Markdown Templates
+
+### Workflow Documentation
+
+For all projects, including routine surveillance analysis, use workflow
+template to explain what/how your script works. Once a R Project is
+created, go to File \> New File \> R Markdown. Select “From Template”,
+then “Epi Workflow”. Keep this file in your main project directory in
+case another epidemiologist needs to run script as backup.
