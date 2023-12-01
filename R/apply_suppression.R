@@ -12,7 +12,7 @@
 #' df$Counts_Suppressed <- apply_suppression(df$Counts, threshold = 5, replace_with = "**")
 apply_suppression <- function(n, threshold = NULL, replace_with = NULL){
 
-  if(class(n)!="numeric" | class(threshold)!="numeric"){
+  if(!class(n) %in% c("numeric","integer") | !class(threshold) %in% c("numeric","integer")){
     stop("Input not in numerical format.")
   }
 

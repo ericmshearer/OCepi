@@ -35,6 +35,7 @@ complete_dates <- function(df, start_date = NULL, level = c("day","week","month"
   df <- df[order(df$date),]
 
   colnames(df) <- namez
+  rownames(df) <- NULL
 
   return (df)
 }

@@ -1,10 +1,9 @@
 Package: OCepi
 Type: Package
 Title: Collection of Common Data Cleaning Tools for Epidemiologists
-Version: 0.1.0.9001
+Version: 1.0.0
 Authors@R: c(
-    person("Eric", "Shearer", , "eshearer@ochca.com", role = c("aut", "cre")),
-    person("Wasan", "Al-Tamimi", , "waltamimi@ochca.com", role = "ctb")
+    person("Eric", "Shearer", , "eshearer@ochca.com", role = c("aut", "cre"))
   )
 Description: Collection of commonly used data cleaning functions for the applied epidemiologist.
 Imports:

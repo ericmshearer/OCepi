@@ -1,68 +1,56 @@
 OCepi Package
 ================
 
-- <a href="#common-data-cleaning-functions"
-  id="toc-common-data-cleaning-functions">Common Data Cleaning
-  Functions</a>
-  - <a href="#add-percent" id="toc-add-percent">Add Percent</a>
-  - <a href="#age-groups" id="toc-age-groups">Age Groups</a>
-  - <a href="#apply-suppression" id="toc-apply-suppression">Apply
-    Suppression</a>
-  - <a href="#assign-respiratory-season"
-    id="toc-assign-respiratory-season">Assign Respiratory Season</a>
-  - <a href="#batch-loading-vrbis" id="toc-batch-loading-vrbis">Batch
-    loading VRBIS</a>
-  - <a href="#clean-address" id="toc-clean-address">Clean Address</a>
-  - <a href="#closest-city-match" id="toc-closest-city-match">Closest City
-    Match</a>
-  - <a href="#complete-dates" id="toc-complete-dates">Complete Dates</a>
-  - <a href="#pretty-words" id="toc-pretty-words">Pretty Words</a>
-  - <a href="#recode-gender" id="toc-recode-gender">Recode Gender</a>
-  - <a href="#recode-raceethnicity" id="toc-recode-raceethnicity">Recode
-    Race/Ethnicity</a>
-  - <a href="#remove-empty-columns" id="toc-remove-empty-columns">Remove
-    Empty Columns</a>
-  - <a href="#split-and-print-dataframe"
-    id="toc-split-and-print-dataframe">Split and Print Dataframe</a>
-  - <a href="#find-mmwr-date" id="toc-find-mmwr-date">Find MMWR Date</a>
-  - <a href="#find-month-date" id="toc-find-month-date">Find Month Date</a>
-  - <a href="#find-week-ending-date" id="toc-find-week-ending-date">Find
-    Week Ending Date</a>
-- <a href="#cair2-data-cleaning-functions"
-  id="toc-cair2-data-cleaning-functions">CAIR2 Data Cleaning Functions</a>
-  - <a href="#baby-first-name" id="toc-baby-first-name">Baby First Name</a>
-- <a href="#r-markdown-templates" id="toc-r-markdown-templates">R Markdown
-  Templates</a>
-  - <a href="#workflow-documentation"
-    id="toc-workflow-documentation">Workflow Documentation</a>
+- [Common Data Cleaning Functions](#common-data-cleaning-functions)
+  - [Add Percent](#add-percent)
+  - [Age Groups](#age-groups)
+  - [Apply Suppression](#apply-suppression)
+  - [Assign Respiratory Season](#assign-respiratory-season)
+  - [Batch loading VRBIS](#batch-loading-vrbis)
+  - [Clean Address](#clean-address)
+  - [Clean Phone Number](#clean-phone-number)
+  - [Closest City Match](#closest-city-match)
+  - [Complete Dates](#complete-dates)
+  - [Pretty Words](#pretty-words)
+  - [Recode Gender](#recode-gender)
+  - [Recode Race/Ethnicity](#recode-raceethnicity)
+  - [Remove Empty Columns](#remove-empty-columns)
+  - [Split and Print Dataframe](#split-and-print-dataframe)
+  - [Find MMWR Date](#find-mmwr-date)
+  - [Find Month Date](#find-month-date)
+  - [Find Week Ending Date](#find-week-ending-date)
+- [CAIR2 Data Cleaning Functions](#cair2-data-cleaning-functions)
+  - [Baby First Name](#baby-first-name)
+- [R Markdown Templates](#r-markdown-templates)
+  - [Workflow Documentation](#workflow-documentation)
 
 <img src="www/hex_sticker.png" width="318" />
 
-**Last Updated:** 10/20/2023
+**Last Updated:** 12/01/2023
 
 This R Markdown document provides an overview of the available data
-cleaning functions in the OCepi package. This package is under active
-development - any issues/bugs found please contact <eshearer@ochca.com>.
+cleaning functions in the OCepi package. Any issues/bugs found please
+contact <eshearer@ochca.com>.
 
 ## Common Data Cleaning Functions
 
 ### Add Percent
 
-Fast method to add proportion column following count(). Options to : 1)
-adjust rounding (default set to one digit), 2) whether or not to
-`multiply` by 100 (default set to TRUE).
+Add proportion column following count(). Options to : 1) adjust rounding
+(default set to one digit), 2) whether or not to `multiply`.
 
 ``` r
-freq_tbl <- data.frame(location = letters[1:5], patients = c(10, 20, 11, 3, 16))
-
-freq_tbl %>%
+starwars %>%
+  head(20) %>%
+  count(species) %>%
   add_percent(digits = 1, multiply = TRUE)
-##   location patients proportion
-## 1        a       10       16.7
-## 2        b       20       33.3
-## 3        c       11       18.3
-## 4        d        3        5.0
-## 5        e       16       26.7
+##          species  n proportion
+## 1          Droid  3         15
+## 2          Human 13         65
+## 3           Hutt  1          5
+## 4         Rodian  1          5
+## 5        Wookiee  1          5
+## 6 Yoda's species  1          5
 ```
 
 <br>
@@ -73,6 +61,9 @@ Recode age variable to groups using presets. Output variable set to
 factor to ensure order. Default for `type` set to “decade” when not
 specified. Current options:
 
+- **census zip:** 0-4, 5-9, 10-14, 15-17, 18-19, 20, 21, 22-24, 25-29,
+  30-34, 35-39, 40-44, 45-49, 50-54, 55-59, 60-61, 62-64, 65-66, 67-69,
+  70-74, 75-79, 80-84, 85+
 - **covid:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75-84, 85+
 - **decade:** 0-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
 - **enteric:** 0-4, 5-14, 15-24, 25-44, 45-64, 65+
@@ -82,6 +73,9 @@ specified. Current options:
 - **school:** 0-4, 5-11, 12-17, 18-64, 65+
 - **wnv:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65+
 
+Note: census zip should match age groups found in Decennial Census when
+pulling data at the zip code level.
+
 ``` r
 test_df <- data.frame(Ages = floor(runif(200, min = 0, max = 99)))
 
@@ -90,34 +84,35 @@ test_df$agegrp <- age_groups(test_df$Ages, type = "decade")
 table(test_df$agegrp)
 ## 
 ##             0-9           10-19           20-29           30-39           40-49 
-##              23              23              17              24              14 
+##              21              25              28              19              15 
 ##           50-59           60-69           70-79             80+ Missing/Unknown 
-##              21              16              29              33               0
+##              22              20              18              32               0
 ```
 
 <br>
 
 ### Apply Suppression
 
-Useful for masking categorical counts below a specified threshold when
-reporting data externally. User can specify `threshold` when suppression
-occurs and what value to replace suppressed values with
-(`replace_with`).
+Useful for masking categorical counts below a specified threshold. User
+specifies `threshold` cutoff and what to replace suppressed values with.
 
 ``` r
-df <- data.frame(Counts = c(5, 1, 10, 3, 12, 9, 4))
+df <- starwars %>%
+  head(20) %>%
+  count(species)
 
-df$Counts_Suppressed <- apply_suppression(df$Counts, threshold = 5, replace_with = "**")
+df$Counts_Suppressed <- apply_suppression(df$n, threshold = 5, replace_with = "**")
 
 print(df)
-##   Counts Counts_Suppressed
-## 1      5                 5
-## 2      1                **
-## 3     10                10
-## 4      3                **
-## 5     12                12
-## 6      9                 9
-## 7      4                **
+## # A tibble: 6 × 3
+##   species            n Counts_Suppressed
+##   <chr>          <int> <chr>            
+## 1 Droid              3 **               
+## 2 Human             13 13               
+## 3 Hutt               1 **               
+## 4 Rodian             1 **               
+## 5 Wookiee            1 **               
+## 6 Yoda's species     1 **
 ```
 
 <br>
@@ -132,15 +127,16 @@ as week 40 of current year to week 39 of following year.
 x = as.Date("2023-10-01")
 
 assign_season(x)
+## [1] "2023-24"
 ```
 
 <br>
 
 ### Batch loading VRBIS
 
-Use this function to pull a list of death files into R for analysis.
-This function is limited to just loading VRBIS. This function assumes
-your files do not have column names.
+Input requires list of files from a directory (with full path names).
+This function is limited to just loading vital records. This function
+assumes your files do not have column names.
 
 ``` r
 death_files <- list.files(path = "G:/file_path/", full.names = TRUE, pattern = "^death")[31:38]
@@ -152,15 +148,37 @@ combo_death <- batch_load_vrbis(death_files)
 
 ### Clean Address
 
-Clean up common abbreviations in addresses (e.g. St, Blvd, Rd) with
-option `keep_extra` to keep/remove extra address information (e.g. Apt
-4, Spc 83). Default for `keep_extra` set to TRUE when not specified.
+Tidy up addresses for geocoding or matching. Use `keep_extra` to
+keep/remove apartment, space, unit, etc.
 
 ``` r
 patient_address = "1234 Main Street Apt 204"
 
 clean_address(patient_address, keep_extra = TRUE)
 ## [1] "1234 Main Street Apartment 204"
+
+clean_address(patient_address, keep_extra = FALSE)
+## [1] "1234 Main Street"
+```
+
+<br>
+
+### Clean Phone Number
+
+Tidy up phone numbers to 10 digit U.S. based format.
+
+``` r
+#Local Domino's pizza
+clean_phone("(714)777-6700")
+## [1] "7147776700"
+
+#Best local brewery
+clean_phone("(714) 998-8172")
+## [1] "7149988172"
+
+ #Apple store in London
+clean_phone("+442074471400")
+## [1] NA
 ```
 
 <br>
@@ -195,8 +213,10 @@ fake_data %>%
 ### Complete Dates
 
 Fill in missing dates from time series. `Level` options: day, week,
-month. You must specify when you want to start filling in dates using
-`start_date` argument. Works nicely following count().
+month. Specify `start_date` in case you want time series to begin prior
+to the earliest known date. Works nicely following dplyr::count().
+
+Month:
 
 ``` r
 tseries <- data.frame(
@@ -211,13 +231,13 @@ tseries %>%
 ##        Dates Cases
 ## 1 2023-01-01     2
 ## 2 2023-02-01     4
-## 5 2023-03-01    NA
-## 6 2023-04-01    NA
-## 3 2023-05-01     1
-## 7 2023-06-01    NA
-## 8 2023-07-01    NA
-## 9 2023-08-01    NA
-## 4 2023-09-01     6
+## 3 2023-03-01    NA
+## 4 2023-04-01    NA
+## 5 2023-05-01     1
+## 6 2023-06-01    NA
+## 7 2023-07-01    NA
+## 8 2023-08-01    NA
+## 9 2023-09-01     6
 ```
 
 <br>
@@ -301,8 +321,8 @@ remove_empty_cols(test)
 ### Split and Print Dataframe
 
 Ability to take a dataframe, split into smaller dataframes with
-specified number of rows, then print as .CSV to specified path. Use
-`prefix` to set a custom prefix, otherwise default to set “List”.
+specified number of rows, then print as .csv to specified path. Use
+`prefix` to set a custom prefix (default to set “List”).
 
 ``` r
 split_df(path = "G:/file_path/", df = test_data, chunks = 200, prefix = "helloworld_")
@@ -320,8 +340,10 @@ episode_date = as.Date("2015-01-01")
 
 to_mmwr_date(episode_date, type = "week")
 ## [1] 53
+
 to_mmwr_date(episode_date, type = "year")
 ## [1] 2014
+
 to_mmwr_date(episode_date, type = "both")
 ## [1] "2014-53"
 ```

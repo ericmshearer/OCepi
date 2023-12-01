@@ -17,18 +17,18 @@ library(stringdist)
 
 **Last Updated:** `r format(as.Date(Sys.Date()), "%m/%d/%Y")`
 
-This R Markdown document provides an overview of the available data cleaning functions in the OCepi package. This package is under active development - any issues/bugs found please contact [eshearer\@ochca.com](mailto:eshearer@ochca.com){.email}.
+This R Markdown document provides an overview of the available data cleaning functions in the OCepi package. Any issues/bugs found please contact [eshearer\@ochca.com](mailto:eshearer@ochca.com){.email}.
 
 ## Common Data Cleaning Functions
 
 ### Add Percent
 
-Fast method to add proportion column following count(). Options to : 1) adjust rounding (default set to one digit), 2) whether or not to `multiply` by 100 (default set to TRUE).
+Add proportion column following count(). Options to : 1) adjust rounding (default set to one digit), 2) whether or not to `multiply`.
 
 ```{r, message = FALSE, warning = FALSE}
-freq_tbl <- data.frame(location = letters[1:5], patients = c(10, 20, 11, 3, 16))
-
-freq_tbl %>%
+starwars %>%
+  head(20) %>%
+  count(species) %>%
   add_percent(digits = 1, multiply = TRUE)
 ```
 
@@ -38,6 +38,7 @@ freq_tbl %>%
 
 Recode age variable to groups using presets. Output variable set to factor to ensure order. Default for `type` set to "decade" when not specified. Current options:
 
+-   **census zip:** 0-4, 5-9, 10-14, 15-17, 18-19, 20, 21, 22-24, 25-29, 30-34, 35-39, 40-44, 45-49, 50-54, 55-59, 60-61, 62-64, 65-66, 67-69, 70-74, 75-79, 80-84, 85+
 -   **covid:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75-84, 85+
 -   **decade:** 0-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
 -   **enteric:** 0-4, 5-14, 15-24, 25-44, 45-64, 65+
@@ -46,6 +47,8 @@ Recode age variable to groups using presets. Output variable set to factor to en
 -   **mpox:** 0-15, 16-24, 25-34, 35-44, 45-54, 55-64, 65+
 -   **school:** 0-4, 5-11, 12-17, 18-64, 65+
 -   **wnv:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65+
+
+Note: census zip should match age groups found in Decennial Census when pulling data at the zip code level.
 
 ```{r, message = FALSE, warning = FALSE}
 test_df <- data.frame(Ages = floor(runif(200, min = 0, max = 99)))
@@ -59,12 +62,14 @@ table(test_df$agegrp)
 
 ### Apply Suppression
 
-Useful for masking categorical counts below a specified threshold when reporting data externally. User can specify `threshold` when suppression occurs and what value to replace suppressed values with (`replace_with`).
+Useful for masking categorical counts below a specified threshold. User specifies `threshold` cutoff and what to replace suppressed values with.
 
 ```{r, message = FALSE, warning = FALSE}
-df <- data.frame(Counts = c(5, 1, 10, 3, 12, 9, 4))
+df <- starwars %>%
+  head(20) %>%
+  count(species)
 
-df$Counts_Suppressed <- apply_suppression(df$Counts, threshold = 5, replace_with = "**")
+df$Counts_Suppressed <- apply_suppression(df$n, threshold = 5, replace_with = "**")
 
 print(df)
 ```
@@ -75,7 +80,7 @@ print(df)
 
 Made specifically for respiratory virus surveillance. Function calculates season in XXXX-XX format from input date. Season is defined as week 40 of current year to week 39 of following year.
 
-```{r, message = FALSE, warning = FALSE, eval = FALSE}
+```{r, message = FALSE, warning = FALSE}
 x = as.Date("2023-10-01")
 
 assign_season(x)
@@ -85,7 +90,7 @@ assign_season(x)
 
 ### Batch loading VRBIS
 
-Use this function to pull a list of death files into R for analysis. This function is limited to just loading VRBIS. This function assumes your files do not have column names.
+Input requires list of files from a directory (with full path names). This function is limited to just loading vital records. This function assumes your files do not have column names.
 
 ```{r, message = FALSE, warning = FALSE, eval = FALSE}
 death_files <- list.files(path = "G:/file_path/", full.names = TRUE, pattern = "^death")[31:38]
@@ -97,12 +102,31 @@ combo_death <- batch_load_vrbis(death_files)
 
 ### Clean Address
 
-Clean up common abbreviations in addresses (e.g. St, Blvd, Rd) with option `keep_extra` to keep/remove extra address information (e.g. Apt 4, Spc 83). Default for `keep_extra` set to TRUE when not specified.
+Tidy up addresses for geocoding or matching. Use `keep_extra` to keep/remove apartment, space, unit, etc.
 
 ```{r, message = FALSE, warning = FALSE}
 patient_address = "1234 Main Street Apt 204"
 
 clean_address(patient_address, keep_extra = TRUE)
+
+clean_address(patient_address, keep_extra = FALSE)
+```
+
+<br>
+
+### Clean Phone Number
+
+Tidy up phone numbers to 10 digit U.S. based format.
+
+```{r, message = FALSE, warning = FALSE}
+#Local Domino's pizza
+clean_phone("(714)777-6700")
+
+#Best local brewery
+clean_phone("(714) 998-8172")
+
+ #Apple store in London
+clean_phone("+442074471400")
 ```
 
 <br>
@@ -129,7 +153,9 @@ fake_data %>%
 
 ### Complete Dates
 
-Fill in missing dates from time series. `Level` options: day, week, month. You must specify when you want to start filling in dates using `start_date` argument. Works nicely following count().
+Fill in missing dates from time series. `Level` options: day, week, month. Specify `start_date` in case you want time series to begin prior to the earliest known date. Works nicely following dplyr::count().
+
+Month:
 
 ```{r, message = FALSE, warning = FALSE}
 tseries <- data.frame(
@@ -197,7 +223,7 @@ remove_empty_cols(test)
 
 ### Split and Print Dataframe
 
-Ability to take a dataframe, split into smaller dataframes with specified number of rows, then print as .CSV to specified path. Use `prefix` to set a custom prefix, otherwise default to set "List".
+Ability to take a dataframe, split into smaller dataframes with specified number of rows, then print as .csv to specified path. Use `prefix` to set a custom prefix (default to set "List").
 
 ```{r, message = FALSE, warning = FALSE, eval = FALSE}
 split_df(path = "G:/file_path/", df = test_data, chunks = 200, prefix = "helloworld_")
@@ -213,7 +239,9 @@ Calculate disease week or epidemiological year from input date. Must specify `ty
 episode_date = as.Date("2015-01-01")
 
 to_mmwr_date(episode_date, type = "week")
+
 to_mmwr_date(episode_date, type = "year")
+
 to_mmwr_date(episode_date, type = "both")
 ```
 
@@ -261,4 +289,4 @@ baby_name("Twin Girl")
 
 ### Workflow Documentation
 
-For all projects, including routine surveillance analysis, use workflow template to explain what/how your script works. Once a R Project is created, go to File > New File > R Markdown. Select "From Template", then "Epi Workflow". Keep this file in your main project directory in case another epidemiologist needs to run script as backup.
+For all projects, including routine surveillance analysis, use workflow template to explain what/how your script works. Once a R Project is created, go to File \> New File \> R Markdown. Select "From Template", then "Epi Workflow". Keep this file in your main project directory in case another epidemiologist needs to run script as backup.

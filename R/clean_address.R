@@ -2,7 +2,7 @@
 #'
 #' Recode common address issues such as cardinal directions and street names, and removes extra location information such as unit or apartment number. Improves results during batch geocoding or matching to other datasets.
 #'
-#' @param address_var Address variable
+#' @param address_var Address variable.
 #' @param keep_extra Option to keep/remove extra addreses (e.g. Apartment, Unit, Space). TRUE/FALSE, default set to TRUE.
 #'
 #' @return Cleaned up address in character format.

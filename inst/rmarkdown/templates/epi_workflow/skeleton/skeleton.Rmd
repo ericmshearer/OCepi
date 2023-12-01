@@ -14,7 +14,7 @@ output:
 ```{r setup, include=FALSE}
 
 ```
-\
+
 # Disease/Condition Name
 
 ## Purpose

@@ -7,7 +7,7 @@
 clean_address(address_var, keep_extra = NULL)
 }
 \arguments{
-\item{address_var}{Address variable}
+\item{address_var}{Address variable.}
 
 \item{keep_extra}{Option to keep/remove extra addreses (e.g. Apartment, Unit, Space). TRUE/FALSE, default set to TRUE.}
 }
