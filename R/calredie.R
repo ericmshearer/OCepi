@@ -79,6 +79,7 @@ recode_race <- function(ethnicity_col, race_col){
   vec_pos <- match(combo_var, names(test))
 
   out <- test[vec_pos]
+  out <- unname(out)
   return(out)
 }
 

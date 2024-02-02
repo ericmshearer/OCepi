@@ -193,15 +193,15 @@ df$agegroup <- age_groups(df$Ages, type = "decade")
 
 count(df, agegroup)
 ##   agegroup  n
-## 1      0-9 13
-## 2    10-19 18
-## 3    20-29 18
+## 1      0-9 22
+## 2    10-19 21
+## 3    20-29 15
 ## 4    30-39 17
-## 5    40-49 20
-## 6    50-59 23
-## 7    60-69 21
-## 8    70-79 18
-## 9      80+ 52
+## 5    40-49 18
+## 6    50-59 19
+## 7    60-69 25
+## 8    70-79 10
+## 9      80+ 53
 ```
 
 <br>
@@ -233,20 +233,16 @@ argument order should be `recode_race(ethnicity, race)`.
 
 ``` r
 recode_race("Hispanic or Latino","Asian") #CalREDIE, 2 inputs
-## Hispanic or Latino 
-##  "Hispanic/Latinx"
+## [1] "Hispanic/Latinx"
 
 recode_race("Black or African American") #CAIR2, 1 input
-## Black or African American 
-##  "Black/African American"
+## [1] "Black/African American"
 
 recode_race("3") #Multi-race status in VRBIS
-##       3 
-## "AI/AN"
+## [1] "AI/AN"
 
 recode_race("2054-5") #LOINC codes
-##                   2054-5 
-## "Black/African American"
+## [1] "Black/African American"
 ```
 
 <br>
