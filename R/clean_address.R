@@ -3,7 +3,7 @@
 #' Recode common address issues such as cardinal directions and street names, and removes extra location information such as unit or apartment number. Improves results during batch geocoding or matching to other datasets.
 #'
 #' @param address_var Address variable.
-#' @param keep_extra Option to keep/remove extra addreses (e.g. Apartment, Unit, Space). TRUE/FALSE, default set to TRUE.
+#' @param keep_extra Boolean TRUE/FALSE. Option to keep/remove extra address components (e.g. Apartment, Unit, Space).
 #'
 #' @return Cleaned up address in character format.
 #' @export
@@ -11,11 +11,7 @@
 #' @examples
 #' x = "1234 N Main St Apt 405"
 #' clean_address(x, keep_extra = TRUE)
-clean_address <- function(address_var, keep_extra = NULL){
-
-  if(missing(keep_extra)){
-    keep_extra = TRUE
-  }
+clean_address <- function(address_var, keep_extra = TRUE){
 
   address_var = toupper(address_var) #convert to upper case
   address_var = gsub("\\.", "", address_var) #remove any periods

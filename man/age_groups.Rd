@@ -4,12 +4,12 @@
 \alias{age_groups}
 \title{Create age groups.}
 \usage{
-age_groups(age_var, type = NULL)
+age_groups(age_var, type = "decade")
 }
 \arguments{
 \item{age_var}{Age variable in numeric format.}
 
-\item{type}{Specify which preset to use. Default set to decade when not specified.}
+\item{type}{Specify which preset to use.}
 }
 \value{
 Age groups as factor. Useful for maintaining proper order when plotting or sorting.

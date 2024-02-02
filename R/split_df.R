@@ -1,6 +1,6 @@
 #' Split and Print Dataframe
 #'
-#' Handy function to divide a dataframe into multiple .CSV files with a specified number of rows per file.
+#' Divide a dataframe into multiple .CSV files with a specified number of rows per file.
 #'
 #' @param path File path for file export
 #' @param df Dataframe to export
@@ -13,14 +13,7 @@
 #' @examples
 #'
 #' split_df(path = "G:/file_path/", df = test_data, chunks = 200, prefix = "list_")
-split_df <- function(path = NULL, df, chunks = NULL, prefix = NULL){
-
-  #set default prefix if not specified
-  if(missing(prefix)){
-    prefix = "List"
-  } else{
-    prefix = prefix
-  }
+split_df <- function(path = NULL, df, chunks = NULL, prefix = "List_"){
 
   #error message
   if(missing(path)){

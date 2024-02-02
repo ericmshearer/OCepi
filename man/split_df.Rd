@@ -4,7 +4,7 @@
 \alias{split_df}
 \title{Split and Print Dataframe}
 \usage{
-split_df(path = NULL, df, chunks = NULL, prefix = NULL)
+split_df(path = NULL, df, chunks = NULL, prefix = "List_")
 }
 \arguments{
 \item{path}{File path for file export}
@@ -19,7 +19,7 @@ split_df(path = NULL, df, chunks = NULL, prefix = NULL)
 Multiple .CSV files split into number of rows specified from chunks argument.
 }
 \description{
-Handy function to divide a dataframe into multiple .CSV files with a specified number of rows per file.
+Divide a dataframe into multiple .CSV files with a specified number of rows per file.
 }
 \examples{
 

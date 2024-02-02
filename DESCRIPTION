@@ -1,14 +1,15 @@
 Package: OCepi
 Type: Package
 Title: Collection of Common Data Cleaning Tools for Epidemiologists
-Version: 1.0.0
+Version: 0.1.0
 Authors@R: c(
-    person("Eric", "Shearer", , "eshearer@ochca.com", role = c("aut", "cre"))
+    person("Eric", "Shearer", , "ericshearer@me.com", role = c("aut","cre","cph"))
   )
 Description: Collection of commonly used data cleaning functions for the applied epidemiologist.
 Imports:
-    stringdist
-License: MIT
+    stringdist,
+    ggplot2
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3

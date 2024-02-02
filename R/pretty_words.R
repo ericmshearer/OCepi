@@ -2,7 +2,7 @@
 #'
 #' Convert string to title casing. Useful for fixing patient or street names.
 #'
-#' @param x String variable
+#' @param x String variable.
 #'
 #' @return Input string in title casing format.
 #' @export

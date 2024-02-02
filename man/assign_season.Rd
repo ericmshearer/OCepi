@@ -13,7 +13,7 @@ assign_season(date)
 Character in format XXXX-XX.
 }
 \description{
-Assign Respiratory Season
+Calculate respiratory season based on laboratory or episode date. Respiratory season is defined as week 40 through week 39.
 }
 \examples{
 x = as.Date("2023-10-01")

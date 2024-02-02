@@ -2,7 +2,7 @@
 % Please edit documentation in R/cair2.R
 \name{baby_name}
 \alias{baby_name}
-\title{Remove Baby-variant name from CAIR2}
+\title{Remove Baby Name in CAIR2}
 \usage{
 baby_name(name)
 }
@@ -10,13 +10,12 @@ baby_name(name)
 \item{name}{First name field from CAIR2.}
 }
 \value{
-Clean first name with baby and variants removed.
+Clean first name.
 }
 \description{
-Remove Baby-variant name from CAIR2
+Clean up birth hepatitis B doses in CAIR2.
 }
 \examples{
 baby_name("BABYBOY")
-
 baby_name("Twin Girl")
 }

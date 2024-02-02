@@ -10,10 +10,10 @@ to_month(x)
 \item{x}{Input date.}
 }
 \value{
-Return first of month in YYYY-MM-01 format.
+Date in YYYY-MM-01 format.
 }
 \description{
-Date to Month Date
+Recode date to standard month date for dashboards or ggplots2.
 }
 \examples{
 patient_encounter = as.Date("2020-01-14")

@@ -7,7 +7,7 @@
 pretty_words(x)
 }
 \arguments{
-\item{x}{String variable}
+\item{x}{String variable.}
 }
 \value{
 Input string in title casing format.

@@ -1,22 +1,6 @@
-#' Retain class with ifelse inside a function
-#'
-#' @param cond Condition to test
-#' @param yes Returned output if true
-#' @param no Returned output if false
-#'
-#' @return Tested condition while retaining original class.
-#'
-#' @examples
-#' test_date = as.Date("2023-01-01)
-#' safe.ifelse(test_date < as.Date("2023-01-02), test_date, test_date - 5)
-safe.ifelse <- function(cond, yes, no){
-  class.y <- class(yes)
-  X <- ifelse(cond, yes, no)
-  class(X) <- class.y;
-  return(X)
-}
-
 #' Assign Respiratory Season
+#'
+#' Calculate respiratory season based on laboratory or episode date. Respiratory season is defined as week 40 through week 39.
 #'
 #' @param date Input date.
 #'
@@ -32,7 +16,7 @@ assign_season <- function(date){
     stop("Input not in date format.")
   }
 
-  init_week_num = OCepi::to_mmwr_date(OCepi::week_ending_date(date), "week")
+  init_week_num = OCepi::mmwr_week(OCepi::week_ending_date(date))
 
   adjust = ifelse(init_week_num %in% c(40:53), init_week_num - 40, 40 - init_week_num) * 7
 

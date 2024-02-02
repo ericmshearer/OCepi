@@ -2,25 +2,24 @@
 % Please edit documentation in R/add_percent.R
 \name{add_percent}
 \alias{add_percent}
-\title{Add Proportion Column}
+\title{Add Proportion}
 \usage{
-add_percent(df, digits = NULL, multiply = NULL)
+add_percent(n, digits = 1, multiply = TRUE)
 }
 \arguments{
-\item{df}{Dataframe to add proportion column.}
+\item{n}{Count/frequency variable.}
 
-\item{digits}{Number of digits to round proportion. Default set to 1.}
+\item{digits}{Number of digits to round.}
 
-\item{multiply}{Option to multiply proportion by 100. Default set to TRUE.}
+\item{multiply}{Boolean TRUE/FALSE to multiply proportion by 100.}
 }
 \value{
-Proportion. Use multiply argument to specify if output should be multiplied by 100.
+Proportion.
 }
 \description{
-Add proportion column quickly to frequency table. Plays nice with pipe operator following count function.
+Calculate percentage per category with options to round and multiply by 100.
 }
 \examples{
 library(dplyr)
-df <- data.frame(location = c("a","b","c","d","e"), patients = c(10, 12, 6, 20, 2))
-df \%>\% add_percent(digits = 1, multiply = TRUE)
+starwars \%>\% head(20) \%>\% count(species) \%>\% mutate(percent = add_percent(n))
 }

@@ -4,12 +4,12 @@
 \alias{clean_address}
 \title{Clean patient/record address}
 \usage{
-clean_address(address_var, keep_extra = NULL)
+clean_address(address_var, keep_extra = TRUE)
 }
 \arguments{
 \item{address_var}{Address variable.}
 
-\item{keep_extra}{Option to keep/remove extra addreses (e.g. Apartment, Unit, Space). TRUE/FALSE, default set to TRUE.}
+\item{keep_extra}{Boolean TRUE/FALSE. Option to keep/remove extra address components (e.g. Apartment, Unit, Space).}
 }
 \value{
 Cleaned up address in character format.

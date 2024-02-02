@@ -4,13 +4,20 @@
 #'
 #' @param df Input dataframe.
 #'
-#' @return Clean dataframe with removed columns.
+#' @return Dataframe with blank/empty columns removed. Message printed to console with total columns removed.
 #' @export
 #'
 #' @examples
 #' test <- data.frame(a = c(NA,NA,NA), b = c("","",""), c = c(1,2,3))
 #' remove_empty_cols(test)
 remove_empty_cols <- function(df){
+  og_col_total = ncol(df)
+
   df = df[!sapply(df, function(x) all(x == ""| is.na(x)))]
+
+  new_col_total = ncol(df)
+  col_diff = og_col_total - new_col_total
+  message(sprintf("%s columns dropped.", col_diff))
+
   return(df)
 }

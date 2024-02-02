@@ -10,7 +10,7 @@ remove_empty_cols(df)
 \item{df}{Input dataframe.}
 }
 \value{
-Clean dataframe with removed columns.
+Dataframe with blank/empty columns removed. Message printed to console with total columns removed.
 }
 \description{
 Ability to drop columns when either completely NA or "".
