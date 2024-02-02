@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#'df <- data.frame(Age = floor(runif(100, min = 0, max, 99)))
+#'df <- data.frame(Age = sample(0:99, 100))
 #'df$agegrps <- age_groups(df$Age, type = "covid")
 age_groups <- function(age_var, type = "decade"){
   types <- list(
