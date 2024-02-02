@@ -188,21 +188,20 @@ pulling data at the zip code level. If you’d like to add a preset,
 please contact <eshearer@ochca.com>.
 
 ``` r
-df <- data.frame(Ages = floor(runif(200, min = 0, max = 99)))
-
+df <- data.frame(Ages = sample(0:99, 200, replace = TRUE))
 df$agegroup <- age_groups(df$Ages, type = "decade")
 
 count(df, agegroup)
 ##   agegroup  n
-## 1      0-9 24
-## 2    10-19 16
+## 1      0-9 13
+## 2    10-19 18
 ## 3    20-29 18
-## 4    30-39 24
-## 5    40-49 16
-## 6    50-59 20
-## 7    60-69 20
+## 4    30-39 17
+## 5    40-49 20
+## 6    50-59 23
+## 7    60-69 21
 ## 8    70-79 18
-## 9      80+ 44
+## 9      80+ 52
 ```
 
 <br>

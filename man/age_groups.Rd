@@ -18,6 +18,6 @@ Age groups as factor. Useful for maintaining proper order when plotting or sorti
 Add age groups column using common age grouping presets. R Markdown documentation has list of presets.
 }
 \examples{
-df <- data.frame(Age = floor(runif(100, min = 0, max, 99)))
+df <- data.frame(Age = sample(0:99, 100))
 df$agegrps <- age_groups(df$Age, type = "covid")
 }

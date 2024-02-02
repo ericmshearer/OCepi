@@ -116,8 +116,7 @@ Recode age to groups using presets. Output set to factor to maintain order. Curr
 Note: census zip should match age groups found in Decennial Census when pulling data at the zip code level. If you'd like to add a preset, please contact [eshearer\@ochca.com](mailto:eshearer@ochca.com){.email}.
 
 ```{r, message = FALSE, warning = FALSE}
-df <- data.frame(Ages = floor(runif(200, min = 0, max = 99)))
-
+df <- data.frame(Ages = sample(0:99, 200, replace = TRUE))
 df$agegroup <- age_groups(df$Ages, type = "decade")
 
 count(df, agegroup)
