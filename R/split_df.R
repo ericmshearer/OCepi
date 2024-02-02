@@ -9,6 +9,7 @@
 #'
 #' @return Multiple .CSV files split into number of rows specified from chunks argument.
 #' @export
+#' @importFrom utils write.csv
 #'
 #' @examples
 #'

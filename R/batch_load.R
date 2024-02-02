@@ -7,6 +7,7 @@
 #'
 #' @return Dataframe of binded files.
 #' @export
+#' @importFrom utils read.csv
 #'
 #' @examples
 #' files <- list.files(path = "G:/file_path/Files/", full.names = TRUE, pattern = ".csv")[39:40]
