@@ -8,7 +8,9 @@ Authors@R: c(
 Description: Collection of commonly used data cleaning functions for the applied epidemiologist.
 Imports:
     stringdist,
-    ggplot2
+    ggplot2,
+    dplyr,
+    magrittr
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
