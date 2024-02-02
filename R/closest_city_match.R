@@ -13,10 +13,12 @@
 #' @importFrom stringdist stringdist
 #'
 #' @examples
+#' \dontrun{
 #' library(dplyr)
 #' df <- data.frame(City = c("Anahem","El Toro","Hntington Bch","Westminister"))
 #'
 #' df <- df %>% rowwise() %>% mutate(recoded_city = closest_city_match(City, oc_cities))
+#' }
 closest_city_match <- function(city, possible_matches, threshold = 0.15){
 
   #First pass - persons experiencing homelessness

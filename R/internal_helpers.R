@@ -1,6 +1,9 @@
 #' MMWR Year Start
 #'
 #' @param year Year
+#' @export
+#' @keywords internal
+#' @noRd
 #'
 #' @return Day one of week one following MMWR schema
 year_start <- function(year){

@@ -23,5 +23,7 @@ Divide a dataframe into multiple .CSV files with a specified number of rows per 
 }
 \examples{
 
+\dontrun{
 split_df(path = "G:/file_path/", df = test_data, chunks = 200, prefix = "list_")
+}
 }

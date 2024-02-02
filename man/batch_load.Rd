@@ -18,6 +18,8 @@ Dataframe of binded files.
 Intended to batch load VRBIS death files for analysis. All columns are read in as character to minimize errors.
 }
 \examples{
+\dontrun{
 files <- list.files(path = "G:/file_path/Files/", full.names = TRUE, pattern = ".csv")[39:40]
 df <- batch_load(files, col_names = FALSE)
+}
 }

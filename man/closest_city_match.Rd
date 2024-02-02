@@ -23,8 +23,10 @@ Find the closest matching city name by calculating string distance and selecting
 Common city abbreviations/neighborhood names are fixed prior to string comparison i.e. Capo Beach/Capistrano Beach recoded to Dana Point.
 }
 \examples{
+\dontrun{
 library(dplyr)
 df <- data.frame(City = c("Anahem","El Toro","Hntington Bch","Westminister"))
 
 df <- df \%>\% rowwise() \%>\% mutate(recoded_city = closest_city_match(City, oc_cities))
+}
 }

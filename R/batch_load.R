@@ -10,8 +10,10 @@
 #' @importFrom utils read.csv
 #'
 #' @examples
+#' \dontrun{
 #' files <- list.files(path = "G:/file_path/Files/", full.names = TRUE, pattern = ".csv")[39:40]
 #' df <- batch_load(files, col_names = FALSE)
+#' }
 batch_load <- function(file_names, col_names = FALSE){
 
   temp_list <- list()

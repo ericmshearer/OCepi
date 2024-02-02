@@ -8,9 +8,16 @@
 #'
 #' @return Dataframe of complete time series starting at specified start date.
 #' @export
+#' @importFrom magrittr %>%
 #'
 #' @examples
-#' df <- complete_dates(df, start_date = min(df$Dates), level = "month")
+#' library(dplyr)
+#' df <- data.frame(Dates = c("2023-01-01","2023-02-01","2023-05-01","2023-09-01"), Cases = c(2,4,1,6))
+#'
+#' df$Dates <- as.Date(df$Dates)
+#'
+#' df <- df %>% complete_dates(start_date = min(df$Dates), level = "month")
+#' print(df)
 complete_dates <- function(df, start_date = NULL, level = c("day","week","month")){
 
   if(missing(level)){

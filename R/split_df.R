@@ -13,7 +13,9 @@
 #'
 #' @examples
 #'
+#' \dontrun{
 #' split_df(path = "G:/file_path/", df = test_data, chunks = 200, prefix = "list_")
+#' }
 split_df <- function(path = NULL, df, chunks = NULL, prefix = "List_"){
 
   #error message
