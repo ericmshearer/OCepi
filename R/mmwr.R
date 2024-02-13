@@ -19,8 +19,8 @@
 #' episode_date = as.Date("2020-01-14")
 #' mmwr_week(episode_date)
 mmwr_week <- function(date){
-  if(class(date)!= "Date"){
-    stop("Invalid date type.")
+  if(!inherits(date, "Date")){
+    stop("Input not in date format.")
   }
   weekday = as.numeric(strftime(date, "%w")) + 1
   week_start = date - (weekday - 1)
@@ -53,8 +53,8 @@ mmwr_week <- function(date){
 #' episode_date = as.Date("2020-01-14")
 #' mmwr_year(episode_date)
 mmwr_year <- function(date){
-  if(class(date)!= "Date"){
-    stop("Invalid date type.")
+  if(!inherits(date, "Date")){
+    stop("Input not in date format.")
   }
   weekday = as.numeric(strftime(date, "%w")) + 1
   week_start = date - (weekday - 1)
@@ -70,7 +70,7 @@ mmwr_year <- function(date){
 #'
 #' Calculate week ending date following CDC MMWR schema.
 #'
-#' @param x Input date.
+#' @param date Input date.
 #'
 #' @return Output date.
 #' @export
@@ -78,13 +78,12 @@ mmwr_year <- function(date){
 #' @examples
 #' episode_date = as.Date("2020-01-14")
 #' week_ending_date(episode_date)
-week_ending_date = function(x){
-  if(class(x) != "Date"){
-    stop("Date variable is not in date format.")
-  }
-  week_day = as.numeric(strftime(x, "%w"))
+week_ending_date = function(date){
+  if(!inherits(date, "Date")){
+    stop("Input not in date format.")}
+  week_day = as.numeric(strftime(date, "%w"))
   diff = 6 - week_day
-  return(x + diff)
+  return(date + diff)
 }
 
 #' Calculate Total Disease Weeks for Year
@@ -99,6 +98,8 @@ week_ending_date = function(x){
 #' @examples
 #' year_start(2024)
 total_weeks <- function(year){
+    if(!inherits(year, "numeric")){
+      stop("Input not in numeric format.")}
   year_start_ordinal <- year_start(year)
   next_year_start_ordinal = year_start(year + 1)
   weeks = as.numeric((next_year_start_ordinal - year_start_ordinal) / 7)
@@ -118,6 +119,9 @@ total_weeks <- function(year){
 #' @examples
 #' mmwrweek_to_date(2023, 52)
 mmwrweek_to_date <- function(year, week){
+
+  if(!inherits(year, "numeric") | !inherits(week, "numeric")){
+    stop("Input not in numeric format.")}
 
   max_weeks = max(total_weeks(year))
 
@@ -141,9 +145,13 @@ mmwrweek_to_date <- function(year, week){
 #' @examples
 #' mmwr_calendar(2024)
 mmwr_calendar <- function(year){
+
+  if(!inherits(year, "numeric")){
+    stop("Input not in numeric format.")}
+
   maxweeks = total_weeks(year)
 
-  df <- data.frame(Year = year, Week = 1:maxweeks)
+  df <- data.frame(Year = year, Week = as.numeric(1:maxweeks))
   df$End <- mmwrweek_to_date(df$Year, df$Week)
   df$Start <- df$End - 6
   df <- df[,c("Year","Week","Start","End")]

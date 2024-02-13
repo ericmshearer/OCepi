@@ -12,9 +12,9 @@
 #' @examples
 #' n_percent(5, 25)
 n_percent <- function(n, percent, reverse = FALSE){
-  label = sprintf("%s (%s%%)", n, percent)
+  label = sprintf("%s (%s%%)", formatC(n, big.mark = ","), percent)
   if(reverse == TRUE){
-    label = sprintf("%s%% (%s)", percent, n)
+    label = sprintf("%s%% (%s)", percent, formatC(n, big.mark = ","))
   }
   return(label)
 }

@@ -4,12 +4,14 @@
 \alias{recode_race}
 \title{Recode Race/Ethnicity}
 \usage{
-recode_race(ethnicity_col, race_col)
+recode_race(ethnicity_col, race_col, abbr_names = FALSE)
 }
 \arguments{
 \item{ethnicity_col}{Patient ethnicity variable.}
 
 \item{race_col}{Patient race variable.}
+
+\item{abbr_names}{TRUE/FALSE, option to abbreviate long category names.}
 }
 \value{
 Merged race/ethnicity variable.
@@ -19,6 +21,6 @@ Simplify race/ethnicity patient data to one variable using CalREDIE, CAIR2, or V
 }
 \examples{
 recode_race("Hispanic","Black or African American")
-recode_race("Native Hawaiian or Other Pacific Islander")
+recode_race("Native Hawaiian or Other Pacific Islander", abbr_names = FALSE)
 recode_race("1")
 }

@@ -1,475 +1,105 @@
 ---
-title: "OCepi Package"
-output:
-  rmarkdown::github_document:
-    toc: true
-    toc_depth: 3
+output: github_document
 ---
 
-```{r load_packages, echo = FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(collapse = TRUE)
+```{r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  fig.path = "man/figures/README-"
+  )
+```
+
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/ericmshearer/OCepi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ericmshearer/OCepi/actions/workflows/R-CMD-check.yaml) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) [![Codecov test coverage](https://codecov.io/gh/ericmshearer/OCepi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ericmshearer/OCepi?branch=main)
+
+<!-- badges: end -->
+
+# OCepi <img src="man/figures/hex_sticker.png" align="right" width="180"/>
+
+{OCepi} aims to provide a standardized approach to the mundane data wrangling tasks for public health epidemiologists. The functions included in this package can be broadly applied but were made specifically for epidemiologists at county and State agencies. This package addresses the following priorities:
+
+-   standardization of recoding demographic data, specifically: ethnicity/race, gender, sexual orientation, and age groups
+-   elevated branding for ggplots with tidy labels and aesthetics
+-   simple methods to suppress/redact information prior to public reporting
+-   methods to group cases/episode into MMWR disease weeks and years
+
+For full documentation, see vignette/OCepi.md
+
+## Installation
+
+For the latest development version:
+
+```{r install-dev, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("ericmshearer/OCepi")
+```
+
+## Example Use Cases
+
+### Recoding + Plot
+
+Here we have simulated outbreak data that needs cleaning prior to reporting/summarizing:
+
+```{r read-load, echo=FALSE, warning=FALSE, message=FALSE}
+library(here)
 library(OCepi)
 library(dplyr)
+library(readr)
 library(ggplot2)
-library(stringdist)
+linelist <- read_csv(here("data","linelist.csv"), na = "")
 ```
 
-![](www/hex_sticker.png){width="318"}
-
-<br>
-
-[![R-CMD-check](https://github.com/ericmshearer/OCepi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ericmshearer/OCepi/actions/workflows/R-CMD-check.yaml)
-
-**Last Updated:** `r format(as.Date(Sys.Date()), "%m/%d/%Y")`
-
-This document provides an overview of the available data cleaning functions in the OCepi package. Any issues/bugs found please contact [eshearer\@ochca.com](mailto:eshearer@ochca.com){.email}.
-
-## Common Data Cleaning Functions
-
-### Add Percent
-
-Add proportion column to frequency table. Default arguments `digits` set to 1 and `multiply` to TRUE.
-
-```{r, message = FALSE, warning = FALSE}
-starwars %>%
-  filter(!is.na(species)) %>%
-  head(20) %>%
-  count(species) %>%
-  mutate(percent = add_percent(n, digits = 1, multiply = TRUE))
+```{r glance, echo=FALSE}
+head(linelist)
 ```
 
-<br>
+Applying the core functions:
 
-### Suppress Small Cell Sizes
-
-Mask values/counts below a specified threshold. Default for `threshold` set to 5.
-
-```{r, message = FALSE, warning = FALSE}
-df <- starwars %>%
-  head(20) %>%
-  count(species)
-
-df <- df %>%
-  mutate(suppressed = suppress(df$n, threshold = 5, replace_with = "**"))
-
-print(df)
-```
-
-<br>
-
-### Crude Incidence Rate
-
-Calculate crude incidence rate per 100,000.
-
-```{r, message = FALSE, warning = FALSE}
-starwars %>%
-  head(20) %>%
-  count(species) %>%
-  mutate(rate = rate_per_100k(n, 320000, digits = 1))
-```
-
-<br>
-
-### Pretty Words
-
-Convert messy string to title casing.
-
-```{r, message = FALSE, warning = FALSE}
-test_string = "MeSsY dAtA gIvEs Me A hEaDaChe"
-
-pretty_words(test_string)
-```
-
-<br>
-
-### N (%) Labels
-
-Create labels for use in dashboards or plots. Use argument `reverse` to control order of "n" and "%".
-
-```{r, message = FALSE, warning = FALSE}
-starwars %>%
-  filter(!is.na(species)) %>%
-  head(20) %>%
-  count(species) %>%
+```{r demographics}
+linelist <- linelist %>%
   mutate(
-    percent = add_percent(n),
-    label = n_percent(n, percent, reverse = TRUE)
-    )
-```
-
-<br>
-
-### Age Groups
-
-Recode age to groups using presets. Output set to factor to maintain order. Current options:
-
--   **census zip:** 0-4, 5-9, 10-14, 15-17, 18-19, 20, 21, 22-24, 25-29, 30-34, 35-39, 40-44, 45-49, 50-54, 55-59, 60-61, 62-64, 65-66, 67-69, 70-74, 75-79, 80-84, 85+
--   **covid:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75-84, 85+
--   **decade:** 0-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
--   **enteric:** 0-4, 5-14, 15-24, 25-44, 45-64, 65+
--   **flu vax:** 0-18, 19-49, 50-64, 65+
--   **hcv:** 0-17, 18-29, 30-39, 40-49, 50+
--   **mpox:** 0-15, 16-24, 25-34, 35-44, 45-54, 55-64, 65+
--   **school:** 0-4, 5-11, 12-17, 18-64, 65+
--   **wnv:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65+
-
-Note: census zip should match age groups found in Decennial Census when pulling data at the zip code level. If you'd like to add a preset, please contact [eshearer\@ochca.com](mailto:eshearer@ochca.com){.email}.
-
-```{r, message = FALSE, warning = FALSE}
-df <- data.frame(Ages = sample(0:99, 200, replace = TRUE))
-df$agegroup <- age_groups(df$Ages, type = "decade")
-
-count(df, agegroup)
-```
-
-<br>
-
-### Recode Gender
-
-Applicable to CalREDIE, VRBIS, and CAIR2, but may be applied when gender is abbreviated as single character.
-
-```{r, message = FALSE, warning = FALSE}
-recode_gender("F")
-
-recode_gender("TM")
-
-recode_gender(NA)
-```
-
-<br>
-
-### Recode Race/Ethnicity
-
-Applicable to CalREDIE, CAIR2, and VRBIS (Multi-race Status variable). Hierarchy defaults to Hispanic/Latinx regardless of reported race. Can also accept LOINC codes for Race as input. If using ethnicity and race, argument order should be `recode_race(ethnicity, race)`.
-
-```{r, message = FALSE, warning = FALSE}
-recode_race("Hispanic or Latino","Asian") #CalREDIE, 2 inputs
-
-recode_race("Black or African American") #CAIR2, 1 input
-
-recode_race("3") #Multi-race status in VRBIS
-
-recode_race("2054-5") #LOINC codes
-```
-
-<br>
-
-### Recode Sexual Orientation
-
-Function specifically for CalREDIE. Converts short responses to full.
-
-```{r, message = FALSE, warning = FALSE}
-recode_orientation("BIS")
-
-recode_orientation(NA)
-```
-
-<br>
-
-### Batch Load CSV Files
-
-Input requires list of directory files with full path names. Specify if your files have column names/headers using `col_names`.
-
-```{r, message = FALSE, warning = FALSE, eval = FALSE}
-files <- list.files(path = "G:/file_path/", full.names = TRUE, pattern = ".csv")
-
-df <- batch_load(files, col_names = TRUE)
-```
-
-<br>
-
-### Remove Empty Columns
-
-Shrink large datasets by dropping columns that are completely empty/blank. Message printed to console with total columns dropped.
-
-```{r, message = TRUE, warning = TRUE}
-df <- data.frame(a = c(NA,NA,NA), b = c("","",""), c = c(1,2,3))
-print(df)
-
-df <- remove_empty_cols(df)
-print(df)
-```
-
-<br>
-
-### Split and Print Dataframe
-
-Ability to take a dataframe, split into smaller dataframes with specified number of rows, then print as .csv to specified path. Use `prefix` to set a custom prefix.
-
-```{r, message = FALSE, warning = FALSE, eval = FALSE}
-split_df(path = "G:/file_path/", df = test_data, chunks = 200, prefix = "helloworld_")
-```
-
-<br>
-
-### Clean Address
-
-Tidy up addresses for geocoding or matching. Use `keep_extra` to keep/remove apartment, space, unit, etc.
-
-```{r, message = FALSE, warning = FALSE}
-patient_address = "1234 Main Street Apt 204"
-
-clean_address(patient_address, keep_extra = TRUE)
-
-clean_address(patient_address, keep_extra = FALSE)
-```
-
-<br>
-
-### Clean Phone Number
-
-Tidy up phone numbers to 10 digit U.S. based format.
-
-```{r, message = FALSE, warning = FALSE}
-#Local Domino's pizza
-clean_phone("(714)777-6700")
-
-#Best local brewery
-clean_phone("(714) 998-8172")
-
- #Apple store in London
-clean_phone("+442074471400")
-```
-
-<br>
-
-### Recode Census Tract
-
-Applicable to VRBIS, CAIR2, or any other dataset where census tract begins with state (e.g. 06 and fips code (e.g. 059). Useful for merging to shapefiles or health places index dataset.
-
-```{r, message = FALSE, warning = FALSE}
-
-recode_ctract("06059099244")
-recode_ctract(as.numeric("06059099244"))
-```
-
-<br>
-
-### Closest City Match
-
-Convenient row-wise approach to fix misspelled city names. First pass will look for "homeless". Second pass will clean-up neighborhood/non-city names/abbreviations (e.g. HB, El Toro, Capo Beach). Final pass will compare city to vector of clean city names and return the closest match. You may adjust the `threshold` but a word of caution - the higher the value, the more likely a false match.
-
-To run this function, you will need: 1) package stringdist, and 2) a vector of clean city names (can pull column from dataframe).
-
-```{r, message = FALSE, warning = FALSE}
-oc_cities <- c("Anaheim","Dana Point","Garden Grove","Lake Forest","Huntington Beach","Orange","Yorba Linda")
-
-df <- data.frame(City = c("Anahem","Gaden Gove","Los Angeles","Hntington Bch"," Ornge","Yerba Linda"))
-
-df %>%
-  rowwise() %>%
-  mutate(closest_match = closest_city_match(City, oc_cities, threshold = 0.15))
-```
-
-<br>
-
-### Redact HIV/AIDS Data
-
-Ability to remove all traces of HIV/AIDS data in a dataframe. If found, warning message printed to console.
-
-```{r, message = TRUE, warning = TRUE}
-df <- data.frame(cause = c("cancer","hepatitis","COVID-19","HIV"))
-print(df)
-
-df <- hiv_redact(df)
-print(df)
-```
-
-<br>
-
-### Assign Respiratory Season
-
-Made specifically for respiratory virus surveillance. Function calculates season in YYYY-YY format from input date. Season is defined as week 40 of current year to week 39 of following year.
-
-```{r, message = FALSE, warning = FALSE}
-x = as.Date("2023-10-01")
-
-assign_season(x)
-```
-
-<br>
-
-### Complete Dates
-
-Fill in missing dates from time series. `Level` options: day, week, month. Specify `start_date` in case you want time series to begin prior to the earliest known date.
-
-Month:
-
-```{r, message = FALSE, warning = FALSE}
-df <- data.frame(
-  Dates = c("2023-01-01","2023-02-01","2023-05-01","2023-09-01"),
-  Cases = c(2,4,1,6)
+    Gender = recode_gender(Gender),
+    race_ethnicity = recode_race(Ethnicity, Race, abbr_names = FALSE),
+    age_group = age_groups(Age, type = "school"),
+    `Sexual Orientation` = recode_orientation(`Sexual Orientation`)
   )
-
-df$Dates <- as.Date(df$Dates)
-
-df <- df %>%
-  complete_dates(start_date = min(df$Dates), level = "month")
-
-print(df)
 ```
 
-<br>
-
-### MMWR Calendar
-
-Create dataframe with weeks and dates for MMWR year.
-
-```{r, message = FALSE, warning = FALSE}
-mmwr_calendar(2023) %>%
-  head(20)
+```{r print, echo=FALSE}
+count(linelist, Gender)
+count(linelist, race_ethnicity)
+count(linelist, age_group)
+count(linelist, `Sexual Orientation`)
 ```
 
-<br>
+Next we'll make a nice plot for a slide deck/report. Functions `add_percent` will be used to create a percentage variable, and `n_percent` for making plot labels. We can control the order of n and percent in the label by using argument `reverse`.
 
-### MMWR Week to Week Ending Date
+```{r plot, fig.align='center', fig.width=10, fig.height=7}
 
-Convert MMWR disease week to week ending date.
-
-```{r, message = FALSE, warning = FALSE}
-df <- data.frame(
-  Year = c(2024,2024,2024,2024),
-  Week = c(1:4)
-  )%>%
-  mutate(week_ending = mmwrweek_to_date(Year, Week))
-
-print(df)
-```
-
-<br>
-
-### MMWR Week and Year
-
-Calculate disease week or epidemiological year from any date.
-
-```{r, message = FALSE, warning = FALSE}
-episode_date = as.Date("2015-01-01")
-
-mmwr_week(episode_date)
-
-mmwr_year(episode_date)
-```
-
-<br>
-
-### Find Month Date
-
-Calculate month from input date. Returned format is `YYYY-MM-01`.
-
-```{r, message = FALSE, warning = FALSE}
-episode_date = as.Date("2015-01-01")
-
-to_month(episode_date)
-```
-
-<br>
-
-### Total Disease Weeks
-
-Calculate total disease weeks for MMWR year.
-
-```{r, message = FALSE, warning = FALSE}
-total_weeks(2014)
-
-total_weeks(2023)
-```
-
-<br>
-
-### Find Week Ending Date
-
-Calculate week ending date (Saturday) from input date.
-
-```{r, message = FALSE, warning = FALSE}
-episode_date = as.Date("2015-01-01")
-
-week_ending_date(episode_date)
-```
-
-<br>
-
-## VRBIS Functions
-
-### Recode Manner of Death
-
-Convert single letter abbreviations to full responses per CCDF data dictionary. Expects "Manner of Death" column from VRBIS dataset.
-
-```{r, message = FALSE, warning = FALSE}
-vrbis_manner_death("A")
-vrbis_manner_death(NA)
-```
-
-<br>
-
-### Recode Place of Death
-
-Convert numeric response to full responses per CCDF data dictionary. Expects "Place of Death (Facility)" column from VRBIS dataset.
-
-```{r, message = FALSE, warning = FALSE}
-vrbis_place_death(6)
-vrbis_place_death("6")
-```
-
-<br>
-
-### Algorithm for Death Certificate Inclusion
-
-Standardized method to determine if death belongs to local health jurisdiction. You will need to know your county fips code and county code from appendix G of CCDF data dictionary.
-
-```{r, message = FALSE, warning = FALSE, eval = FALSE}
-df <- df %>%
-  mutate(lhj_resident = vrbis_resident(place_of_death, county_of_death_code, decedents_county_of_residence_NCHS_Code, fips = "059", county = "30"))) %>%
-  filter(lhj_resident == 1)
-```
-
-<br>
-
-## CAIR2 Functions
-
-### Baby First Name
-
-Remove iterations of "baby" from recipient first name.
-
-```{r, message = FALSE, warning = FALSE}
-baby_name("BABYBOY")
-
-baby_name("Twin Girl")
-```
-
-<br>
-
-## R Markdown Templates
-
-### Workflow Documentation
-
-For all projects, including routine surveillance analysis, use workflow template to explain what/how your script works. Once a R Project is created, go to File \> New File \> R Markdown. Select "From Template", then "Epi Workflow". Keep this file in your main project directory in case another epidemiologist needs to run script as backup.
-
-## Data Visualizations
-
-### Apollo ggplot2 theme
-
-Standard ggplot2 theme `theme_apollo()`. For horizontal plots, set `direction` to "horiztonal".
-
-```{r, message = FALSE, warning = FALSE, fig.width = 10, fig.height = 8, echo = FALSE}
-df <- starwars %>%
-  filter(!is.na(species)) %>%
-  head(20) %>%
-  count(species) %>%
+linelist %>%
+  count(age_group) %>%
   mutate(
     percent = add_percent(n),
-    label = n_percent(n, percent, reverse = TRUE)
-    )
-
-ggplot(data = df, aes(x = species, y = percent, label = label)) +
-  geom_col() +
+    label = n_percent(formatC(n, big.mark = ","), percent, reverse = TRUE)
+  ) %>%
+  ggplot(aes(x = age_group, y = percent, label = label)) +
+  geom_col(fill = "#283747") +
+  scale_y_continuous(expand = c(0,0), limits = c(0,60)) +
   theme_apollo(direction = "vertical") +
   labs(
-    title = "Title Goes Here",
-    subtitle = "Unit Name Here",
-    x = "Species",
-    y = "Percentage (%)",
-    caption = "*Notes about data limitations or sources goes here."
+    title = "Age Distribution of Disease X, Your LHJ, Year",
+    subtitle = "Unit/Program Name",
+    x = "Age Group (Years)",
+    y = "Percentage (%)"
   ) +
-  apollo_label() +
-  scale_y_continuous(limits = c(0,100))
+  apollo_label(direction = "vertical")
+
 ```
+
+## Contact
+
+Simplest ways to contact me:
+
+-   Questions/Feedback: [ericshearer\@me.com](mailto:ericshearer@me.com){.email}
+-   Issues/Bugs: <https://github.com/ericmshearer/OCepi/issues>

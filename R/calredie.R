@@ -43,15 +43,16 @@ recode_orientation <- function(col){
 #'
 #' @param ethnicity_col Patient ethnicity variable.
 #' @param race_col Patient race variable.
+#' @param abbr_names TRUE/FALSE, option to abbreviate long category names.
 #'
 #' @return Merged race/ethnicity variable.
 #' @export
 #'
 #' @examples
 #' recode_race("Hispanic","Black or African American")
-#' recode_race("Native Hawaiian or Other Pacific Islander")
+#' recode_race("Native Hawaiian or Other Pacific Islander", abbr_names = FALSE)
 #' recode_race("1")
-recode_race <- function(ethnicity_col, race_col){
+recode_race <- function(ethnicity_col, race_col, abbr_names = FALSE){
 
   if(missing(race_col)){
     ethnicity_col = trimws(ethnicity_col)
@@ -62,17 +63,34 @@ recode_race <- function(ethnicity_col, race_col){
     combo_var = ifelse(ethnicity_col %in% c("Hispanic or Latino","Latino","Hispanic","2135-2"), "Hispanic or Latino", race_col)
   }
 
+  if(abbr_names == TRUE){names = "Abbr"} else {names = "Full"}
+
   race_list = list(
-    `AI/AN` = c("American Indian or Alaska Native","1002-5","3"),
-    Asian = c("Asian","2028-5","2034-7","2036-2","2039-6","2040-4","2047-9","4"),
-    `Black/African American` = c("Black or African American","Black","2054-5","2"),
-    `Hispanic/Latinx` = c("Hispanic or Latino","Latino","Hispanic","2135-2","8"),
-    `Multiple Races` = c("Multiracial","Multiple Races","7"),
-    NHOPI = c("Native Hawaiian or Other Pacific Islander","Native Hawaiian","Other Pacific Islander","2076-8","2079-2","2087-5","2088-3","2080-0","2500-7","5"),
-    White = c("White","2106-3","1"),
-    Other = c("Other","Other race","6"),
-    Unknown = c(NA_character_,"Unknown","Unknown race","9")
+    Full = list(
+      `American Indian/Alaska Native` = c("American Indian or Alaska Native","1002-5","3"),
+      Asian = c("Asian","2028-5","2034-7","2036-2","2039-6","2040-4","2047-9","4"),
+      `Black/African American` = c("Black or African American","Black","2054-5","2"),
+      `Hispanic/Latinx` = c("Hispanic or Latino","Latino","Hispanic","2135-2","8"),
+      `Multiple Races` = c("Multiracial","Multiple Races","7"),
+      `Native Hawaiian/Other Pacific Islander` = c("Native Hawaiian or Other Pacific Islander","Native Hawaiian","Other Pacific Islander","2076-8","2079-2","2087-5","2088-3","2080-0","2500-7","5"),
+      White = c("White","2106-3","1"),
+      Other = c("Other","Other race","6"),
+      Unknown = c(NA_character_,"Unknown","Unknown race","9")
+    ),
+    Abbr = list(
+      `AI/AN` = c("American Indian or Alaska Native","1002-5","3"),
+      Asian = c("Asian","2028-5","2034-7","2036-2","2039-6","2040-4","2047-9","4"),
+      `Black/African American` = c("Black or African American","Black","2054-5","2"),
+      `Hispanic/Latinx` = c("Hispanic or Latino","Latino","Hispanic","2135-2","8"),
+      `Multiple Races` = c("Multiracial","Multiple Races","7"),
+      NHOPI = c("Native Hawaiian or Other Pacific Islander","Native Hawaiian","Other Pacific Islander","2076-8","2079-2","2087-5","2088-3","2080-0","2500-7","5"),
+      White = c("White","2106-3","1"),
+      Other = c("Other","Other race","6"),
+      Unknown = c(NA_character_,"Unknown","Unknown race","9")
+    )
   )
+
+  race_list <- race_list[names][[1]]
 
   test <- invert_map(race_list)
 
@@ -89,7 +107,7 @@ recode_race <- function(ethnicity_col, race_col){
 #'
 #' @param phone_var Phone number variable.
 #'
-#' @return Reformated phone number.
+#' @return Reformatted phone number.
 #' @export
 #'
 #' @examples

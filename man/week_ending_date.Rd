@@ -4,10 +4,10 @@
 \alias{week_ending_date}
 \title{Week Ending Date}
 \usage{
-week_ending_date(x)
+week_ending_date(date)
 }
 \arguments{
-\item{x}{Input date.}
+\item{date}{Input date.}
 }
 \value{
 Output date.

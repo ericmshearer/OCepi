@@ -12,7 +12,7 @@
 #' assign_season(x)
 assign_season <- function(date){
 
-  if(class(date)!="Date"){
+  if(!inherits(date, "Date")){
     stop("Input not in date format.")
   }
 

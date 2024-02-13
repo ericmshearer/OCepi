@@ -8,8 +8,6 @@
 #'
 #' @return Proportion.
 #' @export
-#' @importFrom dplyr mutate
-#' @importFrom magrittr %>%
 #'
 #' @examples
 #' library(dplyr)

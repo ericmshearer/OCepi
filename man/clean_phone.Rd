@@ -10,7 +10,7 @@ clean_phone(phone_var)
 \item{phone_var}{Phone number variable.}
 }
 \value{
-Reformated phone number.
+Reformatted phone number.
 }
 \description{
 Reformat phone number column to 10 digit U.S. format. If international or invalid phone number (e.g. not 10 digits), returns NA.

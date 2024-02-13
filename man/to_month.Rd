@@ -4,10 +4,10 @@
 \alias{to_month}
 \title{Date to Month Date}
 \usage{
-to_month(x)
+to_month(date)
 }
 \arguments{
-\item{x}{Input date.}
+\item{date}{Input date.}
 }
 \value{
 Date in YYYY-MM-01 format.

@@ -4,12 +4,12 @@
 \alias{suppress}
 \title{Data Suppression for Low Category Frequencies}
 \usage{
-suppress(n, threshold = 5, replace_with = "**")
+suppress(n, less_than = 5, replace_with = "**")
 }
 \arguments{
 \item{n}{Input field to be suppressed.}
 
-\item{threshold}{Threshold when checking for suppression.}
+\item{less_than}{Maximum value for suppression.}
 
 \item{replace_with}{Value to use when input field is suppressed. String, numeric, or NA.}
 }
@@ -21,5 +21,5 @@ Mask values/counts below a specified threshold to maintain patient confidentiali
 }
 \examples{
 df <- data.frame(Counts = c(5, 1, 10, 3, 12, 9, 4))
-df$Counts_Suppressed <- suppress(df$Counts, threshold = 5, replace_with = "**")
+df$Counts_Suppressed <- suppress(df$Counts, less_than = 5, replace_with = "**")
 }

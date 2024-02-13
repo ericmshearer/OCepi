@@ -24,6 +24,7 @@ hiv_redact <- function(df){
     warning("HIV/AIDS data detected.")
     df <- as.data.frame(lapply(df, function(x){x <- gsub(paste0(terms, collapse = "|"), "", x)}))
     df <- as.data.frame(lapply(df, function(x){x <- gsub("^, ", "", x)}))
+    df <- as.data.frame(lapply(df, function(x){x <- gsub(", $", "", x)}))
     return(df)
   } else{
     print("No HIV/AIDS data found.")

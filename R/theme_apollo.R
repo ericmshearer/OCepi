@@ -7,6 +7,8 @@
 #' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 element_blank
 #' @importFrom ggplot2 element_rect
+#' @importFrom ggplot2 margin
+#' @importFrom ggplot2 element_line
 
 theme_apollo <- function(direction = c("vertical","horizontal")) {
   orient = match.arg(direction)
@@ -82,6 +84,7 @@ theme_apollo <- function(direction = c("vertical","horizontal")) {
 #' @param ... Other arguments available from geom_text.
 #'
 #' @return Standard label for plots.
+#' @importFrom ggplot2 geom_text
 #' @export
 #'
 

@@ -1,9 +1,23 @@
+#' Pipe operator
+#'
+#' See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
+#'
+#' @name %>%
+#' @rdname pipe
+#' @keywords internal
+#' @export
+#' @importFrom magrittr %>%
+#' @usage lhs \%>\% rhs
+#' @param lhs A value or the magrittr placeholder.
+#' @param rhs A function call using the magrittr semantics.
+#' @return The result of calling `rhs(lhs)`
+NULL
+
 #' MMWR Year Start
 #'
 #' @param year Year
-#' @export
 #' @keywords internal
-#' @noRd
+#' @export
 #'
 #' @return Day one of week one following MMWR schema
 year_start <- function(year){
@@ -25,6 +39,9 @@ year_start <- function(year){
 #' @param yes Returned output if true
 #' @param no Returned output if false
 #'
+#' @keywords internal
+#' @export
+#'
 #' @return Tested condition while retaining original class.
 safe.ifelse <- function(cond, yes, no){
   class.y <- class(yes)
@@ -36,6 +53,8 @@ safe.ifelse <- function(cond, yes, no){
 #' Invert Mapping
 #'
 #' @param map List.
+#' @keywords internal
+#' @export
 #'
 #' @return Inverted list/mapping.
 invert_map <- function(map) {
@@ -44,3 +63,10 @@ invert_map <- function(map) {
   names(out) <- items
   return(out)
 }
+
+#' Simulated outbreak data
+#'
+#' @name linelist
+#' @docType data
+#' @keywords data
+NULL
