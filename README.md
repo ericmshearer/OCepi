@@ -112,7 +112,7 @@ linelist %>%
   count(age_group) %>%
   mutate(
     percent = add_percent(n),
-    label = n_percent(formatC(n, big.mark = ","), percent, reverse = TRUE)
+    label = n_percent(n, percent, reverse = TRUE)
   ) %>%
   ggplot(aes(x = age_group, y = percent, label = label)) +
   geom_col(fill = "#283747") +
