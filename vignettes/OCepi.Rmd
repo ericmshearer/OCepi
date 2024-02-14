@@ -70,7 +70,7 @@ linelist <- linelist %>%
 
 `recode_race` has the option to abbreviate long category names i.e. "American Indian or Alaska Native" to "AI/AN". Set `abbr_names` to FALSE for full length names.
 
-Now run a frequency table with percentage using `add_percent` and crude rates using `rate_per_100k`:
+Now run a frequency table with percentage using `add_percent`, or if calculating incidence rates, use `rate_per_100k`:
 
 ```{r freq, message=FALSE, warning=FALSE}
 linelist %>%
@@ -144,10 +144,10 @@ df <- df %>%
 
 ### Suppression
 
-Small cell sizes may need to be suppressed to protect patient confidentiality prior to reporting. In this example, any cell sizes `less_than` 5 will be suppressed and `replace_with` double asterisk.
+Small cell sizes may need to be suppressed to protect patient confidentiality prior to reporting. In this example, any cell sizes `less_than` 10 will be suppressed and `replace_with` double asterisk.
 
 ```{r suppress}
-linelist %>% count(Gender) %>% mutate(n_suppress = suppress(n, less_than = 5, replace_with = "**"))
+linelist %>% count(age_group) %>% mutate(n_suppress = suppress(n, less_than = 10, replace_with = "**"))
 ```
 
 ### Redaction
@@ -178,30 +178,29 @@ Epidemiologists typically group cases by epidemiological year or week. From CDC:
 "The first day of any MMWR week is Sunday. MMWR week numbering is sequential beginning with 1 and incrementing with each week to a maximum of 52 or 53. MMWR week 1 of an MMWR year is the first week of the year that has at least four days in the calendar year. For example, if January 1 occurs on a Sunday, Monday, Tuesday or Wednesday, the calendar week that includes January 1 would be MMWR week 1. If January 1 occurs on a Thursday, Friday, or Saturday, the calendar week that includes January 1 would be the last MMWR week of the previous year (52 or 53). Because of this rule, December 29, 30, and 31 could potentially fall into MMWR week 1 of the following MMWR year."
 
 ```{r mmwr-forward, message = FALSE, warning = FALSE}
-date_seq = seq.Date(from = as.Date("2023-10-01"), to = as.Date("2024-09-28"), by = "day")
-
-mmwr <- data.frame(spec_date = sample(date_seq, 20, replace = FALSE))
-
-mmwr <- mmwr %>%
-  arrange(spec_date) %>%
+dates <- linelist %>%
+  select(`Specimen Date`) %>%
+  mutate(`Specimen Date` = as.Date(`Specimen Date`, format = "%m/%d/%Y")) %>%
+  arrange(`Specimen Date`) %>%
   mutate(
-  epi_year = mmwr_year(spec_date),
-  disease_week = mmwr_week(spec_date),
-  week_ending = week_ending_date(spec_date)
+    epi_year = mmwr_year(`Specimen Date`),
+    disease_week = mmwr_week(`Specimen Date`),
+    week_ending = week_ending_date(`Specimen Date`)
   )
 
-head(mmwr)
+head(dates)
 ```
 
 Presenting time series data by disease week with no other time reference is typically not helpful. The reader is left guessing when disease week 27 or 46 is. If needed you can convert backward to week ending date from year and week:
 
 ```{r mmwr-reverse}
-mmwr <- mmwr %>%
+dates <- dates %>%
+  select(epi_year, disease_week) %>%
   mutate(
-    week_ending2 = mmwrweek_to_date(epi_year, disease_week)
+    week_ending = mmwrweek_to_date(epi_year, disease_week)
   )
 
-head(mmwr)
+head(dates)
 ```
 
 Use `mmwr_calendar` whenever you need to know total MWWR weeks in a given epidemiological year, or week start/end dates

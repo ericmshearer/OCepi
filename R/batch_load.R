@@ -20,14 +20,14 @@ batch_load <- function(file_names, col_names = FALSE){
 
   if(col_names == TRUE){
     for(i in file_names){
-      data <- read.csv(i, na.strings = "", stringsAsFactors = FALSE, header = TRUE, colClasses = "character")
+      data <- read.csv(i, na.strings = c("","NA"), stringsAsFactors = FALSE, header = TRUE, colClasses = "character")
       name <- i
       temp_list[[name]] <- data
       print(paste(i, "completed."))
     }
   } else{
     for(i in file_names){
-      data <- read.csv(i, na.strings = "", stringsAsFactors = FALSE, header = FALSE, colClasses = "character")
+      data <- read.csv(i, na.strings = c("","NA"), stringsAsFactors = FALSE, header = FALSE, colClasses = "character")
       name <- i
       temp_list[[name]] <- data
       print(paste(i, "completed."))
@@ -36,5 +36,6 @@ batch_load <- function(file_names, col_names = FALSE){
 
   df <- do.call("rbind", temp_list)
   rownames(df) <- NULL
+  names(df) <- gsub("\\.", " ", names(df))
   return(df)
 }

@@ -3,8 +3,6 @@
 
 [![R-CMD-check](https://github.com/ericmshearer/OCepi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ericmshearer/OCepi/actions/workflows/R-CMD-check.yaml)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![Codecov test
-coverage](https://codecov.io/gh/ericmshearer/OCepi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ericmshearer/OCepi?branch=main)
 
 <!-- badges: end -->
 
@@ -41,15 +39,15 @@ devtools::install_github("ericmshearer/OCepi")
 Here we have simulated outbreak data that needs cleaning prior to
 reporting/summarizing:
 
-    #> # A tibble: 6 × 5
-    #>   Ethnicity              Race                  Gender   Age `Sexual Orientation`
-    #>   <chr>                  <chr>                 <chr>  <dbl> <chr>               
-    #> 1 Hispanic or Latino     Asian                 F         63 HET                 
-    #> 2 Non-Hispanic or Latino Other                 F         15 UNK                 
-    #> 3 Hispanic or Latino     Other                 U          1 HET                 
-    #> 4 Hispanic or Latino     American Indian or A… F         42 DNK                 
-    #> 5 Non-Hispanic or Latino Unknown               M         77 NOT                 
-    #> 6 Non-Hispanic or Latino Other                 M         31 HET
+    #> # A tibble: 6 × 6
+    #>   Ethnicity              Race  Gender   Age `Sexual Orientation` `Specimen Date`
+    #>   <chr>                  <chr> <chr>  <dbl> <chr>                <chr>          
+    #> 1 Non-Hispanic or Latino Mult… M         46 HET                  6/7/2022       
+    #> 2 Unknown                Unkn… M          4 HET                  6/9/2022       
+    #> 3 Non-Hispanic or Latino White F         52 UNK                  6/7/2022       
+    #> 4 Non-Hispanic or Latino White F         77 UNK                  6/11/2022      
+    #> 5 Unknown                Amer… M         71 HET                  6/10/2022      
+    #> 6 Non-Hispanic or Latino Other M         70 HET                  6/9/2022
 
 Applying the core functions:
 
@@ -63,44 +61,42 @@ linelist <- linelist %>%
   )
 ```
 
-    #> # A tibble: 5 × 2
-    #>   Gender                n
-    #>   <chr>             <int>
-    #> 1 Female             2187
-    #> 2 Male               2224
-    #> 3 Missing/Unknown     583
-    #> 4 Transgender man       2
-    #> 5 Transgender woman     4
+    #> # A tibble: 3 × 2
+    #>   Gender              n
+    #>   <chr>           <int>
+    #> 1 Female             51
+    #> 2 Male               39
+    #> 3 Missing/Unknown    15
 
     #> # A tibble: 9 × 2
     #>   race_ethnicity                             n
     #>   <chr>                                  <int>
-    #> 1 American Indian/Alaska Native            506
-    #> 2 Asian                                    499
-    #> 3 Black/African American                   492
-    #> 4 Hispanic/Latinx                          963
-    #> 5 Multiple Races                           548
-    #> 6 Native Hawaiian/Other Pacific Islander   517
-    #> 7 Other                                    491
-    #> 8 Unknown                                  509
-    #> 9 White                                    475
+    #> 1 American Indian/Alaska Native             10
+    #> 2 Asian                                      7
+    #> 3 Black/African American                    16
+    #> 4 Hispanic/Latinx                           19
+    #> 5 Multiple Races                             6
+    #> 6 Native Hawaiian/Other Pacific Islander    10
+    #> 7 Other                                     15
+    #> 8 Unknown                                    8
+    #> 9 White                                     14
 
     #> # A tibble: 5 × 2
     #>   age_group     n
     #>   <fct>     <int>
-    #> 1 0-4         250
-    #> 2 5-11        394
-    #> 3 12-17       366
-    #> 4 18-64      2562
-    #> 5 65+        1428
+    #> 1 0-4           5
+    #> 2 5-11          9
+    #> 3 12-17         8
+    #> 4 18-64        54
+    #> 5 65+          29
 
     #> # A tibble: 4 × 2
     #>   `Sexual Orientation`                    n
     #>   <chr>                               <int>
-    #> 1 Bisexual                               56
-    #> 2 Gay, lesbian, or same gender-loving   102
-    #> 3 Heterosexual or straight             3979
-    #> 4 Missing/Unknown                       863
+    #> 1 Bisexual                                1
+    #> 2 Gay, lesbian, or same gender-loving     3
+    #> 3 Heterosexual or straight               89
+    #> 4 Missing/Unknown                        12
 
 Next we’ll make a nice plot for a slide deck/report. Functions
 `add_percent` will be used to create a percentage variable, and
