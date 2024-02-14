@@ -3,6 +3,8 @@
 
 [![R-CMD-check](https://github.com/ericmshearer/OCepi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ericmshearer/OCepi/actions/workflows/R-CMD-check.yaml)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Codecov test
+coverage](https://codecov.io/gh/ericmshearer/OCepi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ericmshearer/OCepi?branch=main)
 
 <!-- badges: end -->
 
