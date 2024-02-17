@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 -   simple methods to suppress/redact information prior to public reporting
 -   methods to group cases/episode into MMWR disease weeks and years
 
-For full documentation, see vignette/OCepi.md
+For full documentation, see vignettes/OCepi.
 
 ## Installation
 

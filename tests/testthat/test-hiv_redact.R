@@ -15,3 +15,12 @@ test_that("remove AIDS, abbr and full", {
     data.frame(sig_cond = c("Stroke","Cancer, Asthma","Hepatitis C","COVID-19"))
   )
 })
+
+df <- data.frame(sig_cond = c("Stroke","Cancer, Asthma","Hepatitis C","COVID-19"))
+
+test_that("remove HIV, abbr and full", {
+  expect_equal(
+    suppressMessages(df %>% hiv_redact()),
+    data.frame(sig_cond = c("Stroke","Cancer, Asthma","Hepatitis C","COVID-19"))
+  )
+})

@@ -1,52 +1,58 @@
 OCepi - Vignette
 ================
 
-- [Basic Data Cleaning](#basic-data-cleaning)
-  - [Recoding Patient Data](#recoding-patient-data)
-  - [Misc Data Cleaning](#misc-data-cleaning)
+- [Data Cleaning](#data-cleaning)
+  - [Recoding](#recoding)
+  - [Misc Recoding](#misc-recoding)
   - [VRBIS](#vrbis)
 - [Data Masking](#data-masking)
   - [Suppression](#suppression)
   - [Redaction](#redaction)
-- [Grouping Patients in Time](#grouping-patients-in-time)
+- [Common Epidemiological Date
+  Conversions](#common-epidemiological-date-conversions)
   - [MMWR](#mmwr)
   - [Respiratory Season](#respiratory-season)
   - [Month](#month)
 - [Data Management](#data-management)
   - [Data.frames](#dataframes)
 - [Data Visualizations](#data-visualizations)
-  - [Plot Themes](#plot-themes)
 
 The functions in this package were designed to simplify the most
 frequent recoding tasks. Patient data is *messy*, often times requiring:
 converting abbreviations to full responses, coalescing race and
-ethnicity to a unified column, fixing all the variations of misspelled
-city names, or grouping patients into time by week/month/year.
+ethnicity to a unified column, reformatting columns to use in
+joins/matching, or grouping patients into time.
 
-The examples below will use the simulated outbreak data:
+The examples below will use simulated outbreak data:
 
-    #> # A tibble: 10 × 5
-    #>    Ethnicity              Race                 Gender   Age `Sexual Orientation`
-    #>    <chr>                  <chr>                <chr>  <dbl> <chr>               
-    #>  1 Hispanic or Latino     Asian                F         63 HET                 
-    #>  2 Non-Hispanic or Latino Other                F         15 UNK                 
-    #>  3 Hispanic or Latino     Other                U          1 HET                 
-    #>  4 Hispanic or Latino     American Indian or … F         42 DNK                 
-    #>  5 Non-Hispanic or Latino Unknown              M         77 NOT                 
-    #>  6 Non-Hispanic or Latino Other                M         31 HET                 
-    #>  7 Non-Hispanic or Latino White                F         11 HET                 
-    #>  8 Hispanic or Latino     Asian                M         60 BIS                 
-    #>  9 Hispanic or Latino     Multiple Races       F         56 HET                 
-    #> 10 Non-Hispanic or Latino American Indian or … F         36 HET
+    #> # A tibble: 10 × 6
+    #>    Ethnicity             Race  Gender   Age `Sexual Orientation` `Specimen Date`
+    #>    <chr>                 <chr> <chr>  <dbl> <chr>                <chr>          
+    #>  1 Non-Hispanic or Lati… Mult… M         46 HET                  6/7/2022       
+    #>  2 Unknown               Unkn… M          4 HET                  6/9/2022       
+    #>  3 Non-Hispanic or Lati… White F         52 UNK                  6/7/2022       
+    #>  4 Non-Hispanic or Lati… White F         77 UNK                  6/11/2022      
+    #>  5 Unknown               Amer… M         71 HET                  6/10/2022      
+    #>  6 Non-Hispanic or Lati… Other M         70 HET                  6/9/2022       
+    #>  7 Non-Hispanic or Lati… Blac… F         11 HET                  6/8/2022       
+    #>  8 Non-Hispanic or Lati… Blac… F          8 HET                  6/12/2022      
+    #>  9 Hispanic or Latino    Amer… F         41 HET                  6/12/2022      
+    #> 10 Non-Hispanic or Lati… Blac… M         56 HET                  6/10/2022
 
-## Basic Data Cleaning
+## Data Cleaning
 
-### Recoding Patient Data
+### Recoding
 
 Core Functions:
 
 - `recode_race` - able to accept: ethnicity and race, race only, LOINC
   codes, and ‘Multi-race Status’ variable from VRBIS.
+
+  - Use argument `abbr_names` to abbreviate long category names
+    i.e. “American Indian or Alaska Native” to “AI/AN” (TRUE/FALSE).
+
+  - If using ethnicity and race, use order
+    `recode_race(ethnicity, race)`.
 
 - `recode_gender` - can be used with CalREDIE or VRBIS; aims to use the
   most inclusive terms possible.
@@ -70,8 +76,7 @@ Core Functions:
   - **school:** 0-4, 5-11, 12-17, 18-64, 65+
   - **wnv:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65+
 
-Typical starting point in exploratory analysis is to recode
-demographics.
+Example:
 
 ``` r
 linelist <- linelist %>%
@@ -83,12 +88,8 @@ linelist <- linelist %>%
   )
 ```
 
-`recode_race` has the option to abbreviate long category names
-i.e. “American Indian or Alaska Native” to “AI/AN”. Set `abbr_names` to
-FALSE for full length names.
-
-Now run a frequency table with percentage using `add_percent` and crude
-rates using `rate_per_100k`:
+Frequency table with percentage using `add_percent` and incidence rates
+using `rate_per_100k`:
 
 ``` r
 linelist %>%
@@ -106,28 +107,23 @@ linelist %>%
 #> # A tibble: 5 × 4
 #>   age_group     n percent  rate
 #>   <fct>     <int>   <dbl> <dbl>
-#> 1 0-4         250     5   250  
-#> 2 5-11        394     7.9 131. 
-#> 3 12-17       366     7.3  73.2
-#> 4 18-64      2562    51.2 256. 
-#> 5 65+        1428    28.6  71.4
+#> 1 0-4           5     4.8   5  
+#> 2 5-11          9     8.6   3  
+#> 3 12-17         8     7.6   1.6
+#> 4 18-64        54    51.4   5.4
+#> 5 65+          29    27.6   1.4
 ```
 
-### Misc Data Cleaning
+### Misc Recoding
 
-Core functions:
+There are several minor recoding functions available:
 
 - `recode_ctract` - removes state (##) and county fips code (###) from
-  census tract. Useful if joining to shapefiles or health places index.
-- `clean_phone` - reformat phone number to U.S. 10 digit number. Useful
-  in matching algorithms or preparing line lists for contact tracing.
-- `clean_address` - convert address to title casing with option to
-  `keep_extra` components such as apartment, unit, etc. Useful in
-  preparing data for geocoding or matching.
-- `pretty_words` - convert messy string to title casing
-
-All of the functions below can be applied to data.frames within
-`dplyr::mutate`:
+  census tract
+- `clean_phone` - reformat phone number to U.S. 10 digit number
+- `clean_address` - convert string to title casing; use argument
+  `keep_extra` to remove(FALSE)/keep(TRUE) apartment, unit, etc.
+- `pretty_words` - convert string to title casing
 
 ``` r
 recode_ctract("06059099244")
@@ -192,18 +188,18 @@ df <- df %>%
 
 Small cell sizes may need to be suppressed to protect patient
 confidentiality prior to reporting. In this example, any cell sizes
-`less_than` 5 will be suppressed and `replace_with` double asterisk.
+`less_than` 10 will be suppressed and `replace_with` double asterisk.
 
 ``` r
-linelist %>% count(Gender) %>% mutate(n_suppress = suppress(n, less_than = 5, replace_with = "**"))
+linelist %>% count(age_group) %>% mutate(n_suppress = suppress(n, less_than = 10, replace_with = "**"))
 #> # A tibble: 5 × 3
-#>   Gender                n n_suppress
-#>   <chr>             <int> <chr>     
-#> 1 Female             2187 2187      
-#> 2 Male               2224 2224      
-#> 3 Missing/Unknown     583 583       
-#> 4 Transgender man       2 **        
-#> 5 Transgender woman     4 **
+#>   age_group     n n_suppress
+#>   <fct>     <int> <chr>     
+#> 1 0-4           5 **        
+#> 2 5-11          9 **        
+#> 3 12-17         8 **        
+#> 4 18-64        54 54        
+#> 5 65+          29 29
 ```
 
 ### Redaction
@@ -232,7 +228,7 @@ print(df)
 #> 4
 ```
 
-## Grouping Patients in Time
+## Common Epidemiological Date Conversions
 
 ### MMWR
 
@@ -243,67 +239,54 @@ Core Functions:
 - `week_ending_date` - calculate Saturday of disease week
 - `mmwr_calendar` - returns data.frame with columns for disease week,
   week start and end date, for a given epidemiological year
-
-Epidemiologists typically group cases by epidemiological year or week.
-From CDC:
-
-“The first day of any MMWR week is Sunday. MMWR week numbering is
-sequential beginning with 1 and incrementing with each week to a maximum
-of 52 or 53. MMWR week 1 of an MMWR year is the first week of the year
-that has at least four days in the calendar year. For example, if
-January 1 occurs on a Sunday, Monday, Tuesday or Wednesday, the calendar
-week that includes January 1 would be MMWR week 1. If January 1 occurs
-on a Thursday, Friday, or Saturday, the calendar week that includes
-January 1 would be the last MMWR week of the previous year (52 or 53).
-Because of this rule, December 29, 30, and 31 could potentially fall
-into MMWR week 1 of the following MMWR year.”
+- `mmwrweek_to_date` - calculate week ending date from epidemiological
+  year and week
 
 ``` r
-date_seq = seq.Date(from = as.Date("2023-10-01"), to = as.Date("2024-09-28"), by = "day")
-
-mmwr <- data.frame(spec_date = sample(date_seq, 20, replace = FALSE))
-
-mmwr <- mmwr %>%
-  arrange(spec_date) %>%
+dates <- linelist %>%
+  select(`Specimen Date`) %>%
+  mutate(`Specimen Date` = as.Date(`Specimen Date`, format = "%m/%d/%Y")) %>%
+  arrange(`Specimen Date`) %>%
   mutate(
-  epi_year = mmwr_year(spec_date),
-  disease_week = mmwr_week(spec_date),
-  week_ending = week_ending_date(spec_date)
+    epi_year = mmwr_year(`Specimen Date`),
+    disease_week = mmwr_week(`Specimen Date`),
+    week_ending = week_ending_date(`Specimen Date`)
   )
 
-head(mmwr)
-#>    spec_date epi_year disease_week week_ending
-#> 1 2023-10-05     2023           40  2023-10-07
-#> 2 2023-10-19     2023           42  2023-10-21
-#> 3 2023-10-21     2023           42  2023-10-21
-#> 4 2023-10-25     2023           43  2023-10-28
-#> 5 2023-11-14     2023           46  2023-11-18
-#> 6 2023-11-30     2023           48  2023-12-02
+head(dates)
+#> # A tibble: 6 × 4
+#>   `Specimen Date` epi_year disease_week week_ending
+#>   <date>             <dbl>        <dbl> <date>     
+#> 1 2022-06-04          2022           22 2022-06-04 
+#> 2 2022-06-04          2022           22 2022-06-04 
+#> 3 2022-06-04          2022           22 2022-06-04 
+#> 4 2022-06-05          2022           23 2022-06-11 
+#> 5 2022-06-05          2022           23 2022-06-11 
+#> 6 2022-06-06          2022           23 2022-06-11
 ```
 
-Presenting time series data by disease week with no other time reference
-is typically not helpful. The reader is left guessing when disease week
-27 or 46 is. If needed you can convert backward to week ending date from
-year and week:
+Convert epidemiological year and week to week ending date:
 
 ``` r
-mmwr <- mmwr %>%
+dates <- dates %>%
+  select(epi_year, disease_week) %>%
   mutate(
-    week_ending2 = mmwrweek_to_date(epi_year, disease_week)
+    week_ending = mmwrweek_to_date(epi_year, disease_week)
   )
 
-head(mmwr)
-#>    spec_date epi_year disease_week week_ending week_ending2
-#> 1 2023-10-05     2023           40  2023-10-07   2023-10-07
-#> 2 2023-10-19     2023           42  2023-10-21   2023-10-21
-#> 3 2023-10-21     2023           42  2023-10-21   2023-10-21
-#> 4 2023-10-25     2023           43  2023-10-28   2023-10-28
-#> 5 2023-11-14     2023           46  2023-11-18   2023-11-18
-#> 6 2023-11-30     2023           48  2023-12-02   2023-12-02
+head(dates)
+#> # A tibble: 6 × 3
+#>   epi_year disease_week week_ending
+#>      <dbl>        <dbl> <date>     
+#> 1     2022           22 2022-06-04 
+#> 2     2022           22 2022-06-04 
+#> 3     2022           22 2022-06-04 
+#> 4     2022           23 2022-06-11 
+#> 5     2022           23 2022-06-11 
+#> 6     2022           23 2022-06-11
 ```
 
-Use `mmwr_calendar` whenever you need to know total MWWR weeks in a
-given epidemiological year, or week start/end dates
+To make `mmwr_calendar` with total disease weeks + start/end dates:
 
 ``` r
 mmwr_calendar(2023) %>%
@@ -351,6 +334,7 @@ df %>% mutate(season = assign_season(spec_date))
 ### Month
 
 An alternative to grouping cases at the year or week level is by month.
+Returned output is a date formatted YYYY-MM-01.
 
 ``` r
 df <- data.frame(spec_date = as.Date(c("2023-10-01","2023-11-04","2024-09-28","2024-09-29")))
@@ -363,22 +347,13 @@ df %>% mutate(month = to_month(spec_date))
 #> 4 2024-09-29 2024-09-01
 ```
 
-The returned output is a date formatted YYYY-MM-01. This can further be
-customized if importing into Tableau or using ggplot2.
-
 ## Data Management
 
 ### Data.frames
 
-Core functions:
-
-- `batch_load` - import all .CSV files from a directory into unified
-  data.frame
-- `remove_empty_cols` - drop all columns from data.frame that are blank
-  (represented by `NA` or ““)
-
-To batch load .csv files, a list of files from a directory is required.
-Specify if your files have `col_names`.
+`batch_load` imports all .CSV files from a directory into unified
+data.frame (assumes files have matching columns). Specify if your files
+have `col_names`.
 
 ``` r
 files <- list.files(path = "G:/file_path/", full.names = TRUE, pattern = ".csv")
@@ -386,8 +361,8 @@ files <- list.files(path = "G:/file_path/", full.names = TRUE, pattern = ".csv")
 df <- batch_load(files, col_names = TRUE)
 ```
 
-Shrink large datasets by dropping columns that are completely
-empty/blank. Message printed to console with total columns dropped.
+`remove_empty_cols` drops all columns from data.frame that are blank
+(represented by `NA` or ““)
 
 ``` r
 df <- data.frame(a = c(NA,NA,NA), b = c("","",""), c = c(1,2,3))
@@ -408,8 +383,6 @@ print(df)
 
 ## Data Visualizations
 
-### Plot Themes
-
 Core functions:
 
 - `theme_apollo` - standardized branding for plots across the
@@ -418,7 +391,7 @@ Core functions:
 - `n_percent` - format labels using frequency and percentage to improve
   clarity
 
-Building off of the outbreak data:
+Basic plot using ggplot2:
 
 ``` r
 linelist %>%
@@ -429,18 +402,20 @@ linelist %>%
 
 ![](figures/vignette-boring-plot-1.png)<!-- -->
 
-Now apply `theme_apollo` and specify titles/axes labels:
+Applying `theme_apollo`, `apollo_label`, and `n_percent` for labels.
+Note: when using `coord_flip` for horizontal bar charts, set `direction`
+to “horizontal”.
 
 ``` r
 linelist %>%
   count(age_group) %>%
   mutate(
     percent = add_percent(n),
-    label = n_percent(formatC(n, big.mark = ","), percent, reverse = TRUE)
+    label = n_percent(n, percent, reverse = TRUE)
   ) %>%
   ggplot(aes(x = age_group, y = percent, label = label)) +
   geom_col(fill = "#283747") +
-  scale_y_continuous(expand = c(0,0), limits = c(0,60)) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,70)) +
   theme_apollo(direction = "vertical") +
   labs(
     title = "Title Goes Here",
@@ -452,6 +427,3 @@ linelist %>%
 ```
 
 ![](figures/vignette-nice-plot-1.png)<!-- -->
-
-Note: when using `coord_flip` for horizontal bar charts, set `direction`
-to “horizontal”.

@@ -33,7 +33,7 @@ theme_apollo <- function(direction = c("vertical","horizontal")) {
       axis.text = element_text(size = 15, color = text_color),
       axis.text.x = element_text(margin = margin(5, 0, 10, 0), color = text_color),
       axis.text.y = element_text(margin = margin(0, 0, 0, 10), color = text_color),
-      axis.ticks = element_blank(),
+      axis.ticks = element_line(color = "#D0D3D4"),
       axis.line = element_blank(),
 
       panel.grid.minor = element_blank(),
@@ -63,7 +63,7 @@ theme_apollo <- function(direction = c("vertical","horizontal")) {
       axis.text = element_text(size = 15, color = text_color),
       axis.text.x = element_text(margin = margin(5, 0, 10, 0), color = text_color),
       axis.text.y = element_text(margin = margin(0, 0, 0, 10), color = text_color),
-      axis.ticks = element_blank(),
+      axis.ticks = element_line(color = "#D0D3D4"),
       axis.line = element_blank(),
 
       panel.grid.minor = element_blank(),

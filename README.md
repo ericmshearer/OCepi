@@ -23,7 +23,7 @@ package addresses the following priorities:
   reporting
 - methods to group cases/episode into MMWR disease weeks and years
 
-For full documentation, see vignette/OCepi.md
+For full documentation, see vignettes/OCepi.
 
 ## Installation
 
