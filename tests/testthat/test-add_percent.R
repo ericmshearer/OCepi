@@ -6,7 +6,7 @@ test_that("add percent", {
     data.frame(
       locations = letters[1:5],
       n = c(20,18,21,12,16),
-      percent = c(23.0,20.7,24.1,13.8,18.4)
+      percent = c(22.99,20.69,24.14,13.79,18.39)
       )
     )
 })
@@ -28,7 +28,7 @@ test_that("disable multiplication by 100", {
     data.frame(
       locations = letters[1:5],
       n = c(20,18,21,12,16),
-      percent = c(0.2,0.2,0.2,0.1,0.2)
+      percent = c(0.23,0.21,0.24,0.14,0.18)
     )
   )
 })

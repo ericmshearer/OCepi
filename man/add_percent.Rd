@@ -4,7 +4,7 @@
 \alias{add_percent}
 \title{Add Proportion}
 \usage{
-add_percent(n, digits = 1, multiply = TRUE)
+add_percent(n, digits = 2, multiply = TRUE)
 }
 \arguments{
 \item{n}{Count/frequency variable.}

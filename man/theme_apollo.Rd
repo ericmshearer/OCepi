@@ -4,10 +4,18 @@
 \alias{theme_apollo}
 \title{Apollo Theme}
 \usage{
-theme_apollo(direction = c("vertical", "horizontal"))
+theme_apollo(
+  direction = c("vertical", "horizontal"),
+  font = NULL,
+  legend = "Hide"
+)
 }
 \arguments{
 \item{direction}{If using coord_flip, specify "horizontal". Otherwise use "vertical".}
+
+\item{font}{Option to specify font, either system or Google fonts.}
+
+\item{legend}{Option to display legend ("Show") or hide ("Hide").}
 }
 \value{
 Theme for standard ggplots.

@@ -12,7 +12,7 @@
 #' @examples
 #' library(dplyr)
 #' starwars %>% head(20) %>% count(species) %>% mutate(percent = add_percent(n))
-add_percent <- function(n, digits = 1, multiply = TRUE){
+add_percent <- function(n, digits = 2, multiply = TRUE){
 
   if(multiply == TRUE){
     proportion = round(n/sum(n) * 100, digits = digits)

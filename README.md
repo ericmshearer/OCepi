@@ -109,7 +109,7 @@ percent in the label by using argument `reverse`.
 linelist %>%
   count(age_group) %>%
   mutate(
-    percent = add_percent(n),
+    percent = add_percent(n, digits = 1),
     label = n_percent(n, percent, reverse = TRUE)
   ) %>%
   ggplot(aes(x = age_group, y = percent, label = label)) +
