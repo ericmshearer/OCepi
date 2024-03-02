@@ -7,7 +7,7 @@
 theme_apollo(
   direction = c("vertical", "horizontal"),
   font = NULL,
-  legend = "Hide"
+  legend = c("Show", "Hide")
 )
 }
 \arguments{

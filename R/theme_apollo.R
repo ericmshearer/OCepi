@@ -13,14 +13,15 @@
 #' @importFrom ggplot2 element_line
 #' @importFrom grid unit
 
-theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, legend = "Hide") {
+theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, legend = c("Show","Hide")) {
   orient = match.arg(direction)
+  leg = match.arg(legend)
 
   title_color = "#231f20"
   axis_color = "#353d42"
   grid_color = "#E8EDEE"
 
-  if(legend == "Show"){
+  if(leg == "Show"){
     legend_loc = "top"
   } else {
     legend_loc = "none"
