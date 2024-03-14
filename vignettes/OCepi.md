@@ -65,8 +65,8 @@ Core Functions:
 
 - `age_groups` - has several presets for grouping age:
 
-  - **cair2 peds** (from decennial):\*\* \<12 M, 12-15 M, 16-23 M, 24 M,
-    25-47 M, 4-6 Years, 6+ Years
+  - **cair2 peds**: \<12 M, 12-15 M, 16-23 M, 24 M, 25-47 M, 4-6 Years,
+    6+ Years
   - **covid:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75-84,
     85+
   - **decade:** 0-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70-79,
