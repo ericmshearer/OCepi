@@ -1,70 +1,82 @@
-# OCepi - Vignette
+OCepi - Vignette
+================
 
--   [Data Cleaning](#data-cleaning)
-    -   [Recoding](#recoding)
-    -   [Misc Recoding](#misc-recoding)
-    -   [VRBIS](#vrbis)
--   [Data Masking](#data-masking)
-    -   [Suppression](#suppression)
-    -   [Redaction](#redaction)
--   [Date & Time Conversions/Calculations](#date--time-conversionscalculations)
-    -   [MMWR](#mmwr)
-    -   [Respiratory Season](#respiratory-season)
-    -   [Month](#month)
-    -   [Time Between Dates](#time-between-dates)
--   [CAIR2](#cair2)
-    -   [Baby Name](#baby-name)
--   [Data Management](#data-management)
-    -   [Data.frames](#dataframes)
--   [Data Visualizations](#data-visualizations)
+- [Data Cleaning](#data-cleaning)
+  - [Recoding](#recoding)
+  - [Misc Recoding](#misc-recoding)
+  - [VRBIS](#vrbis)
+- [Data Masking](#data-masking)
+  - [Suppression](#suppression)
+  - [Redaction](#redaction)
+- [Date & Time
+  Conversions/Calculations](#date--time-conversionscalculations)
+  - [MMWR](#mmwr)
+  - [Respiratory Season](#respiratory-season)
+  - [Month](#month)
+  - [Time Between Dates](#time-between-dates)
+- [CAIR2](#cair2)
+  - [Baby Name](#baby-name)
+- [Data Management](#data-management)
+  - [Data.frames](#dataframes)
+- [Data Visualizations](#data-visualizations)
 
-The functions in this package were designed to simplify the most frequent recoding tasks. Patient data is *messy*, often times requiring: converting abbreviations to full responses, coalescing race and ethnicity to a unified column, reformatting columns to use in joins/matching, or grouping patients into time.
+The functions in this package were designed to simplify the most
+frequent recoding tasks. Patient data is *messy*, often times requiring:
+converting abbreviations to full responses, coalescing race and
+ethnicity to a unified column, reformatting columns to use in
+joins/matching, or grouping patients into time.
 
 The examples below will use simulated outbreak data:
 
-```         
-#> # A tibble: 10 × 6
-#>    Ethnicity             Race  Gender   Age `Sexual Orientation` `Specimen Date`
-#>    <chr>                 <chr> <chr>  <dbl> <chr>                <chr>          
-#>  1 Non-Hispanic or Lati… Mult… M         46 HET                  6/7/2022       
-#>  2 Unknown               Unkn… M          4 HET                  6/9/2022       
-#>  3 Non-Hispanic or Lati… White F         52 UNK                  6/7/2022       
-#>  4 Non-Hispanic or Lati… White F         77 UNK                  6/11/2022      
-#>  5 Unknown               Amer… M         71 HET                  6/10/2022      
-#>  6 Non-Hispanic or Lati… Other M         70 HET                  6/9/2022       
-#>  7 Non-Hispanic or Lati… Blac… F         11 HET                  6/8/2022       
-#>  8 Non-Hispanic or Lati… Blac… F          8 HET                  6/12/2022      
-#>  9 Hispanic or Latino    Amer… F         41 HET                  6/12/2022      
-#> 10 Non-Hispanic or Lati… Blac… M         56 HET                  6/10/2022
-```
+    #> # A tibble: 10 × 6
+    #>    Ethnicity             Race  Gender   Age `Sexual Orientation` `Specimen Date`
+    #>    <chr>                 <chr> <chr>  <dbl> <chr>                <chr>          
+    #>  1 Non-Hispanic or Lati… Mult… M         46 HET                  6/7/2022       
+    #>  2 Unknown               Unkn… M          4 HET                  6/9/2022       
+    #>  3 Non-Hispanic or Lati… White F         52 UNK                  6/7/2022       
+    #>  4 Non-Hispanic or Lati… White F         77 UNK                  6/11/2022      
+    #>  5 Unknown               Amer… M         71 HET                  6/10/2022      
+    #>  6 Non-Hispanic or Lati… Other M         70 HET                  6/9/2022       
+    #>  7 Non-Hispanic or Lati… Blac… F         11 HET                  6/8/2022       
+    #>  8 Non-Hispanic or Lati… Blac… F          8 HET                  6/12/2022      
+    #>  9 Hispanic or Latino    Amer… F         41 HET                  6/12/2022      
+    #> 10 Non-Hispanic or Lati… Blac… M         56 HET                  6/10/2022
 
-## Data Cleaning {#data-cleaning}
+## Data Cleaning
 
-### Recoding {#recoding}
+### Recoding
 
 Core Functions:
 
--   `recode_race` - able to accept: ethnicity and race, race only, LOINC codes, and 'Multi-race Status' variable from VRBIS.
+- `recode_race` - able to accept: ethnicity and race, race only, LOINC
+  codes, and ‘Multi-race Status’ variable from VRBIS.
 
-    -   Use argument `abbr_names` to abbreviate long category names i.e. "American Indian or Alaska Native" to "AI/AN" (TRUE/FALSE).
+  - Use argument `abbr_names` to abbreviate long category names
+    i.e. “American Indian or Alaska Native” to “AI/AN” (TRUE/FALSE).
 
-    -   If using ethnicity and race, use order `recode_race(ethnicity, race)`.
+  - If using ethnicity and race, use order
+    `recode_race(ethnicity, race)`.
 
--   `recode_gender` - can be used with CalREDIE or VRBIS; aims to use the most inclusive terms possible.
+- `recode_gender` - can be used with CalREDIE or VRBIS; aims to use the
+  most inclusive terms possible.
 
--   `recode_orientation` - created specifically for CalREDIE. Expects CTCIAdtlDemOrient variable.
+- `recode_orientation` - created specifically for CalREDIE. Expects
+  CTCIAdtlDemOrient variable.
 
--   `age_groups` - has several presets for grouping age:
+- `age_groups` - has several presets for grouping age:
 
-    -   **cair2 peds** (from decennial):\*\* \<12 M, 12-15 M, 16-23 M, 24 M, 25-47 M, 4-6 Years, 6+ Years
-    -   **covid:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75-84, 85+
-    -   **decade:** 0-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
-    -   **enteric:** 0-4, 5-14, 15-24, 25-44, 45-64, 65+
-    -   **flu vax:** 0-18, 19-49, 50-64, 65+
-    -   **hcv:** 0-17, 18-29, 30-39, 40-49, 50+
-    -   **mpox:** 0-15, 16-24, 25-34, 35-44, 45-54, 55-64, 65+
-    -   **school:** 0-4, 5-11, 12-17, 18-64, 65+
-    -   **wnv:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65+
+  - **cair2 peds** (from decennial):\*\* \<12 M, 12-15 M, 16-23 M, 24 M,
+    25-47 M, 4-6 Years, 6+ Years
+  - **covid:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75-84,
+    85+
+  - **decade:** 0-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70-79,
+    80+
+  - **enteric:** 0-4, 5-14, 15-24, 25-44, 45-64, 65+
+  - **flu vax:** 0-18, 19-49, 50-64, 65+
+  - **hcv:** 0-17, 18-29, 30-39, 40-49, 50+
+  - **mpox:** 0-15, 16-24, 25-34, 35-44, 45-54, 55-64, 65+
+  - **school:** 0-4, 5-11, 12-17, 18-64, 65+
+  - **wnv:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65+
 
 Example:
 
@@ -78,7 +90,8 @@ linelist <- linelist %>%
   )
 ```
 
-Frequency table with percentage using `add_percent` and incidence rates using `rate_per_100k`:
+Frequency table with percentage using `add_percent` and incidence rates
+using `rate_per_100k`:
 
 ``` r
 linelist %>%
@@ -103,14 +116,16 @@ linelist %>%
 #> 5 65+          29   27.6    1.4
 ```
 
-### Misc Recoding {#misc-recoding}
+### Misc Recoding
 
 There are several minor recoding functions available:
 
--   `recode_ctract` - removes state (\##) and county fips code (\###) from census tract
--   `clean_phone` - reformat phone number to U.S. 10 digit number
--   `clean_address` - convert string to title casing; use argument `keep_extra` to remove(FALSE)/keep(TRUE) apartment, unit, etc.
--   `pretty_words` - convert string to title casing
+- `recode_ctract` - removes state (##) and county fips code (###) from
+  census tract
+- `clean_phone` - reformat phone number to U.S. 10 digit number
+- `clean_address` - convert string to title casing; use argument
+  `keep_extra` to remove(FALSE)/keep(TRUE) apartment, unit, etc.
+- `pretty_words` - convert string to title casing
 
 ``` r
 recode_ctract("06059099244")
@@ -129,13 +144,16 @@ pretty_words("MeSsY dAtA gIvEs Me A hEaDaChe")
 #> [1] "Messy Data Gives Me A Headache"
 ```
 
-### VRBIS {#vrbis}
+### VRBIS
 
 Core functions:
 
--   `vrbis_manner_death` - expects "Manner of Death" variable, follows CCDF data dictionary
--   `vrbis_place_death` - expects "Place of Death (Facility)", follows CCDF data dictionary
--   `vrbis_resident` - determine if death belongs to your local health jurisdiction
+- `vrbis_manner_death` - expects “Manner of Death” variable, follows
+  CCDF data dictionary
+- `vrbis_place_death` - expects “Place of Death (Facility)”, follows
+  CCDF data dictionary
+- `vrbis_resident` - determine if death belongs to your local health
+  jurisdiction
 
 ``` r
 vrbis_manner_death("A")
@@ -145,7 +163,12 @@ vrbis_place_death(6)
 #> [1] "LTCF"
 ```
 
-To use `vrbis_resident`, you will need to know your county fips code and CCDF county code (from appendix G). Returned output is 0/1 where 1 indicates death belongs to your county. For columns, you'll need (in order): "Place of Death (Facility)", "County of Death (Code)", "Decedents County of Residence (NCHS Code)". Next, plug in your fips code to `fips` and CCDF county code to `county` arguments.
+To use `vrbis_resident`, you will need to know your county fips code and
+CCDF county code (from appendix G). Returned output is 0/1 where 1
+indicates death belongs to your county. For columns, you’ll need (in
+order): “Place of Death (Facility)”, “County of Death (Code)”,
+“Decedents County of Residence (NCHS Code)”. Next, plug in your fips
+code to `fips` and CCDF county code to `county` arguments.
 
 ``` r
 df <- df %>%
@@ -161,11 +184,13 @@ df <- df %>%
   filter(lhj_resident == 1)
 ```
 
-## Data Masking {#data-masking}
+## Data Masking
 
-### Suppression {#suppression}
+### Suppression
 
-Small cell sizes may need to be suppressed to protect patient confidentiality prior to reporting. In this example, any cell sizes `less_than` 10 will be suppressed and `replace_with` double asterisk.
+Small cell sizes may need to be suppressed to protect patient
+confidentiality prior to reporting. In this example, any cell sizes
+`less_than` 10 will be suppressed and `replace_with` double asterisk.
 
 ``` r
 linelist %>% count(age_group) %>% mutate(n_suppress = suppress(n, less_than = 10, replace_with = "**"))
@@ -179,9 +204,12 @@ linelist %>% count(age_group) %>% mutate(n_suppress = suppress(n, less_than = 10
 #> 5 65+          29 29
 ```
 
-### Redaction {#redaction}
+### Redaction
 
-Depending on unit/program policy, any mention of HIV or AIDS may need to be removed from the dataset. While not yet exhaustive, this function accounts for several variations of HIV and AIDS. If found, a warning message is printed to the console.
+Depending on unit/program policy, any mention of HIV or AIDS may need to
+be removed from the dataset. While not yet exhaustive, this function
+accounts for several variations of HIV and AIDS. If found, a warning
+message is printed to the console.
 
 ``` r
 df <- data.frame(cause = c("cancer","hepatitis","COVID-19","HIV"))
@@ -204,15 +232,17 @@ print(df)
 
 ## Date & Time Conversions/Calculations
 
-### MMWR {#mmwr}
+### MMWR
 
 Core Functions:
 
--   `mmwr_year` - calculate epidemiological year
--   `mmwr_week` - calculate epidemiological week (or disease week)
--   `week_ending_date` - calculate Saturday of disease week
--   `mmwr_calendar` - returns data.frame with columns for disease week, week start and end date, for a given epidemiological year
--   `mmwrweek_to_date` - calculate week ending date from epidemiological year and week
+- `mmwr_year` - calculate epidemiological year
+- `mmwr_week` - calculate epidemiological week (or disease week)
+- `week_ending_date` - calculate Saturday of disease week
+- `mmwr_calendar` - returns data.frame with columns for disease week,
+  week start and end date, for a given epidemiological year
+- `mmwrweek_to_date` - calculate week ending date from epidemiological
+  year and week
 
 ``` r
 dates <- linelist %>%
@@ -286,9 +316,11 @@ mmwr_calendar(2023) %>%
 #> 20 2023   20 2023-05-14 2023-05-20
 ```
 
-### Respiratory Season {#respiratory-season}
+### Respiratory Season
 
-For epidemiologists working viral respiratory surveillance, patients/laboratory results can also be categorized by season. Season in this context spans week 40 of current year to week 39 of following year.
+For epidemiologists working viral respiratory surveillance,
+patients/laboratory results can also be categorized by season. Season in
+this context spans week 40 of current year to week 39 of following year.
 
 ``` r
 df <- data.frame(spec_date = as.Date(c("2023-10-01","2023-11-04","2024-09-28","2024-09-29")))
@@ -301,9 +333,10 @@ df %>% mutate(season = assign_season(spec_date))
 #> 4 2024-09-29 2024-25
 ```
 
-### Month {#month}
+### Month
 
-An alternative to grouping cases at the year or week level is by month. Returned output is a date formatted YYYY-MM-01.
+An alternative to grouping cases at the year or week level is by month.
+Returned output is a date formatted YYYY-MM-01.
 
 ``` r
 df <- data.frame(spec_date = as.Date(c("2023-10-01","2023-11-04","2024-09-28","2024-09-29")))
@@ -316,9 +349,12 @@ df %>% mutate(month = to_month(spec_date))
 #> 4 2024-09-29 2024-09-01
 ```
 
-### Time Between Dates {#time-between-dates}
+### Time Between Dates
 
-`time_between` calculates the time elapsed between two dates in the following units: days, weeks, months and years. Value is always rounded down to account for complete elapsed time. Note: order of dates does not necessarily matter, but beware of sign.
+`time_between` calculates the time elapsed between two dates in the
+following units: days, weeks, months and years. Value is always rounded
+down to account for complete elapsed time. Note: order of dates does not
+necessarily matter, but beware of sign.
 
 ``` r
 episode_date = as.Date("2020-04-01")
@@ -338,11 +374,12 @@ time_between(dob, vaccine_date, unit = "years")
 #> [1] -37
 ```
 
-## CAIR2 {#cair2}
+## CAIR2
 
-### Baby Name {#baby-name}
+### Baby Name
 
-Removes variants of baby/twin/newborn from first name. Addresses data quality issue in birth hepatitis B doses.
+Removes variants of baby/twin/newborn from first name. Addresses data
+quality issue in birth hepatitis B doses.
 
 ``` r
 baby_name("baby BOY")
@@ -355,11 +392,13 @@ baby_name("twin A")
 #> [1] NA
 ```
 
-## Data Management {#data-management}
+## Data Management
 
 ### Data.frames
 
-`batch_load` imports all .CSV files from a directory into unified data.frame (assumes files have matching columns). Specify if your files have `col_names`.
+`batch_load` imports all .CSV files from a directory into unified
+data.frame (assumes files have matching columns). Specify if your files
+have `col_names`.
 
 ``` r
 files <- list.files(path = "G:/file_path/", full.names = TRUE, pattern = ".csv")
@@ -367,7 +406,8 @@ files <- list.files(path = "G:/file_path/", full.names = TRUE, pattern = ".csv")
 df <- batch_load(files, col_names = TRUE)
 ```
 
-`remove_empty_cols` drops all columns from data.frame that are blank (represented by `NA` or "")
+`remove_empty_cols` drops all columns from data.frame that are blank
+(represented by `NA` or ““)
 
 ``` r
 df <- data.frame(a = c(NA,NA,NA), b = c("","",""), c = c(1,2,3))
@@ -386,13 +426,15 @@ print(df)
 #> 3 3
 ```
 
-## Data Visualizations {#data-visualizations}
+## Data Visualizations
 
 Core functions:
 
--   `theme_apollo` - standardized branding for plots across the surveillance branches
--   `apollo_label` - labels that match branding aesthetic
--   `n_percent` - format labels using frequency and percentage to improve clarity
+- `theme_apollo` - standardized branding for plots across the
+  surveillance branches
+- `apollo_label` - labels that match branding aesthetic
+- `n_percent` - format labels using frequency and percentage to improve
+  clarity
 
 Basic plot using ggplot2:
 
@@ -405,7 +447,9 @@ linelist %>%
 
 ![](figures/vignette-boring-plot-1.png)<!-- -->
 
-Applying `theme_apollo`, `apollo_label`, and `n_percent` for labels. Note: when using `coord_flip` for horizontal bar charts, set `direction` to "horizontal".
+Applying `theme_apollo`, `apollo_label`, and `n_percent` for labels.
+Note: when using `coord_flip` for horizontal bar charts, set `direction`
+to “horizontal”.
 
 ``` r
 linelist %>%

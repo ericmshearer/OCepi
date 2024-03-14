@@ -254,7 +254,7 @@ time_between(dob, vaccine_date, unit = "years")
 
 Removes variants of baby/twin/newborn from first name. Addresses data quality issue in birth hepatitis B doses.
 
-```{r}
+```{r, babyname}
 baby_name("baby BOY")
 
 baby_name("NEWBORN")
