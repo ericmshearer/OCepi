@@ -70,3 +70,5 @@ invert_map <- function(map) {
 #' @docType data
 #' @keywords data
 NULL
+
+"%||%" <- function(a, b) if (!is.null(a)) a else b

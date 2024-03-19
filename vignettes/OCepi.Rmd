@@ -292,6 +292,8 @@ Core functions:
 -   `apollo_label` - labels that match branding aesthetic
 -   `n_percent` - format labels using frequency and percentage to improve clarity
 
+### theme_apollo()
+
 Basic plot using ggplot2:
 
 ```{r boring-plot, fig.height=8, fig.width=10}
@@ -321,4 +323,17 @@ linelist %>%
     y = "Percentage (%)"
   ) +
   apollo_label(direction = "vertical")
+```
+
+### geom_cleveland()
+
+Cleveland dot plot, also called dumbbell plots, consist of two points connected by a solid line. Useful in showing changes in pre/post test scores or timelines. Dataset requires two x variables (x and xend), y variable (character/factor). Speciy within geom_cleveland: point colours (colour_x and colour_xend), line thickness (linewidth), and point size (size_x).
+
+```{r cleveland, fig.height=8, fig.width=10}
+df <- data.frame(Country = c("UK-A","US-A","UK-B","US-B"), PRE = c(0,1,2,3), POST = c(4,5,6,7))
+
+ggplot(data = df, aes(x = PRE, xend = POST, y = Country)) +
+  geom_cleveland(colour_x = "red", colour_xend = "blue") +
+  labs(title = "Cleveland Dot Plot", x = "Pre/Post Scores", y = "Country") +
+  OCepi::theme_apollo()
 ```

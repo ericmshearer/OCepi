@@ -6,8 +6,9 @@ Authors@R: c(
     person("Eric", "Shearer", , "ericshearer@me.com", role = c("aut","cre","cph"))
   )
 Description: Collection of data cleaning fuctions that strives to standardized the approach in the mundane data wrangling tasks. Made specifically with California epidemiologists in mind, these methods can be applied broadly in many contexts.
+Depends:
+    ggplot2
 Imports:
-    ggplot2,
     magrittr
 License: MIT + file LICENSE
 Encoding: UTF-8
