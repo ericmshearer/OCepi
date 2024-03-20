@@ -16,8 +16,10 @@
     -   [Baby Name](#baby-name)
 -   [Data Management](#data-management)
     -   [Data.frames](#dataframes)
--   [Data Visualizations](#data-visualizations)
+-   [Extending ggplot2](#extending-ggplot2)
     -   [theme_apollo()](#theme_apollo)
+    -   [Get line plot label data](#get-line-plot-label-data)
+    -   [Wrap long axis labels](#wrap-long-axis-labels)
     -   [geom_cleveland()](#geom_cleveland)
 
 The functions in this package were designed to simplify the most frequent recoding tasks. Patient data is *messy*, often times requiring: converting abbreviations to full responses, coalescing race and ethnicity to a unified column, reformatting columns to use in joins/matching, or grouping patients into time.
@@ -388,13 +390,15 @@ print(df)
 #> 3 3
 ```
 
-## Data Visualizations {#data-visualizations}
+## Extending ggplot2 {#extending-ggplot2}
 
 Core functions:
 
 -   `theme_apollo` - standardized branding for plots across the surveillance branches
 -   `apollo_label` - labels that match branding aesthetic
 -   `n_percent` - format labels using frequency and percentage to improve clarity
+-   `end_points` - subset data at last time series data point for labeling line plots
+-   `wrap_labels` - wrap long axis labels to better fit plot
 
 ### theme_apollo() {#theme_apollo}
 
@@ -420,11 +424,11 @@ linelist %>%
   ) %>%
   ggplot(aes(x = age_group, y = percent, label = label)) +
   geom_col(fill = "#283747") +
-  scale_y_continuous(expand = c(0,0), limits = c(0,70)) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,60)) +
   theme_apollo(direction = "vertical") +
   labs(
     title = "Title Goes Here",
-    subtitle = "Subtitle Goes Here",
+    subtitle = "Subtitle Goes Here\n",
     x = "Age Groups (Years)",
     y = "Percentage (%)"
   ) +
@@ -432,6 +436,53 @@ linelist %>%
 ```
 
 ![](figures/vignette-nice-plot-1.png)<!-- -->
+
+### Get line plot label data {#get-line-plot-label-data}
+
+In some cases, you may want to add labels at the end of a line plot to increase readability. The simplest way to get the data from the last point in a time series is to put filtered data into `geom_text`:
+
+``` r
+year2023 <- seq.Date(from = as.Date("2023-01-01"), to = as.Date("2023-12-01"), by = "month")
+
+df <- data.frame(date = rep(year2023, 2), site = c(rep("A",12),rep("B",12)), scores = sample(50:95, 24))
+
+ggplot(data = df, aes(x = date, y = scores, group = site)) +
+  geom_line(aes(colour=site), linewidth = 1) +
+  scale_x_date(breaks = df$date, date_labels = "%b\n%Y") +
+  scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
+  theme_apollo() +
+  scale_colour_manual(values = c(A="blue",B="red")) +
+  geom_text(data = end_points(df, date), aes(label = site), hjust = 0, size = 5.5)
+```
+
+![](figures/vignette-end-points-1.png)<!-- -->
+
+### Wrap long axis labels {#wrap-long-axis-labels}
+
+For categories with long titles (e.g. race/ethnicity), it may work best to wrap text to better fit within plot. Use `width` argument to adjust amount of wrapping (lower width = more wrapping, higher width = less wrapping) . Without wrapping:
+
+``` r
+df <- data.frame(group = c("Native Hawaiian or Other Pacific Islander","Black or African American","American Indian or Alaska Native"), score = c(89.5, 84, 73))
+
+ggplot(data = df, aes(x = group, y = score)) +
+  geom_col() +
+  theme_apollo() +
+  scale_y_continuous(expand = c(0,0))
+```
+
+![](figures/vignette-no-wrap-1.png)<!-- -->
+
+With wrapping:
+
+``` r
+ggplot(data = df, aes(x = group, y = score)) +
+  geom_col() +
+  scale_x_discrete(labels = wrap_labels(width = 15)) +
+  theme_apollo() +
+  scale_y_continuous(expand = c(0,0))
+```
+
+![](figures/vignette-wrap-label-1.png)<!-- -->
 
 ### geom_cleveland() {#geom_cleveland}
 
