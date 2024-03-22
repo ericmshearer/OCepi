@@ -1,4 +1,7 @@
-url: ~
+url: https://ericmshearer.github.io/OCepi/
 template:
   bootstrap: 5
 
+  authors:
+    Eric Shearer:
+      href: https://github.com/ericmshearer/
