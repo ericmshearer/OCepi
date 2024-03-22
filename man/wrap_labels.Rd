@@ -17,7 +17,8 @@ Wrap long axis labels to avoid overcrowding.
 }
 \examples{
 \dontrun{
-df <- data.frame(group = c("Native Hawaiian or Other Pacific Islander","Black or African American","American Indian or Alaska Native"), score = c(89.5, 84, 73))
+df <- data.frame(group = c("Native Hawaiian or Other Pacific Islander",
+"Black or African American","American Indian or Alaska Native"), score = c(89.5, 84, 73))
 
 ggplot(data = df, aes(x = group, y = score)) +
  geom_col() +

@@ -59,11 +59,11 @@ theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, le
       panel.grid.minor = element_blank(),
       panel.grid.major.y = element_blank(),
       panel.grid.major.x = element_line(color = grid_color),
-      panel.spacing.x = unit(0.5, "cm"),
+      panel.spacing.x = unit(0.85, "cm"),
 
       panel.background = element_blank(),
 
-      strip.text = element_text(family = font, size = 22, hjust = 0, margin = margin(0,0,7,0), color = title_color),
+      strip.text = element_text(family = font, size = 20, hjust = 0, margin = margin(0,0,15,0), color = title_color),
       strip.background = element_rect(fill = "#FFFFFF")
     )
   } else {
@@ -94,8 +94,9 @@ theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, le
       panel.grid.major.x = element_blank(),
 
       panel.background = element_blank(),
+      panel.spacing.x = unit(0.85, "cm"),
 
-      strip.text = element_text(family = font, size = 22, hjust = 0),
+      strip.text = element_text(family = font, size = 20, hjust = 0, margin = margin(0,0,15,0), color = title_color),
       strip.background = element_rect(fill = "#FFFFFF")
     )
   }

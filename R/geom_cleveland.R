@@ -54,8 +54,6 @@ geom_cleveland <- function(data = NULL, mapping = NULL, show.legend = NA, inheri
 #' @usage NULL
 #' @export
 GeomCleveland <- ggproto("GeomCleveland", Geom,
-                         #credit: https://stackoverflow.com/questions/56931863/ggplot2-return-value-from-draw-panel
-                         #inspiration: https://sing.stanford.edu/cs303-sp11/papers/cleveland_ch2.pdf
                          required_aes = c("x","xend","y"),
                          non_missing_aes = c("size","shape","size","colour_x","colour_xend","size_x","linewidth"),
                          default_aes = aes(shape = 19, colour = "black", linewidth = 1, size = 3, fill = NA, alpha = NA, stroke = 0.5),
