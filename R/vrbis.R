@@ -55,23 +55,6 @@ vrbis_place_death <- function(col){
   return(recode)
 }
 
-#' #' Recode VRBIS Multi-race Status
-#' #'
-#' #' @param col Expects "Multi-race Status" column from VRBIS dataset.
-#' #'
-#' #' @return Recoded response as character.
-#' #' @export
-#' #'
-#' #' @examples
-#' #' vrbis_race("3")
-#' #' vrbis_race(7)
-#' vrbis_race <- function(col){
-#'   oldvalues <- c("1","2","3","4","5","6","7","8","9")
-#'   newvalues <- c("White","Black/African American","AI/AN","Asian","NHOPI","Other","Multiple Races","Hispanic/Latinx","Unknown")
-#'   recode <- newvalues[match(col, oldvalues)]
-#'   return(recode)
-#' }
-
 #' Algorithm for Death Certificate Inclusion
 #'
 #' Standardized method to determine if death belongs to local health jurisdiction.

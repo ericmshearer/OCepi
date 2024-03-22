@@ -2,6 +2,20 @@ url: https://ericmshearer.github.io/OCepi/
 template:
   bootstrap: 5
 
-  authors:
-    Eric Shearer:
-      href: https://github.com/ericmshearer/
+authors:
+  Eric Shearer:
+    href: https://github.com/ericmshearer/
+
+articles:
+- title: Data Management
+  navbar: ~
+  contents:
+  - data_management
+- title: Time Conversions
+  navbar: ~
+  contents:
+  - time_conversions
+- title: Extending ggplot2
+  navbar: ~
+  contents:
+  - extending_ggplot2
