@@ -1,14 +1,11 @@
 Extending ggplot2
 ================
 
-- [Extending ggplot2](#extending-ggplot2)
-  - [theme_apollo & apollo_label](#theme_apollo--apollo_label)
-  - [Get line plot label data](#get-line-plot-label-data)
-  - [Wrap long axis labels](#wrap-long-axis-labels)
-  - [Dumbbell-style Plot](#dumbbell-style-plot)
-  - [Highlight Group of Interest](#highlight-group-of-interest)
-
-# Extending ggplot2
+- [theme_apollo & apollo_label](#theme_apollo--apollo_label)
+- [Get line plot label data](#get-line-plot-label-data)
+- [Wrap long axis labels](#wrap-long-axis-labels)
+- [Dumbbell-style Plot](#dumbbell-style-plot)
+- [Highlight Group of Interest](#highlight-group-of-interest)
 
 Core functions:
 

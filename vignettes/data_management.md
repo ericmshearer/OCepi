@@ -1,10 +1,9 @@
 Data Management
 ================
 
-- [Data Cleaning](#data-cleaning)
-  - [Recoding](#recoding)
-  - [Misc Recoding](#misc-recoding)
-  - [VRBIS](#vrbis)
+- [Recoding](#recoding)
+- [Misc Recoding](#misc-recoding)
+- [VRBIS](#vrbis)
 - [Data Masking](#data-masking)
   - [Suppression](#suppression)
   - [Redaction](#redaction)
@@ -34,8 +33,6 @@ The examples below will use simulated outbreak data:
     #>  8 Non-Hispanic or Lati… Blac… F          8 HET                  6/12/2022      
     #>  9 Hispanic or Latino    Amer… F         41 HET                  6/12/2022      
     #> 10 Non-Hispanic or Lati… Blac… M         56 HET                  6/10/2022
-
-# Data Cleaning
 
 ## Recoding
 

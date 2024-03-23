@@ -1,14 +1,10 @@
 Date & Time Conversions/Calculations
 ================
 
-- [Date & Time
-  Conversions/Calculations](#date--time-conversionscalculations)
-  - [MMWR](#mmwr)
-  - [Respiratory Season](#respiratory-season)
-  - [Month](#month)
-  - [Time Between Dates](#time-between-dates)
-
-# Date & Time Conversions/Calculations
+- [MMWR](#mmwr)
+- [Respiratory Season](#respiratory-season)
+- [Month](#month)
+- [Time Between Dates](#time-between-dates)
 
 ## MMWR
 
