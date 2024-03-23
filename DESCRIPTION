@@ -5,7 +5,7 @@ Version: 0.1.0
 Authors@R: c(
     person("Eric", "Shearer", , "ericshearer@me.com", role = c("aut","cre","cph"))
   )
-Description: Collection of data cleaning fuctions that strives to standardized the approach in the mundane data wrangling tasks. Made specifically with California epidemiologists in mind, these methods can be applied broadly in many contexts.
+Description: Collection of standardized methods that address the mundane data wrangling tasks for public health epidemiologists. The functions included in this package can be broadly applied but were made specifically for epidemiologists at county and State agencies.
 Depends:
     ggplot2
 Imports:
@@ -24,4 +24,3 @@ Suggests:
     readr
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://ericmshearer.github.io/OCepi/

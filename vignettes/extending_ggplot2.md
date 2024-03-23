@@ -34,7 +34,7 @@ linelist %>%
   )
 ```
 
-![](extending_ggplot2_files/figure-gfm/boring-plot-1.png)<!-- -->
+![](figures/vignette-boring-plot-1.png)<!-- -->
 
 Now we apply `theme_apollo` and `apollo_label`. Note: when using
 `coord_flip` for horizontal bar charts, set `direction` to “horizontal”
@@ -60,7 +60,7 @@ linelist %>%
   apollo_label(direction = "vertical")
 ```
 
-![](extending_ggplot2_files/figure-gfm/nice-plot-1.png)<!-- -->
+![](figures/vignette-nice-plot-1.png)<!-- -->
 
 ## Get line plot label data
 
@@ -84,7 +84,7 @@ ggplot(data = ts, aes(x = date, y = scores, group = site)) +
   )
 ```
 
-![](extending_ggplot2_files/figure-gfm/end-points-1.png)<!-- -->
+![](figures/vignette-end-points-1.png)<!-- -->
 
 ## Wrap long axis labels
 
@@ -108,7 +108,7 @@ ggplot(data = re, aes(x = group, y = score)) +
   )
 ```
 
-![](extending_ggplot2_files/figure-gfm/no-wrap-1.png)<!-- -->
+![](figures/vignette-no-wrap-1.png)<!-- -->
 
 With wrapping:
 
@@ -126,7 +126,7 @@ ggplot(data = re, aes(x = group, y = score)) +
   )
 ```
 
-![](extending_ggplot2_files/figure-gfm/wrap-label-1.png)<!-- -->
+![](figures/vignette-wrap-label-1.png)<!-- -->
 
 ## Dumbbell-style Plot
 
@@ -144,7 +144,7 @@ ggplot(data = cleveland, aes(x = PRE, xend = POST, y = Country)) +
   OCepi::theme_apollo()
 ```
 
-![](extending_ggplot2_files/figure-gfm/cleveland-1.png)<!-- -->
+![](figures/vignette-cleveland-1.png)<!-- -->
 
 ## Highlight Group of Interest
 
@@ -176,4 +176,4 @@ ggplot(data = highlight, aes(x = locations, y = scores)) +
 #> generated.
 ```
 
-![](extending_ggplot2_files/figure-gfm/highlight-1.png)<!-- -->
+![](figures/vignette-highlight-1.png)<!-- -->

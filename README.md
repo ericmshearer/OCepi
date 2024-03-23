@@ -18,12 +18,12 @@ package addresses the following priorities:
 
 - standardization of recoding demographic data, specifically:
   ethnicity/race, gender, sexual orientation, and age groups
-- elevated branding for ggplots with tidy labels and aesthetics
+- elevated theming for ggplots
 - simple methods to suppress/redact information prior to public
   reporting
-- methods to group cases/episode into MMWR disease weeks and years
+- convert dates to weeks, months, and years
 
-For full documentation, see vignettes/OCepi.
+For extended documentation with examples, see vignettes.
 
 ## Installation
 
@@ -34,9 +34,7 @@ For the latest development version:
 devtools::install_github("ericmshearer/OCepi")
 ```
 
-## Example Use Cases
-
-### Recoding + Plot
+## Example Use Case
 
 Here we have simulated outbreak data that needs cleaning prior to
 reporting/summarizing:
@@ -63,47 +61,19 @@ linelist <- linelist %>%
   )
 ```
 
-    #> # A tibble: 3 × 2
-    #>   Gender              n
-    #>   <chr>           <int>
-    #> 1 Female             51
-    #> 2 Male               39
-    #> 3 Missing/Unknown    15
+    #> # A tibble: 6 × 8
+    #>   Ethnicity              Race  Gender   Age `Sexual Orientation` `Specimen Date`
+    #>   <chr>                  <chr> <chr>  <dbl> <chr>                <chr>          
+    #> 1 Non-Hispanic or Latino Mult… Male      46 Heterosexual or str… 6/7/2022       
+    #> 2 Unknown                Unkn… Male       4 Heterosexual or str… 6/9/2022       
+    #> 3 Non-Hispanic or Latino White Female    52 Missing/Unknown      6/7/2022       
+    #> 4 Non-Hispanic or Latino White Female    77 Missing/Unknown      6/11/2022      
+    #> 5 Unknown                Amer… Male      71 Heterosexual or str… 6/10/2022      
+    #> 6 Non-Hispanic or Latino Other Male      70 Heterosexual or str… 6/9/2022       
+    #> # ℹ 2 more variables: race_ethnicity <chr>, age_group <fct>
 
-    #> # A tibble: 9 × 2
-    #>   race_ethnicity                             n
-    #>   <chr>                                  <int>
-    #> 1 American Indian/Alaska Native             10
-    #> 2 Asian                                      7
-    #> 3 Black/African American                    16
-    #> 4 Hispanic/Latinx                           19
-    #> 5 Multiple Races                             6
-    #> 6 Native Hawaiian/Other Pacific Islander    10
-    #> 7 Other                                     15
-    #> 8 Unknown                                    8
-    #> 9 White                                     14
-
-    #> # A tibble: 5 × 2
-    #>   age_group     n
-    #>   <fct>     <int>
-    #> 1 0-4           5
-    #> 2 5-11          9
-    #> 3 12-17         8
-    #> 4 18-64        54
-    #> 5 65+          29
-
-    #> # A tibble: 4 × 2
-    #>   `Sexual Orientation`                    n
-    #>   <chr>                               <int>
-    #> 1 Bisexual                                1
-    #> 2 Gay, lesbian, or same gender-loving     3
-    #> 3 Heterosexual or straight               89
-    #> 4 Missing/Unknown                        12
-
-Next we’ll make a nice plot for a slide deck/report. Functions
-`add_percent` will be used to create a percentage variable, and
-`n_percent` for making plot labels. We can control the order of n and
-percent in the label by using argument `reverse`.
+Now that our outbreak data is cleaned up, we can better visualize the
+results. Utilizing the functions to extend ggplot2:
 
 ``` r
 linelist %>%
@@ -113,14 +83,15 @@ linelist %>%
     label = n_percent(n, percent, reverse = TRUE)
   ) %>%
   ggplot(aes(x = age_group, y = percent, label = label)) +
-  geom_col(fill = "#283747") +
+  geom_col(fill = "#00577D") +
   scale_y_continuous(expand = c(0,0), limits = c(0,60)) +
   theme_apollo(direction = "vertical") +
   labs(
-    title = "Age Distribution of Disease X, Your LHJ, Year",
-    subtitle = "Unit/Program Name",
+    title = "Age Distribution of Cases, Outbreak X, Year",
+    subtitle = "Public Health Services/Division Name\n",
     x = "Age Group (Years)",
-    y = "Percentage (%)"
+    y = "Percentage (%)",
+    caption = "Data source notes go here."
   ) +
   apollo_label(direction = "vertical")
 ```
