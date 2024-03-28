@@ -20,6 +20,7 @@ Proportion.
 Calculate percentage per category with options to round and multiply by 100.
 }
 \examples{
-library(dplyr)
-starwars \%>\% head(20) \%>\% count(species) \%>\% mutate(percent = add_percent(n))
+df <- data.frame(species = c("Droid","Human","Wookie"), n = c(3,12,1))
+df$percent <- add_percent(df$n)
+df
 }

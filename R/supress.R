@@ -12,6 +12,7 @@
 #' @examples
 #' df <- data.frame(Counts = c(5, 1, 10, 3, 12, 9, 4))
 #' df$Counts_Suppressed <- suppress(df$Counts, less_than = 5, replace_with = "**")
+#' df
 suppress <- function(n, less_than = 5, replace_with = "**"){
   if(!inherits(n, c("numeric","integer")) | !inherits(less_than, c("numeric","integer"))){
     stop("Input not in numerical format.")

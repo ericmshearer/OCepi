@@ -5,12 +5,13 @@
 #' @param age_var Age variable in numeric format.
 #' @param type Specify which preset to use.
 #'
-#' @return Age groups as factor. Useful for maintaining proper order when plotting or sorting.
+#' @return Age groups as factor.
 #' @export
 #'
 #' @examples
 #'df <- data.frame(Age = sample(0:99, 100))
 #'df$agegrps <- age_groups(df$Age, type = "covid")
+#'head(df)
 age_groups <- function(age_var, type = "decade"){
   types <- list(
     `cair2 peds` = list(c(0,11,15,23,24,47,72,Inf), c("<12 M","12-15 M","16-23 M","24 M","25-47 M","4-6 Years","+6 Years")),

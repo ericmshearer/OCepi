@@ -22,4 +22,5 @@ Mask values/counts below a specified threshold to maintain patient confidentiali
 \examples{
 df <- data.frame(Counts = c(5, 1, 10, 3, 12, 9, 4))
 df$Counts_Suppressed <- suppress(df$Counts, less_than = 5, replace_with = "**")
+df
 }

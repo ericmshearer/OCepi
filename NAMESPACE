@@ -2,6 +2,7 @@
 
 S3method(ggplot_add,highlight)
 export("%>%")
+export("%||%")
 export(GeomCleveland)
 export(add_percent)
 export(age_groups)

@@ -11,6 +11,7 @@
 #' @examples
 #' x = "1234 N Main St Apt 405"
 #' clean_address(x, keep_extra = TRUE)
+#' clean_address(x, keep_extra = FALSE)
 clean_address <- function(address_var, keep_extra = TRUE){
 
   address_var = toupper(address_var) #convert to upper case

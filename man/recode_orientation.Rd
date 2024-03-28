@@ -10,7 +10,7 @@ recode_orientation(col)
 \item{col}{CTCIAdtlDemOrient column from CalREDIE.}
 }
 \value{
-Recoded column with full labels.
+Recoded column as character.
 }
 \description{
 Made specifically for CaLREDIE UDF data export. Recode abbreviations to full names.

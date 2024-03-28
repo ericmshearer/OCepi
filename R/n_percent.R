@@ -1,6 +1,6 @@
 #' Plot Labels for Counts & Proportion
 #'
-#' Standardized plot labels with options for order: "n (%)" or "% (n)".
+#' Standardized plot labels with options for ordering: n % or % n.
 #'
 #' @param n Counts variable.
 #' @param percent Proportion variable.
@@ -11,6 +11,7 @@
 #'
 #' @examples
 #' n_percent(5, 25)
+#' n_percent(5, 25, reverse = TRUE)
 n_percent <- function(n, percent, reverse = FALSE){
   percent = ifelse(percent < 1, "<1%", sprintf("%s%%", percent))
   label = sprintf("%s (%s)", formatC(n, big.mark = ","), percent)

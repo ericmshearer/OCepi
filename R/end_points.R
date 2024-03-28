@@ -3,7 +3,7 @@
 #' Subset dataframe to label last point in geom_line.
 #'
 #' @param df Dataframe
-#' @param date_col Date column to be used in plot.
+#' @param date_col Date column to be used in plot - can be date, year, or week.
 #'
 #' @return Dataframe filtered at maximum (or most recent) date including all groups at that date.
 #' @export

@@ -17,5 +17,6 @@ Ability to drop columns when either completely NA or "".
 }
 \examples{
 test <- data.frame(a = c(NA,NA,NA), b = c("","",""), c = c(1,2,3))
-remove_empty_cols(test)
+test <- remove_empty_cols(test)
+test
 }

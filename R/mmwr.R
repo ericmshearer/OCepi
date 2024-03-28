@@ -96,7 +96,7 @@ week_ending_date = function(date){
 #' @export
 #'
 #' @examples
-#' year_start(2024)
+#' total_weeks(2024)
 total_weeks <- function(year){
     if(!inherits(year, "numeric")){
       stop("Input not in numeric format.")}

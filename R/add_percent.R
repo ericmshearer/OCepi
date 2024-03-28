@@ -10,8 +10,9 @@
 #' @export
 #'
 #' @examples
-#' library(dplyr)
-#' starwars %>% head(20) %>% count(species) %>% mutate(percent = add_percent(n))
+#' df <- data.frame(species = c("Droid","Human","Wookie"), n = c(3,12,1))
+#' df$percent <- add_percent(df$n)
+#' df
 add_percent <- function(n, digits = 2, multiply = TRUE){
 
   if(multiply == TRUE){

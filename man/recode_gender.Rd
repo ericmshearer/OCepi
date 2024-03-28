@@ -10,7 +10,7 @@ recode_gender(col)
 \item{col}{Input column from CalREDIE.}
 }
 \value{
-Recoded input column.
+Recoded input column as character.
 }
 \description{
 Made specifically for CaLREDIE UDF data export. Recode abbreviations to full names.

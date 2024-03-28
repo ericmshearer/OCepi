@@ -71,4 +71,5 @@ invert_map <- function(map) {
 #' @keywords data
 NULL
 
+#' @export
 "%||%" <- function(a, b) if (!is.null(a)) a else b

@@ -9,7 +9,7 @@ end_points(df, date_col)
 \arguments{
 \item{df}{Dataframe}
 
-\item{date_col}{Date column to be used in plot.}
+\item{date_col}{Date column to be used in plot - can be date, year, or week.}
 }
 \value{
 Dataframe filtered at maximum (or most recent) date including all groups at that date.

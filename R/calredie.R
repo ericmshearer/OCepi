@@ -4,7 +4,7 @@
 #'
 #' @param col Input column from CalREDIE.
 #'
-#' @return Recoded input column.
+#' @return Recoded input column as character.
 #' @export
 #'
 #' @examples
@@ -23,7 +23,7 @@ recode_gender <- function(col){
 #'
 #' @param col CTCIAdtlDemOrient column from CalREDIE.
 #'
-#' @return Recoded column with full labels.
+#' @return Recoded column as character.
 #' @export
 #'
 #' @examples

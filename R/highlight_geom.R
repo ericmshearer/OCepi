@@ -13,10 +13,10 @@
 #' @importFrom rlang enquo
 #'
 #' @examples
-#' \dontrun{
+#' df <- data.frame(locations = letters[1:5], scores = c(80,84,91,89,80))
 #' ggplot(data = df, aes(x = locations, y = scores)) +
 #' geom_col() +
-#' highlight_geom(scores==max(scores), pal = "#9E0059") }
+#' highlight_geom(scores==max(scores), pal = "#9E0059")
 highlight_geom <- function(expr, pal, size = 5, alpha = 0.5, linewidth = 1.5) {
   structure(
     list(

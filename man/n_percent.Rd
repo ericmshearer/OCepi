@@ -17,8 +17,9 @@ n_percent(n, percent, reverse = FALSE)
 Plot label as character.
 }
 \description{
-Standardized plot labels with options for order: "n (%)" or "% (n)".
+Standardized plot labels with options for ordering: n % or % n.
 }
 \examples{
 n_percent(5, 25)
+n_percent(5, 25, reverse = TRUE)
 }

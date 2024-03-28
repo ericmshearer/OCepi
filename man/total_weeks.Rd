@@ -16,5 +16,5 @@ Number of MMWR Disease Weeks.
 Calculate total diseases for any given MMWR year (52 or 53 weeks).
 }
 \examples{
-year_start(2024)
+total_weeks(2024)
 }

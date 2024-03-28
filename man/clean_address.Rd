@@ -20,4 +20,5 @@ Recode common address issues such as cardinal directions and street names, and r
 \examples{
 x = "1234 N Main St Apt 405"
 clean_address(x, keep_extra = TRUE)
+clean_address(x, keep_extra = FALSE)
 }

@@ -12,7 +12,7 @@ age_groups(age_var, type = "decade")
 \item{type}{Specify which preset to use.}
 }
 \value{
-Age groups as factor. Useful for maintaining proper order when plotting or sorting.
+Age groups as factor.
 }
 \description{
 Add age groups column using common age grouping presets. R Markdown documentation has list of presets.
@@ -20,4 +20,5 @@ Add age groups column using common age grouping presets. R Markdown documentatio
 \examples{
 df <- data.frame(Age = sample(0:99, 100))
 df$agegrps <- age_groups(df$Age, type = "covid")
+head(df)
 }
