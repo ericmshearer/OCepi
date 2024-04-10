@@ -1,6 +1,6 @@
 #' Cleveland Dot Plot
 #'
-#' Cleveland dot plot (or dumbbell plot) using ggplot2. Arose out of need to create timelines. Work in progress.
+#' Cleveland dot plot (or dumbbell plot) using ggplot2. Arose out of need to create timelines.
 #'
 #' @param data Dataframe.
 #' @param mapping Requires following aesthetics: x = starting point, xend = ending point, y = category/factor.

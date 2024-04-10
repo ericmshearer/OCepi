@@ -24,3 +24,4 @@ Suggests:
     readr
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+URL: https://ericmshearer.github.io/OCepi/

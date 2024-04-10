@@ -9,8 +9,6 @@ test_that("check class", {
 plot_test <- ggplot(data = df, aes(x = PRE, xend = POST, y = Country)) +
   geom_cleveland(colour_x = "#113a72", colour_xend = "#d55c19")
 
-plot_test$layers[[1]]$geom$default_aes$shape
-
 test_that("default aes - point type", {
   expect_equal(
     plot_test$layers[[1]]$geom$default_aes$shape,

@@ -43,7 +43,7 @@ theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, le
       legend.title = element_blank(),
       legend.text = element_text(family = font, size = 12, color = axis_color),
       legend.position = legend_loc,
-      legend.text.align = 0,
+      # legend.text = element_text(hjust = 0),
       legend.background = element_blank(),
       legend.key = element_blank(),
 
@@ -76,7 +76,7 @@ theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, le
       legend.title = element_blank(),
       legend.text = element_text(family = font, size = 12, color = axis_color),
       legend.position = legend_loc,
-      legend.text.align = 0,
+      # legend.text = element_text(hjust = 0),
       legend.background = element_blank(),
       legend.key = element_blank(),
 
@@ -104,6 +104,12 @@ theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, le
 
 #' Apollo Label
 #'
+#' Labels to match the style in theme_apollo.
+#'
+#' Recommended settings:
+#' bar plot hjust = -0.3
+#' horizontal bar plot vjust = -0.5.
+#'
 #' @param direction If using coord_flip, specify "horizontal". Otherwise use "vertical".
 #' @param ... Other arguments available from geom_text.
 #'
@@ -116,8 +122,8 @@ apollo_label <- function(direction = c("vertical","horizontal"), ...){
   orient = match.arg(direction)
 
   if(orient == "horizontal"){
-    geom_text(size = 4.5, hjust = -0.3, color = "#231f20", ...)
+    geom_text(size = 4.5, color = "#231f20", ...)
   } else {
-    geom_text(size = 4.5, vjust = -0.5, color = "#231f20", ...)
+    geom_text(size = 4.5, color = "#231f20", ...)
   }
 }

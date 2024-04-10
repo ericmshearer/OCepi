@@ -45,7 +45,7 @@ geom_cleveland(
 Cleveland dot plot.
 }
 \description{
-Cleveland dot plot (or dumbbell plot) using ggplot2. Arose out of need to create timelines. Work in progress.
+Cleveland dot plot (or dumbbell plot) using ggplot2. Arose out of need to create timelines.
 }
 \examples{
 library(ggplot2)

@@ -15,5 +15,10 @@ apollo_label(direction = c("vertical", "horizontal"), ...)
 Standard label for plots.
 }
 \description{
-Apollo Label
+Labels to match the style in theme_apollo.
+}
+\details{
+Recommended settings:
+bar plot hjust = -0.3
+horizontal bar plot vjust = -0.5.
 }

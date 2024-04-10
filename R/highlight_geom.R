@@ -24,7 +24,7 @@ highlight_geom <- function(expr, pal, size = 5, alpha = 0.5, linewidth = 1.5) {
       color = pal,
       size = size,
       alpha = alpha,
-      lindewidth = linewidth
+      linewidth = linewidth
     ),
     class = "highlight"
   )
