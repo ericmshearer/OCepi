@@ -83,7 +83,7 @@ linelist %>%
     label = n_percent(n, percent, reverse = TRUE)
   ) %>%
   ggplot(aes(x = age_group, y = percent, label = label)) +
-  geom_col(fill = "#00577D") +
+  geom_col(fill = "#353D42") +
   scale_y_continuous(expand = c(0,0), limits = c(0,60)) +
   theme_apollo(direction = "vertical") +
   labs(
@@ -93,7 +93,7 @@ linelist %>%
     y = "Percentage (%)",
     caption = "Data source notes go here."
   ) +
-  apollo_label(direction = "vertical")
+  apollo_label(vjust = -0.3)
 ```
 
 <img src="man/figures/README-plot-1.png" style="display: block; margin: auto;" />

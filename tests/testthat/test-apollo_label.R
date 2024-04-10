@@ -5,7 +5,7 @@ test_that("returns a ggplot object", {
   plot <- ggplot2::ggplot(data = df, ggplot2::aes(x = locations, y = n, label = n)) +
     ggplot2::geom_col() +
     theme_apollo(direction = "vertical") +
-    apollo_label(direction = "vertical")
+    apollo_label()
 
   expect_type(
     plot,

@@ -4,11 +4,9 @@
 \alias{apollo_label}
 \title{Apollo Label}
 \usage{
-apollo_label(direction = c("vertical", "horizontal"), ...)
+apollo_label(...)
 }
 \arguments{
-\item{direction}{If using coord_flip, specify "horizontal". Otherwise use "vertical".}
-
 \item{...}{Other arguments available from geom_text.}
 }
 \value{
@@ -19,6 +17,6 @@ Labels to match the style in theme_apollo.
 }
 \details{
 Recommended settings:
-bar plot hjust = -0.3
-horizontal bar plot vjust = -0.5.
+bar plot vjust = -0.3
+horizontal bar plot hjust = -0.5.
 }

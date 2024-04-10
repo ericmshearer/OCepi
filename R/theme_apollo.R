@@ -107,10 +107,9 @@ theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, le
 #' Labels to match the style in theme_apollo.
 #'
 #' Recommended settings:
-#' bar plot hjust = -0.3
-#' horizontal bar plot vjust = -0.5.
+#' bar plot vjust = -0.3
+#' horizontal bar plot hjust = -0.5.
 #'
-#' @param direction If using coord_flip, specify "horizontal". Otherwise use "vertical".
 #' @param ... Other arguments available from geom_text.
 #'
 #' @return Standard label for plots.
@@ -118,12 +117,6 @@ theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, le
 #' @export
 #'
 
-apollo_label <- function(direction = c("vertical","horizontal"), ...){
-  orient = match.arg(direction)
-
-  if(orient == "horizontal"){
-    geom_text(size = 4.5, color = "#231f20", ...)
-  } else {
-    geom_text(size = 4.5, color = "#231f20", ...)
+apollo_label <- function(...){
+  geom_text(size = 4.5, color = "#231f20", ...)
   }
-}
