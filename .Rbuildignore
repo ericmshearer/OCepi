@@ -2,6 +2,3 @@
 ^\.Rproj\.user$
 ^\.github$
 ^codecov\.yml$
-^docs$
-^_pkgdown\.yml$
-^pkgdown$

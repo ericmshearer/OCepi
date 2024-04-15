@@ -17,7 +17,7 @@
 #' ggplot(data = df, aes(x = locations, y = scores)) +
 #' geom_col() +
 #' highlight_geom(scores==max(scores), pal = "#9E0059")
-highlight_geom <- function(expr, pal, size = 5, alpha = 0.5, linewidth = 1.5) {
+highlight_geom <- function(expr, pal, size = 3, alpha = 1, linewidth = 1.5) {
   structure(
     list(
       expr = rlang::enquo(expr),
@@ -37,30 +37,38 @@ highlight_geom <- function(expr, pal, size = 5, alpha = 0.5, linewidth = 1.5) {
 #' @export
 #' @import dplyr
 ggplot_add.highlight <- function(object, plot, object_name) {
-
   geom_type <- tolower(gsub("Geom", "", sapply(plot$layers, function(x) class(x$geom)[1])))
 
   if(!inherits(plot$facet, "FacetNull")){
-    facet_on = unname(sapply(plot$facet$params$cols, rlang::quo_text))
+
+    if(class(plot$facet)[1]=="FacetWrap"){
+      facet_on = unname(sapply(plot$facet$params[1]$facets, rlang::quo_text))
+    } else {
+      facet_on = unname(sapply(plot$facet$params$cols, rlang::quo_text))
+    }
 
     new_data <- plot$data %>%
-      group_by(.dots = facet_on) %>%
-      filter(!!object$expr) %>%
-      ungroup()
+      dplyr::group_by_at(facet_on) %>%
+      dplyr::filter(!! object$expr) %>%
+      dplyr::ungroup()
   } else {
-    new_data <- dplyr::filter(plot$data, !!object$expr)
+    new_data <- dplyr::filter(plot$data, !! object$expr)
   }
 
   cloned_layer <- layer(
-    mapping = plot$mapping,
     data = new_data,
     geom = geom_type,
     stat = "identity",
-    position = "identity"
+    position = "identity",
+    inherit.aes = TRUE
   )
 
   cloned_layer$aes_params$fill = object$color
   cloned_layer$aes_params$colour = object$color
+
+  #original
+  plot$layers[[1]]$aes_params$colour = "#cccccc"
+  plot$layers[[1]]$aes_params$fill = "#cccccc"
 
   if(geom_type=="point"){
     cloned_layer$aes_params$size = object$size
@@ -71,10 +79,5 @@ ggplot_add.highlight <- function(object, plot, object_name) {
     cloned_layer$aes_params$linewidth = object$linewidth
   }
 
-  #original
-  plot$layers[[1]]$aes_params$colour = "#cccccc"
-  plot$layers[[1]]$aes_params$fill = "#cccccc"
-
-  #new plot
   plot %+% cloned_layer
 }

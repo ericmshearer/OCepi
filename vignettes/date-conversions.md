@@ -1,4 +1,4 @@
-Date & Time Conversions/Calculations
+Date Conversions
 ================
 
 - [MMWR](#mmwr)
@@ -20,25 +20,25 @@ Core Functions:
 
 ``` r
 dates <- linelist %>%
-  select(`Specimen Date`) %>%
-  mutate(`Specimen Date` = as.Date(`Specimen Date`, format = "%m/%d/%Y")) %>%
-  arrange(`Specimen Date`) %>%
+  select(SpecimenDate) %>%
+  mutate(SpecimenDate = as.Date(SpecimenDate, format = "%m/%d/%Y")) %>%
+  arrange(SpecimenDate) %>%
   mutate(
-    epi_year = mmwr_year(`Specimen Date`),
-    disease_week = mmwr_week(`Specimen Date`),
-    week_ending = week_ending_date(`Specimen Date`)
+    epi_year = mmwr_year(SpecimenDate),
+    disease_week = mmwr_week(SpecimenDate),
+    week_ending = week_ending_date(SpecimenDate)
   )
 
 head(dates)
 #> # A tibble: 6 × 4
-#>   `Specimen Date` epi_year disease_week week_ending
-#>   <date>             <dbl>        <dbl> <date>     
-#> 1 2022-06-04          2022           22 2022-06-04 
-#> 2 2022-06-04          2022           22 2022-06-04 
-#> 3 2022-06-04          2022           22 2022-06-04 
-#> 4 2022-06-05          2022           23 2022-06-11 
-#> 5 2022-06-05          2022           23 2022-06-11 
-#> 6 2022-06-06          2022           23 2022-06-11
+#>   SpecimenDate epi_year disease_week week_ending
+#>   <date>          <dbl>        <dbl> <date>     
+#> 1 2022-06-04       2022           22 2022-06-04 
+#> 2 2022-06-04       2022           22 2022-06-04 
+#> 3 2022-06-04       2022           22 2022-06-04 
+#> 4 2022-06-05       2022           23 2022-06-11 
+#> 5 2022-06-05       2022           23 2022-06-11 
+#> 6 2022-06-06       2022           23 2022-06-11
 ```
 
 Convert epidemiological year and week to week ending date:

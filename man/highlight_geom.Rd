@@ -4,7 +4,7 @@
 \alias{highlight_geom}
 \title{Highlight Geom Using Expression}
 \usage{
-highlight_geom(expr, pal, size = 5, alpha = 0.5, linewidth = 1.5)
+highlight_geom(expr, pal, size = 3, alpha = 1, linewidth = 1.5)
 }
 \arguments{
 \item{expr}{Expression}

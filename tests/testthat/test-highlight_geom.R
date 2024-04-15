@@ -74,10 +74,10 @@ test_that("check line aes", {
 
   p <- ggplot(data = df, aes(x = loc, y = scores, group = group)) +
     geom_line() +
-    highlight_geom(group=="B", pal = "#d55c19", linewidth = 5)
+    highlight_geom(group=="B", pal = "#d55c19", linewidth = 1.5)
 
   expect_equal(
     p$layers[[2]]$aes_params$linewidth,
-    5
+    1.5
   )
 })
