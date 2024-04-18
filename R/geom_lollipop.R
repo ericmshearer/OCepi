@@ -24,7 +24,7 @@
 #'ggplot(data = df, aes(x = locations, y = scores)) +
 #'  geom_lollipop(size = 10, linewidth = 2, color = "red")
 geom_lollipop <- function(data = NULL, mapping = NULL, show.legend = NA, inherit.aes = TRUE, position = "identity", na.rm = FALSE,
-                           linewidth = NULL, ...) {
+                          linewidth = NULL, ...) {
   layer(
     data = data,
     mapping = mapping,
@@ -47,27 +47,27 @@ geom_lollipop <- function(data = NULL, mapping = NULL, show.legend = NA, inherit
 #' @usage NULL
 #' @export
 GeomLollipop <- ggproto("GeomLollipop", Geom,
-                         required_aes = c("x","y"),
-                         non_missing_aes = c("shape","colour","linewidth"),
-                         default_aes = aes(shape = 19, colour = "black", linewidth = 1, size = 3, fill = NA, alpha = NA, stroke = 0.5),
+                        required_aes = c("x","y"),
+                        non_missing_aes = c("shape","colour","linewidth"),
+                        default_aes = aes(shape = 19, colour = "black", linewidth = 1, size = 3, fill = NA, alpha = NA, stroke = 0.5),
 
-                         draw_key = draw_key_point,
+                        draw_key = draw_key_point,
 
-                         setup_data = function(data, params){
-                           transform(data, yend = 0)
-                         },
+                        setup_data = function(data, params){
+                          transform(data, yend = 0)
+                        },
 
-                         draw_group = function(data, panel_scales, coord, colour = NULL, size = NULL, linewidth = NULL) {
-                           points <- data
-                           points$size <- size %||% data$size
-                           points$colour <- colour %||% data$colour
-                           points <- ggplot2::GeomPoint$draw_panel(points, panel_scales, coord)
+                        draw_group = function(data, panel_scales, coord, colour = NULL, size = NULL, linewidth = NULL) {
+                          points <- data
+                          points$size <- size %||% data$size
+                          points$colour <- colour %||% data$colour
+                          points <- ggplot2::GeomPoint$draw_panel(points, panel_scales, coord)
 
-                           line <- data
-                           line$linewidth <- linewidth %||% data$linewidth
-                           line$colour <- "#000000"
-                           line <- ggplot2::GeomSegment$draw_panel(line, panel_scales, coord)
+                          line <- data
+                          line$linewidth <- linewidth %||% data$linewidth
+                          line$colour <- "#000000"
+                          line <- ggplot2::GeomSegment$draw_panel(line, panel_scales, coord)
 
-                           grid::gTree("lollipop", children = grid::gList(points, line))
-                         }
+                          grid::gTree("lollipop", children = grid::gList(line, points))
+                        }
 )

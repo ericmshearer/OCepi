@@ -13,8 +13,9 @@ geom_cleveland(
   na.rm = FALSE,
   colour_x = NULL,
   colour_xend = NULL,
-  size_x = NULL,
+  size = NULL,
   linewidth = NULL,
+  colour = NULL,
   ...
 )
 }
@@ -35,9 +36,11 @@ geom_cleveland(
 
 \item{colour_xend}{Color of ending point.}
 
-\item{size_x}{Size of points.}
+\item{size}{Size of points.}
 
 \item{linewidth}{Line thickness.}
+
+\item{colour}{Line color.}
 
 \item{...}{Other args, man.}
 }
@@ -51,6 +54,6 @@ Cleveland dot plot (or dumbbell plot) using ggplot2. Arose out of need to create
 library(ggplot2)
 df <- data.frame(Country = c("UK-A","US-A","UK-B","US-B"), PRE = c(0,1,2,3), POST = c(4,5,6,7))
 ggplot(data = df, aes(x = PRE, xend = POST, y = Country)) +
- geom_cleveland(colour_x = "blue", colour_xend = "red") +
+ geom_cleveland(colour_x = "blue", colour_xend = "red", size = 3, linewidth = 3, colour = "black") +
  labs(title = "Cleveland Dot Plot", x = "Pre/Post Scores", y = "Country")
 }

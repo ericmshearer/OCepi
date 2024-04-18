@@ -138,12 +138,12 @@ Cleveland dot plot, also called dumbbell plots, consist of two points
 connected by a solid line. Useful in showing changes in pre/post test
 scores or timelines. Dataset requires two x variables (x and xend), y
 variable (character/factor). Speciy within `geom_cleveland`: point
-colours (colour_x and colour_xend), line thickness (linewidth), and
-point size (size_x).
+colors (colour_x and colour_xend), line thickness (linewidth), line
+color (colour), and point size (size).
 
 ``` r
 ggplot(data = cleveland, aes(x = PRE, xend = POST, y = Country)) +
-  geom_cleveland(colour_x = "red", colour_xend = "blue") +
+  geom_cleveland(colour_x = "red", colour_xend = "blue", size = 4, linewidth = 1.5, colour = "black") +
   labs(title = "Cleveland Dot Plot", x = "Pre/Post Scores", y = "Country") +
   theme_apollo(direction = "vertical")
 ```
