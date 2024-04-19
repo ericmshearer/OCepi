@@ -4,7 +4,7 @@ Extending ggplot2
 - [theme_apollo & apollo_label](#theme_apollo--apollo_label)
 - [Get line plot label data](#get-line-plot-label-data)
 - [Wrap long axis labels](#wrap-long-axis-labels)
-- [Dumbbell-style Plot](#dumbbell-style-plot)
+- [Dumbbell Plot](#dumbbell-plot)
 - [Lollipop Plot](#lollipop-plot)
 - [Highlight Group of Interest](#highlight-group-of-interest)
 
@@ -15,7 +15,7 @@ Core functions:
 - `end_points` - subset data at last time series data point for labeling
   line plots
 - `wrap_labels` - wrap long axis labels to better fit plot
-- `geom_cleveland` - dumbbell-style plot
+- `geom_dumbbell` - dumbbell-style plot
 - `geom_lollipop` - lollipop-style plot
 - `highlight_geom` - highlight geom\_\* of interest based on expression
 
@@ -132,19 +132,18 @@ ggplot(data = re, aes(x = group, y = score, label = score)) +
 
 ![](figures/vignette-wrap-label-1.png)<!-- -->
 
-## Dumbbell-style Plot
+## Dumbbell Plot
 
-Cleveland dot plot, also called dumbbell plots, consist of two points
-connected by a solid line. Useful in showing changes in pre/post test
-scores or timelines. Dataset requires two x variables (x and xend), y
-variable (character/factor). Speciy within `geom_cleveland`: point
-colors (colour_x and colour_xend), line thickness (linewidth), line
-color (colour), and point size (size).
+Dumbbell plots consist of two points connected by a solid line. Useful
+in showing changes in pre/post test scores or timelines. Dataset
+requires two x variables (x and xend), y variable (character/factor).
+Speciy within `geom_dumbbell`: point colors (colour_x and colour_xend),
+line thickness (linewidth), line color (colour), and point size (size).
 
 ``` r
 ggplot(data = cleveland, aes(x = PRE, xend = POST, y = Country)) +
-  geom_cleveland(colour_x = "red", colour_xend = "blue", size = 4, linewidth = 1.5, colour = "black") +
-  labs(title = "Cleveland Dot Plot", x = "Pre/Post Scores", y = "Country") +
+  geom_dumbbell(colour_x = "red", colour_xend = "blue", size = 5, linewidth = 2, colour = "black") +
+  labs(title = "Dumbbell Plot", x = "Pre/Post Scores", y = "Country") +
   theme_apollo(direction = "vertical")
 ```
 

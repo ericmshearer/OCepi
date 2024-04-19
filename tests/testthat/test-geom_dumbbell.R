@@ -2,12 +2,12 @@ df <- data.frame(Country = c("UK-A","US-A","UK-B","US-B"), PRE = c(0,1,2,3), POS
 
 test_that("check class", {
   expect_equal(
-    class(OCepi::geom_cleveland())[2],
+    class(OCepi::geom_dumbbell())[2],
     "Layer")
 })
 
 plot_test <- ggplot(data = df, aes(x = PRE, xend = POST, y = Country)) +
-  geom_cleveland(colour_x = "#113a72", colour_xend = "#d55c19")
+  geom_dumbbell(colour_x = "#113a72", colour_xend = "#d55c19")
 
 test_that("default aes - point type", {
   expect_equal(

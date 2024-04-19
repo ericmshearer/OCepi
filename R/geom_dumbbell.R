@@ -1,6 +1,6 @@
-#' Cleveland Dot Plot
+#' Dumbbell Plot
 #'
-#' Cleveland dot plot (or dumbbell plot) using ggplot2. Arose out of need to create timelines.
+#' Dumbbell plot using ggplot2. Arose out of need to create timelines.
 #'
 #' @param data Dataframe.
 #' @param mapping Requires following aesthetics: x = starting point, xend = ending point, y = category/factor.
@@ -15,7 +15,7 @@
 #' @param linewidth Line thickness.
 #' @param ... Other args, man.
 #'
-#' @return Cleveland dot plot.
+#' @return Dumbbell plot.
 #' @export
 #' @import ggplot2
 #' @importFrom grid gList
@@ -27,15 +27,15 @@
 #' df <- data.frame(Country = c("UK-A","US-A","UK-B","US-B"), PRE = c(0,1,2,3), POST = c(4,5,6,7))
 
 #'ggplot(data = df, aes(x = PRE, xend = POST, y = Country)) +
-#'  geom_cleveland(colour_x = "blue", colour_xend = "red", size = 3, linewidth = 3, colour = "black") +
-#'  labs(title = "Cleveland Dot Plot", x = "Pre/Post Scores", y = "Country")
-geom_cleveland <- function(data = NULL, mapping = NULL, show.legend = NA, inherit.aes = TRUE, position = "identity", na.rm = FALSE,
+#'  geom_dumbbell(colour_x = "blue", colour_xend = "red", size = 3, linewidth = 3, colour = "black") +
+#'  labs(title = "Dumbbell Plot", x = "Pre/Post Scores", y = "Country")
+geom_dumbbell <- function(data = NULL, mapping = NULL, show.legend = NA, inherit.aes = TRUE, position = "identity", na.rm = FALSE,
                            colour_x = NULL, colour_xend = NULL, size = NULL, linewidth = NULL, colour = NULL, ...) {
   layer(
     data = data,
     mapping = mapping,
     stat = "identity",
-    geom = GeomCleveland,
+    geom = GeomDumbbell,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
@@ -51,12 +51,12 @@ geom_cleveland <- function(data = NULL, mapping = NULL, show.legend = NA, inheri
   )
 }
 
-#' geom_cleveland proto
+#' geom_dumbell proto
 #' @rdname OCgeom
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomCleveland <- ggproto("GeomCleveland", Geom,
+GeomDumbbell <- ggproto("GeomDumbbell", Geom,
                          required_aes = c("x","xend","y"),
                          non_missing_aes = c("size","shape","colour_x","colour_xend","linewidth"),
                          default_aes = aes(shape = 19, colour = "black", linewidth = 1, size = 3, fill = NA, alpha = NA, stroke = 0.5),
