@@ -2,9 +2,12 @@ url: https://ericmshearer.github.io/OCepi/
 template:
   bootstrap: 5
   bslib:
-    base_font: {google: "Roboto"}
-    heading_font: {google: "Roboto"}
-    code_font: {google: "JetBrains Mono"}
+    base_font:
+      google: Roboto
+    heading_font:
+      google: Roboto
+    code_font:
+      google: JetBrains Mono
 articles:
 - title: Examples
   navbar: Examples
@@ -12,3 +15,4 @@ articles:
   - Data Cleaning
   - Date Conversions
   - Extending ggplot2
+
