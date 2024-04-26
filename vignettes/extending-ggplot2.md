@@ -71,12 +71,12 @@ increase readability. The simplest way to get the data from the last
 point in a time series is to put filtered data into `geom_text`:
 
 ``` r
-ggplot(data = ts, aes(x = date, y = scores, group = site, linetype = site)) +
-  geom_line(aes(colour=site), linewidth = 1) +
+ggplot(data = ts, aes(x = date, y = scores, group = site, linetype = site, colour = site)) +
+  geom_line(linewidth = 1) +
   scale_x_date(breaks = ts$date, date_labels = "%b\n%Y") +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
   theme_apollo(direction = "vertical") +
-  scale_colour_manual(values = c(A="blue",B="red")) +
+  scale_colour_manual(values = c(A = "blue", B = "red")) +
   apollo_label(data = end_points(ts, date), aes(label = site), hjust = 0) +
     labs(
     title = "Title Goes Here",

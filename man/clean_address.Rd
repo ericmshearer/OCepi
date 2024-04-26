@@ -9,13 +9,13 @@ clean_address(address_var, keep_extra = TRUE)
 \arguments{
 \item{address_var}{Address variable.}
 
-\item{keep_extra}{Boolean TRUE/FALSE. Option to keep/remove extra address components (e.g. Apartment, Unit, Space).}
+\item{keep_extra}{Defaults to TRUE. Option to keep/remove extra address components (e.g. Apartment, Unit, Space).}
 }
 \value{
-Cleaned up address in character format.
+Address as character.
 }
 \description{
-Recode common address issues such as cardinal directions and street names, and removes extra location information such as unit or apartment number. Improves results during batch geocoding or matching to other datasets.
+Recode common address issues such as cardinal directions and street names, and removes extra location information such as unit or apartment number.
 }
 \examples{
 x = "1234 N Main St Apt 405"

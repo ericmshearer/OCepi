@@ -13,13 +13,6 @@
 #' @return The result of calling `rhs(lhs)`
 NULL
 
-#' MMWR Year Start
-#'
-#' @param year Year
-#' @keywords internal
-#' @export
-#'
-#' @return Day one of week one following MMWR schema
 year_start <- function(year){
   greg = as.Date("0001-01-01")
 
@@ -33,16 +26,6 @@ year_start <- function(year){
   return(as.Date(week1_start_ordinal, origin = "0001-01-01"))
 }
 
-#' Retain class with ifelse inside a function
-#'
-#' @param cond Condition to test
-#' @param yes Returned output if true
-#' @param no Returned output if false
-#'
-#' @keywords internal
-#' @export
-#'
-#' @return Tested condition while retaining original class.
 safe.ifelse <- function(cond, yes, no){
   class.y <- class(yes)
   X <- ifelse(cond, yes, no)
@@ -50,13 +33,6 @@ safe.ifelse <- function(cond, yes, no){
   return(X)
 }
 
-#' Invert Mapping
-#'
-#' @param map List.
-#' @keywords internal
-#' @export
-#'
-#' @return Inverted list/mapping.
 invert_map <- function(map) {
   items <- as.character(unlist(map))
   out <- unlist(Map(rep, names(map), sapply(map, length)))
@@ -64,11 +40,8 @@ invert_map <- function(map) {
   return(out)
 }
 
-#' Simulated outbreak data
-#'
-#' @name linelist
-#' @docType data
-#' @keywords data
-NULL
-
 "%||%" <- function(a, b) if (!is.null(a)) a else b
+
+get_geom_type <- function(plot){
+  tolower(gsub("Geom", "", sapply(plot$layers, function(x) class(x$geom)[1])))
+}

@@ -242,16 +242,6 @@ baby_name("twin A")
 
 ## Data.frames
 
-`batch_load` imports all .CSV files from a directory into unified
-data.frame (assumes files have matching columns). Specify if your files
-have `col_names`.
-
-``` r
-files <- list.files(path = "G:/file_path/", full.names = TRUE, pattern = ".csv")
-
-df <- batch_load(files, col_names = TRUE)
-```
-
 `remove_empty_cols` drops all columns from data.frame that are blank
 (represented by `NA` or ““)
 

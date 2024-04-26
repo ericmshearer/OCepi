@@ -42,9 +42,7 @@ geom_lollipop <- function(data = NULL, mapping = NULL, show.legend = NA, inherit
 }
 
 #' geom_lollipop proto
-#' @rdname OCgeom
-#' @format NULL
-#' @usage NULL
+#' @rdname geom_lollipop
 #' @export
 GeomLollipop <- ggproto("GeomLollipop", Geom,
                         required_aes = c("x","y"),

@@ -1,11 +1,11 @@
 #' Clean patient/record address
 #'
-#' Recode common address issues such as cardinal directions and street names, and removes extra location information such as unit or apartment number. Improves results during batch geocoding or matching to other datasets.
+#' Recode common address issues such as cardinal directions and street names, and removes extra location information such as unit or apartment number.
 #'
 #' @param address_var Address variable.
-#' @param keep_extra Boolean TRUE/FALSE. Option to keep/remove extra address components (e.g. Apartment, Unit, Space).
+#' @param keep_extra Defaults to TRUE. Option to keep/remove extra address components (e.g. Apartment, Unit, Space).
 #'
-#' @return Cleaned up address in character format.
+#' @return Address as character.
 #' @export
 #'
 #' @examples

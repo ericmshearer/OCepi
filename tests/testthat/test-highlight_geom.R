@@ -55,7 +55,7 @@ test_that("check point aes", {
     highlight_geom(loc=="a", pal = "#d55c19", alpha = 0.5, size = 3)
 
   expect_equal(
-    p$layers[[2]]$aes_params$alpha,
+    p$layers[[1]]$aes_params$alpha,
     0.5
   )
   expect_equal(

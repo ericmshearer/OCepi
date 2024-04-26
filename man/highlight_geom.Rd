@@ -2,6 +2,7 @@
 % Please edit documentation in R/highlight_geom.R
 \name{highlight_geom}
 \alias{highlight_geom}
+\alias{ggplot_add.highlight}
 \title{Highlight Geom Using Expression}
 \usage{
 highlight_geom(expr, pal, size = 3, alpha = 1, linewidth = 1.5)
@@ -13,7 +14,7 @@ highlight_geom(expr, pal, size = 3, alpha = 1, linewidth = 1.5)
 
 \item{size}{Point size if using geom_point}
 
-\item{alpha}{Alpha if using geom_point}
+\item{alpha}{Alpha for transparency}
 
 \item{linewidth}{Linewidth if using geom_line}
 }

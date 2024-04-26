@@ -5,7 +5,7 @@
 #' @param expr Expression
 #' @param pal color for highlighted geom
 #' @param size Point size if using geom_point
-#' @param alpha Alpha if using geom_point
+#' @param alpha Alpha for transparency
 #' @param linewidth Linewidth if using geom_line
 #'
 #' @return ggplot2 with highlighted layer
@@ -31,17 +31,16 @@ highlight_geom <- function(expr, pal, size = 3, alpha = 1, linewidth = 1.5) {
 }
 
 #' ggplot_add.highlight
-#' @rdname OCgeom
-#' @format NULL
+#' @rdname highlight_geom
 #' @usage NULL
 #' @export
 #' @import dplyr
 ggplot_add.highlight <- function(object, plot, object_name) {
-  geom_type <- tolower(gsub("Geom", "", sapply(plot$layers, function(x) class(x$geom)[1])))
+  geom_type <- get_geom_type(plot)
 
   if(!inherits(plot$facet, "FacetNull")){
 
-    if(class(plot$facet)[1]=="FacetWrap"){
+    if(class(plot$facet)[1] == "FacetWrap"){
       facet_on = unname(sapply(plot$facet$params[1]$facets, rlang::quo_text))
     } else {
       facet_on = unname(sapply(plot$facet$params$cols, rlang::quo_text))
@@ -49,10 +48,10 @@ ggplot_add.highlight <- function(object, plot, object_name) {
 
     new_data <- plot$data %>%
       dplyr::group_by_at(facet_on) %>%
-      dplyr::filter(!! object$expr) %>%
+      dplyr::filter(!!object$expr) %>%
       dplyr::ungroup()
   } else {
-    new_data <- dplyr::filter(plot$data, !! object$expr)
+    new_data <- dplyr::filter(plot$data, !!object$expr)
   }
 
   cloned_layer <- layer(
@@ -69,13 +68,13 @@ ggplot_add.highlight <- function(object, plot, object_name) {
   #original
   plot$layers[[1]]$aes_params$colour = "#cccccc"
   plot$layers[[1]]$aes_params$fill = "#cccccc"
+  plot$layers[[1]]$aes_params$alpha = object$alpha
 
-  if(geom_type=="point"){
+  if(geom_type == "point"){
     cloned_layer$aes_params$size = object$size
-    cloned_layer$aes_params$alpha = object$alpha
   }
 
-  if(geom_type=="line"){
+  if(geom_type == "line"){
     cloned_layer$aes_params$linewidth = object$linewidth
   }
 

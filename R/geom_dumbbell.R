@@ -52,9 +52,7 @@ geom_dumbbell <- function(data = NULL, mapping = NULL, show.legend = NA, inherit
 }
 
 #' geom_dumbell proto
-#' @rdname OCgeom
-#' @format NULL
-#' @usage NULL
+#' @rdname geom_dumbbell
 #' @export
 GeomDumbbell <- ggproto("GeomDumbbell", Geom,
                          required_aes = c("x","xend","y"),
