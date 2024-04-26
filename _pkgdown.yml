@@ -5,3 +5,10 @@ template:
     base_font: {google: "Roboto"}
     heading_font: {google: "Roboto"}
     code_font: {google: "JetBrains Mono"}
+articles:
+- title: Examples
+  navbar: Examples
+  contents:
+  - Data Cleaning
+  - Date Conversions
+  - Extending ggplot2
