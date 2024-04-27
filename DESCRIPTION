@@ -21,6 +21,5 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     tidyr
-Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://ericmshearer.github.io/OCepi/
+Config/testthat/edition: 3

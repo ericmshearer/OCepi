@@ -2,8 +2,11 @@ Data Cleaning
 ================
 
 - [Recoding](#recoding)
-- [Misc Recoding](#misc-recoding)
-- [VRBIS](#vrbis)
+  - [Core Functions:](#core-functions)
+  - [Addresses](#addresses)
+  - [Phone Numbers](#phone-numbers)
+  - [Census Tracts](#census-tracts)
+  - [VRBIS](#vrbis)
 - [Data Masking](#data-masking)
   - [Suppression](#suppression)
   - [Redaction](#redaction)
@@ -12,13 +15,9 @@ Data Cleaning
 - [Data Management](#data-management)
   - [Data.frames](#dataframes)
 
-The functions in this package were designed to simplify the most
-frequent recoding tasks. Patient data is *messy*, often times requiring:
-converting abbreviations to full responses, coalescing race and
-ethnicity to a unified column, reformatting columns to use in
-joins/matching, or grouping patients into time.
-
-The examples below will use simulated outbreak data:
+The functions in this package were designed to simplify and standardize
+the most frequent recoding tasks. The examples below will use simulated
+outbreak data:
 
     #> # A tibble: 10 × 6
     #>    Ethnicity              Race       Gender   Age SexualOrientation SpecimenDate
@@ -34,15 +33,15 @@ The examples below will use simulated outbreak data:
     #>  9 Hispanic or Latino     American … F         41 HET               2022-06-12  
     #> 10 Non-Hispanic or Latino Black or … M         56 HET               2022-06-10
 
-## Recoding
+# Recoding
 
-Core Functions:
+## Core Functions:
 
 - `recode_race` - able to accept: ethnicity and race, race only, LOINC
   codes, and ‘Multi-race Status’ variable from VRBIS.
 
-  - Use argument `abbr_names` to abbreviate long category names
-    i.e. “American Indian or Alaska Native” to “AI/AN” (TRUE/FALSE).
+  - Set `abbr_names` to TRUE to abbreviate long category names
+    i.e. “American Indian or Alaska Native” to “AI/AN”.
 
   - If using ethnicity and race, use order
     `recode_race(ethnicity, race)`.
@@ -106,32 +105,58 @@ linelist %>%
 #> 5 65+          29   27.6    1.4
 ```
 
-## Misc Recoding
+## Addresses
 
-There are several minor recoding functions available:
+Our best attempt to standardize and clean addresses is through
+`clean_address`. This function will: convert characters to title casing,
+recode abbreviated cardinal directions, and recode abbreviated street
+endings (i.e. Street, Circle, Plaza). On occasion there is a need to
+drop additional address data (i.e. Apartment, Unit), which can be done
+using `keep_extra`.
 
-- `recode_ctract` - removes state (##) and county fips code (###) from
-  census tract
-- `clean_phone` - reformat phone number to U.S. 10 digit number
-- `clean_address` - convert string to title casing; use argument
-  `keep_extra` to remove(FALSE)/keep(TRUE) apartment, unit, etc.
-- `pretty_words` - convert string to title casing
+``` r
+cases <- data.frame(
+  Address = c("1234 Main Street Apt 204","501 N Capital St","233 W Green Plz Unit 3")
+)
+
+cases %>%
+  mutate(
+    Address_clean = clean_address(Address, keep_extra = TRUE)
+    )
+#>                    Address                  Address_clean
+#> 1 1234 Main Street Apt 204 1234 Main Street Apartment 204
+#> 2         501 N Capital St       501 North Capital Street
+#> 3   233 W Green Plz Unit 3    233 West Green Plaza Unit 3
+```
+
+## Phone Numbers
+
+We also attempt to standardize phone number to a 10 digit U.S. format.
+If after removing country code and symbols, and length is not 10
+characters, returned value is NA.
+
+``` r
+cases <- data.frame(
+  HomePhone = c("1-714-777-1234","(949) 555-1234","+442071539000")
+)
+
+cases %>%
+  mutate(HomePhone_clean = clean_phone(HomePhone))
+#>        HomePhone HomePhone_clean
+#> 1 1-714-777-1234      7147771234
+#> 2 (949) 555-1234      9495551234
+#> 3  +442071539000            <NA>
+```
+
+## Census Tracts
+
+Census tract across datasets are not always the same - some contain
+state and county fips codes, some do not. To make them match, use
+`recode_ctract` to remove state and county fips code.
 
 ``` r
 recode_ctract("06059099244")
 #> [1] "099244"
-
-clean_phone("(714) 998-8172")
-#> [1] "7149988172"
-
-clean_address("1234 Main Street Apt 204", keep_extra = TRUE)
-#> [1] "1234 Main Street Apartment 204"
-
-clean_address("1234 Main Street Apt 204", keep_extra = FALSE)
-#> [1] "1234 Main Street"
-
-pretty_words("MeSsY dAtA gIvEs Me A hEaDaChe")
-#> [1] "Messy Data Gives Me A Headache"
 ```
 
 ## VRBIS
