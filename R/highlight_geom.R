@@ -6,7 +6,7 @@
 #' @param pal color for highlighted geom
 #' @param size Point size if using geom_point
 #' @param alpha Alpha for transparency
-#' @param linewidth Linewidth if using geom_line
+#' @param linewidth Linewidth if using geom_line or geom_sf
 #'
 #' @return ggplot2 with highlighted layer
 #' @export
@@ -38,13 +38,10 @@ highlight_geom <- function(expr, pal, size = 3, alpha = 1, linewidth = 1.5) {
 ggplot_add.highlight <- function(object, plot, object_name) {
   geom_type <- get_geom_type(plot)
 
-  if(!inherits(plot$facet, "FacetNull")){
+  cloned_layer <- clone_layer(plot$layers[[1]])
 
-    if(class(plot$facet)[1] == "FacetWrap"){
-      facet_on = unname(sapply(plot$facet$params[1]$facets, rlang::quo_text))
-    } else {
-      facet_on = unname(sapply(plot$facet$params$cols, rlang::quo_text))
-    }
+  if(!inherits(plot$facet, "FacetNull")){
+    facet_on = which_facet(plot)
 
     new_data <- plot$data %>%
       dplyr::group_by_at(facet_on) %>%
@@ -54,27 +51,28 @@ ggplot_add.highlight <- function(object, plot, object_name) {
     new_data <- dplyr::filter(plot$data, !!object$expr)
   }
 
-  cloned_layer <- layer(
-    data = new_data,
-    geom = geom_type,
-    stat = "identity",
-    position = "identity",
-    inherit.aes = TRUE
-  )
-
+  #highlight layer
+  cloned_layer$data <- new_data
   cloned_layer$aes_params$fill = object$color
   cloned_layer$aes_params$colour = object$color
-
-  #original
-  plot$layers[[1]]$aes_params$colour = "#cccccc"
-  plot$layers[[1]]$aes_params$fill = "#cccccc"
-  plot$layers[[1]]$aes_params$alpha = object$alpha
 
   if(geom_type == "point"){
     cloned_layer$aes_params$size = object$size
   }
 
   if(geom_type == "line"){
+    cloned_layer$aes_params$linewidth = object$linewidth
+  }
+
+  #faded layer
+  plot$layers[[1]]$aes_params$colour = "#cccccc"
+  plot$layers[[1]]$aes_params$fill = "#cccccc"
+  plot$layers[[1]]$aes_params$alpha = object$alpha
+
+  if(geom_type == "sf"){
+    plot$layers[[1]]$aes_params$fill = NULL
+    plot$layers[[1]]$aes_params$colour = NULL
+    cloned_layer$aes_params$colour = "#000000"
     cloned_layer$aes_params$linewidth = object$linewidth
   }
 

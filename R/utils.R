@@ -43,5 +43,36 @@ invert_map <- function(map) {
 "%||%" <- function(a, b) if (!is.null(a)) a else b
 
 get_geom_type <- function(plot){
-  tolower(gsub("Geom", "", sapply(plot$layers, function(x) class(x$geom)[1])))
+  type = tolower(gsub("Geom", "", sapply(plot$layers, function(x) class(x$geom)[1])))
+  type = type[!type %in% c("text","label")]
+  return(type)
+  }
+
+clone_layer <- function(layer){
+  new_layer <- rlang::env_clone(layer)
+  class(new_layer) <- class(layer)
+  new_layer
+}
+
+which_facet <- function(plot){
+  if(class(plot$facet)[1] == "FacetWrap"){
+    out = unname(sapply(plot$facet$params[1]$facets, rlang::quo_text))
+  } else {
+    out = unname(sapply(plot$facet$params$cols, rlang::quo_text))
+  }
+  return(out)
+}
+
+lighten_color <- function(color = NULL, amount = 0.5) {
+  if(length(color) < 7 | substr(color,1,1)!="#"){
+    stop("Invalid color input. Please review hex code.")
+  }
+  rgb_color <- grDevices::col2rgb(color)
+
+  new_red <- rgb_color[1] + (255 - rgb_color[1]) * amount
+  new_green <- rgb_color[2] + (255 - rgb_color[2]) * amount
+  new_blue <- rgb_color[3] + (255 - rgb_color[3]) * amount
+
+  new_color <- grDevices::rgb(new_red, new_green, new_blue, maxColorValue = 255)
+  return(new_color)
 }

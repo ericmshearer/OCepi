@@ -1,0 +1,52 @@
+url: https://ericmshearer.github.io/OCepi/
+template:
+  bootstrap: 5
+  theme: arrow-light
+  bslib: ~
+  base_font:
+    google: Roboto
+  heading_font:
+    google: Roboto
+  code_font:
+    google: JetBrains Mono
+reference:
+- title: Cleaning data
+- subtitle: Recoding
+  contents:
+  - contains("recode_")
+  - age_groups
+  - contains("clean_")
+  - contains("vrbis_")
+  - baby_name
+  - pretty_words
+- title: Data Visualization
+  desc: |
+    Several team approaches to extend ggplot2.
+  contents:
+  - theme_apollo
+  - apollo_label
+  - wrap_labels
+  - cdcd_color
+  - geom_dumbbell
+  - geom_lollipop
+  - contains("highlight_")
+- title: Dates
+  desc: |
+    Common date conversions following but not limited toMMWR schema.
+  contents:
+  - week_ending_date
+  - contains("mmwr")
+  - total_weeks
+  - to_month
+  - time_between
+  - assign_season
+  - end_points
+- title: Misc. Helpers
+  contents:
+  - suppress
+  - hiv_redact
+  - remove_empty_cols
+  - rate_per_100k
+  - add_percent
+  - n_percent
+

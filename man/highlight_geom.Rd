@@ -16,7 +16,7 @@ highlight_geom(expr, pal, size = 3, alpha = 1, linewidth = 1.5)
 
 \item{alpha}{Alpha for transparency}
 
-\item{linewidth}{Linewidth if using geom_line}
+\item{linewidth}{Linewidth if using geom_line or geom_sf}
 }
 \value{
 ggplot2 with highlighted layer

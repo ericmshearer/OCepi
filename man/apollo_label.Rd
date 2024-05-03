@@ -4,10 +4,14 @@
 \alias{apollo_label}
 \title{Apollo Label}
 \usage{
-apollo_label(...)
+apollo_label(..., size = 4.5, color = "#231f20")
 }
 \arguments{
 \item{...}{Other arguments available from geom_text.}
+
+\item{size}{Font size, preset to 4.5}
+
+\item{color}{Font color, preset to #231f20}
 }
 \value{
 Standard label for plots.

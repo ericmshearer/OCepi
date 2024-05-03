@@ -110,6 +110,8 @@ theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, le
 #' bar plot vjust = -0.3
 #' horizontal bar plot hjust = -0.5.
 #'
+#' @param size Font size, preset to 4.5
+#' @param color Font color, preset to #231f20
 #' @param ... Other arguments available from geom_text.
 #'
 #' @return Standard label for plots.
@@ -117,6 +119,6 @@ theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, le
 #' @export
 #'
 
-apollo_label <- function(...){
-  geom_text(size = 4.5, color = "#231f20", ...)
+apollo_label <- function(..., size = 4.5, color = "#231f20"){
+  geom_text(size = size, color = color, ...)
   }
