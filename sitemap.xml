@@ -1,144 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/articles/data-cleaning.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/articles/data-cleaning.html</loc>
   </url>
   <url>
-    <loc>/articles/date-conversions.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/articles/date-conversions.html</loc>
   </url>
   <url>
-    <loc>/articles/extending-ggplot2.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/articles/extending-ggplot2.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/articles/index.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/index.html</loc>
   </url>
   <url>
-    <loc>/reference/add_percent.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/add_percent.html</loc>
   </url>
   <url>
-    <loc>/reference/age_groups.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/age_groups.html</loc>
   </url>
   <url>
-    <loc>/reference/apollo_label.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/apollo_label.html</loc>
   </url>
   <url>
-    <loc>/reference/assign_season.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/assign_season.html</loc>
   </url>
   <url>
-    <loc>/reference/baby_name.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/baby_name.html</loc>
   </url>
   <url>
-    <loc>/reference/cdcd_color.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/cdcd_color.html</loc>
   </url>
   <url>
-    <loc>/reference/clean_address.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/clean_address.html</loc>
   </url>
   <url>
-    <loc>/reference/clean_phone.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/clean_phone.html</loc>
   </url>
   <url>
-    <loc>/reference/end_points.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/end_points.html</loc>
   </url>
   <url>
-    <loc>/reference/geom_dumbbell.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/geom_dumbbell.html</loc>
   </url>
   <url>
-    <loc>/reference/geom_lollipop.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/geom_lollipop.html</loc>
   </url>
   <url>
-    <loc>/reference/highlight_geom.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/highlight_geom.html</loc>
   </url>
   <url>
-    <loc>/reference/highlight_title.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/highlight_title.html</loc>
   </url>
   <url>
-    <loc>/reference/hiv_redact.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/hiv_redact.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/mmwr_calendar.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/mmwr_calendar.html</loc>
   </url>
   <url>
-    <loc>/reference/mmwr_week.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/mmwr_week.html</loc>
   </url>
   <url>
-    <loc>/reference/mmwr_year.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/mmwr_year.html</loc>
   </url>
   <url>
-    <loc>/reference/mmwrweek_to_date.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/mmwrweek_to_date.html</loc>
   </url>
   <url>
-    <loc>/reference/n_percent.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/n_percent.html</loc>
   </url>
   <url>
-    <loc>/reference/pipe.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>/reference/pretty_words.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/pretty_words.html</loc>
   </url>
   <url>
-    <loc>/reference/rate_per_100k.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/rate_per_100k.html</loc>
   </url>
   <url>
-    <loc>/reference/recode_ctract.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/recode_ctract.html</loc>
   </url>
   <url>
-    <loc>/reference/recode_gender.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/recode_gender.html</loc>
   </url>
   <url>
-    <loc>/reference/recode_orientation.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/recode_orientation.html</loc>
   </url>
   <url>
-    <loc>/reference/recode_race.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/recode_race.html</loc>
   </url>
   <url>
-    <loc>/reference/remove_empty_cols.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/remove_empty_cols.html</loc>
   </url>
   <url>
-    <loc>/reference/suppress.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/suppress.html</loc>
   </url>
   <url>
-    <loc>/reference/theme_apollo.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/theme_apollo.html</loc>
   </url>
   <url>
-    <loc>/reference/time_between.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/time_between.html</loc>
   </url>
   <url>
-    <loc>/reference/to_month.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/to_month.html</loc>
   </url>
   <url>
-    <loc>/reference/total_weeks.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/total_weeks.html</loc>
   </url>
   <url>
-    <loc>/reference/vrbis_manner_death.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/vrbis_manner_death.html</loc>
   </url>
   <url>
-    <loc>/reference/vrbis_place_death.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/vrbis_place_death.html</loc>
   </url>
   <url>
-    <loc>/reference/vrbis_resident.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/vrbis_resident.html</loc>
   </url>
   <url>
-    <loc>/reference/week_ending_date.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/week_ending_date.html</loc>
   </url>
   <url>
-    <loc>/reference/wrap_labels.html</loc>
+    <loc>https://ericmshearer.github.io/OCepi/reference/wrap_labels.html</loc>
   </url>
 </urlset>
