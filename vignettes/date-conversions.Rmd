@@ -1,0 +1,217 @@
+---
+title: "Date Conversions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{date-conversions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(OCepi)
+library(dplyr)
+
+linelist <- "Ethnicity,Race,Gender,Age,SexualOrientation,SpecimenDate
+Non-Hispanic or Latino,Multiple Races,M,46,HET,6/7/2022
+Unknown,Unknown,M,4,HET,6/9/2022
+Non-Hispanic or Latino,White,F,52,UNK,6/7/2022
+Non-Hispanic or Latino,White,F,77,UNK,6/11/2022
+Unknown,American Indian or Alaska Native,M,71,HET,6/10/2022
+Non-Hispanic or Latino,Other,M,70,HET,6/9/2022
+Non-Hispanic or Latino,Black or African American,F,11,HET,6/8/2022
+Non-Hispanic or Latino,Black or African American,F,8,HET,6/12/2022
+Hispanic or Latino,American Indian or Alaska Native,F,41,HET,6/12/2022
+Non-Hispanic or Latino,Black or African American,M,56,HET,6/10/2022
+Non-Hispanic or Latino,American Indian or Alaska Native,F,40,HET,6/14/2022
+Non-Hispanic or Latino,Black or African American,M,1,HET,6/8/2022
+Non-Hispanic or Latino,Other,F,60,HET,6/7/2022
+Hispanic or Latino,American Indian or Alaska Native,F,22,HET,6/10/2022
+Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,84,HET,6/6/2022
+Non-Hispanic or Latino,Unknown,F,16,HET,6/13/2022
+Hispanic or Latino,White,M,46,HET,6/7/2022
+Non-Hispanic or Latino,Unknown,U,6,HET,6/13/2022
+Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,73,HET,6/8/2022
+Non-Hispanic or Latino,Black or African American,F,81,HET,6/8/2022
+Non-Hispanic or Latino,Black or African American,M,51,DNK,6/4/2022
+Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,2,HET,6/11/2022
+Non-Hispanic or Latino,Other,M,18,HET,6/7/2022
+Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,25,HET,6/15/2022
+Non-Hispanic or Latino,White,U,7,HET,6/7/2022
+Non-Hispanic or Latino,Other,F,35,HET,6/7/2022
+Non-Hispanic or Latino,Other,F,67,HET,6/10/2022
+Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,60,HET,6/10/2022
+Hispanic or Latino,Asian,U,62,UNK,6/6/2022
+Non-Hispanic or Latino,Other,F,61,HET,6/4/2022
+Non-Hispanic or Latino,Other,F,71,HET,6/5/2022
+Non-Hispanic or Latino,White,F,5,HET,6/7/2022
+Non-Hispanic or Latino,American Indian or Alaska Native,F,27,HET,6/11/2022
+Unknown,Native Hawaiian or Other Pacific Islander,M,13,HET,6/7/2022
+Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,42,HET,6/13/2022
+Hispanic or Latino,White,U,34,HET,6/11/2022
+Non-Hispanic or Latino,White,M,32,HET,6/12/2022
+Non-Hispanic or Latino,Black or African American,F,9,HET,6/4/2022
+Non-Hispanic or Latino,White,D,55,HET,6/9/2022
+Non-Hispanic or Latino,Black or African American,M,33,HET,6/10/2022
+Non-Hispanic or Latino,American Indian or Alaska Native,U,87,UNK,6/10/2022
+Non-Hispanic or Latino,White,F,86,DNK,6/10/2022
+Non-Hispanic or Latino,Asian,F,20,HET,6/9/2022
+Non-Hispanic or Latino,White,U,24,DNK,6/8/2022
+Hispanic or Latino,American Indian or Alaska Native,U,45,UNK,6/11/2022
+Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,58,HET,6/13/2022
+Hispanic or Latino,White,F,89,HET,6/13/2022
+Hispanic or Latino,Asian,M,48,HET,6/11/2022
+Non-Hispanic or Latino,Other,M,42,HET,6/13/2022
+Non-Hispanic or Latino,White,F,56,HET,6/9/2022
+Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,1,HET,6/9/2022
+Non-Hispanic or Latino,Black or African American,M,25,HET,6/7/2022
+Non-Hispanic or Latino,Asian,F,58,UNK,6/9/2022
+Non-Hispanic or Latino,White,F,39,DNK,6/7/2022
+Non-Hispanic or Latino,Asian,M,38,HET,6/14/2022
+Non-Hispanic or Latino,Multiple Races,M,58,HET,6/12/2022
+Non-Hispanic or Latino,Black or African American,F,12,HET,6/15/2022
+Non-Hispanic or Latino,American Indian or Alaska Native,M,40,HET,6/8/2022
+Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,52,HET,6/9/2022
+Non-Hispanic or Latino,Multiple Races,F,10,HET,6/12/2022
+Non-Hispanic or Latino,Black or African American,M,29,HET,6/10/2022
+Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,15,HET,6/9/2022
+Non-Hispanic or Latino,American Indian or Alaska Native,F,22,HET,6/5/2022
+Hispanic or Latino,American Indian or Alaska Native,F,75,HET,6/11/2022
+Unknown,White,F,85,HET,6/12/2022
+Non-Hispanic or Latino,American Indian or Alaska Native,F,72,HET,6/16/2022
+Non-Hispanic or Latino,American Indian or Alaska Native,U,14,HET,6/18/2022
+Non-Hispanic or Latino,Asian,F,80,HET,6/12/2022
+Hispanic or Latino,Asian,F,32,HET,6/13/2022
+Non-Hispanic or Latino,Asian,M,75,HET,6/10/2022
+Non-Hispanic or Latino,Unknown,D,71,HOM,6/11/2022
+Non-Hispanic or Latino,Black or African American,D,17,HET,6/9/2022
+Non-Hispanic or Latino,Other,F,46,HET,6/7/2022
+Non-Hispanic or Latino,Other,M,83,UNK,6/9/2022
+Non-Hispanic or Latino,Asian,M,79,HET,6/8/2022
+Non-Hispanic or Latino,Unknown,M,20,HET,6/11/2022
+Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,61,HET,6/9/2022
+Non-Hispanic or Latino,Black or African American,M,32,HET,6/10/2022
+Non-Hispanic or Latino,White,F,50,HET,6/14/2022
+Hispanic or Latino,Unknown,D,85,HOM,6/13/2022
+Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,4,HET,6/9/2022
+Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,59,HET,6/8/2022
+Unknown,Black or African American,M,75,HET,6/9/2022
+Non-Hispanic or Latino,Multiple Races,M,45,HET,6/13/2022
+Non-Hispanic or Latino,Black or African American,U,56,HET,6/9/2022
+Non-Hispanic or Latino,Other,F,36,HET,6/11/2022
+Non-Hispanic or Latino,American Indian or Alaska Native,M,79,HET,6/6/2022
+Hispanic or Latino,American Indian or Alaska Native,M,88,HET,6/9/2022
+Hispanic or Latino,Other,F,82,HET,6/16/2022
+Non-Hispanic or Latino,Black or African American,F,7,HET,6/8/2022
+Non-Hispanic or Latino,Unknown,D,26,HET,6/11/2022
+Non-Hispanic or Latino,Multiple Races,F,75,DNK,6/11/2022
+Unknown,Other,D,8,HET,6/8/2022
+Non-Hispanic or Latino,Unknown,M,77,HET,6/15/2022
+Non-Hispanic or Latino,American Indian or Alaska Native,M,14,HET,6/14/2022
+Non-Hispanic or Latino,Other,F,71,HOM,6/8/2022
+Non-Hispanic or Latino,Other,F,23,HET,6/10/2022
+Non-Hispanic or Latino,White,F,16,HET,6/6/2022
+Non-Hispanic or Latino,Asian,F,43,BIS,6/9/2022
+Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,74,HET,6/8/2022
+Unknown,White,M,70,HET,6/14/2022
+Non-Hispanic or Latino,Multiple Races,M,39,HET,6/10/2022
+Non-Hispanic or Latino,Unknown,F,31,HET,6/14/2022
+Hispanic or Latino,Asian,M,38,HET,6/9/2022
+Non-Hispanic or Latino,Other,F,31,HET,6/8/2022"
+
+header.true <- function(df){
+  names(df) <- as.character(unlist(df[1,]))
+  df[-1,]
+}
+
+linelist <- dplyr::as_tibble(linelist) %>%
+  tidyr::separate_rows(value, sep = "\n") %>%
+  tidyr::separate_wider_delim(value, delim = ",", names = paste0("V",1:6))
+linelist <- header.true(linelist)
+linelist$Age <- as.numeric(linelist$Age)
+linelist$SpecimenDate <- as.Date(linelist$SpecimenDate, "%m/%d/%Y")
+```
+
+## MMWR
+
+Core Functions:
+
+-   `mmwr_year` - calculate epidemiological year
+-   `mmwr_week` - calculate epidemiological week (or disease week)
+-   `week_ending_date` - calculate Saturday of disease week
+-   `mmwr_calendar` - returns data.frame with columns for disease week, week start and end date, for a given epidemiological year
+-   `mmwrweek_to_date` - calculate week ending date from epidemiological year and week
+
+```{r mmwr-forward, message = FALSE, warning = FALSE}
+dates <- linelist %>%
+  select(SpecimenDate) %>%
+  mutate(SpecimenDate = as.Date(SpecimenDate, format = "%m/%d/%Y")) %>%
+  arrange(SpecimenDate) %>%
+  mutate(
+    epi_year = mmwr_year(SpecimenDate),
+    disease_week = mmwr_week(SpecimenDate),
+    week_ending = week_ending_date(SpecimenDate)
+  )
+
+head(dates)
+```
+
+Convert epidemiological year and week to week ending date:
+
+```{r mmwr-reverse}
+dates <- dates %>%
+  select(epi_year, disease_week) %>%
+  mutate(
+    week_ending = mmwrweek_to_date(epi_year, disease_week)
+  )
+
+head(dates)
+```
+
+To make `mmwr_calendar` with total disease weeks + start/end dates:
+
+```{r mmwr-cal, message = FALSE, warning = FALSE}
+mmwr_calendar(2023) %>%
+  head(20)
+```
+
+## Respiratory Season
+
+For epidemiologists working viral respiratory surveillance, patients/laboratory results can also be categorized by season. Season in this context spans week 40 of current year to week 39 of following year.
+
+```{r resp-season, message = FALSE, warning = FALSE}
+df <- data.frame(spec_date = as.Date(c("2023-10-01","2023-11-04","2024-09-28","2024-09-29")))
+
+df %>% mutate(season = assign_season(spec_date))
+```
+
+## Month
+
+An alternative to grouping cases at the year or week level is by month. Returned output is a date formatted YYYY-MM-01.
+
+```{r month, message = FALSE, warning = FALSE}
+df <- data.frame(spec_date = as.Date(c("2023-10-01","2023-11-04","2024-09-28","2024-09-29")))
+
+df %>% mutate(month = to_month(spec_date))
+```
+
+## Time Between Dates
+
+`time_between` calculates the time elapsed between two dates in the following units: days, weeks, months and years. Value is always rounded down to account for complete elapsed time. Note: order of dates does not necessarily matter, but beware of sign.
+
+```{r}
+episode_date = as.Date("2020-04-01")
+death_date = as.Date("2020-05-15")
+
+time_between(death_date, episode_date, unit = "days")
+time_between(episode_date, death_date, unit = "days")
+
+dob = as.Date("1986-04-01")
+vaccine_date = as.Date("2023-05-15")
+
+time_between(vaccine_date, dob, unit = "years")
+time_between(dob, vaccine_date, unit = "years")
+```

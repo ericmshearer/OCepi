@@ -1,0 +1,36 @@
+---
+output: github_document
+---
+
+```{r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(comment = "#>")
+```
+
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/ericmshearer/OCepi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ericmshearer/OCepi/actions/workflows/R-CMD-check.yaml) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) [![Codecov test coverage](https://codecov.io/gh/ericmshearer/OCepi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ericmshearer/OCepi?branch=main)
+<!-- badges: end -->
+
+# OCepi <img src="man/figures/hex_sticker.png" align="right" width="180"/>
+
+{OCepi} aims to provide a standardized approach to the mundane data wrangling tasks for public health epidemiologists. The functions included in this package can be broadly applied but were made specifically for epidemiologists at county and State agencies. This package addresses the following priorities:
+
+-   standardization of recoding demographic data, specifically: ethnicity/race, gender, sexual orientation, and age groups
+-   ggplot2 extensions to elevate data visualizations
+-   convert dates to weeks, months, and years following CDC MMWR schema
+
+## Installation
+
+For the latest development version:
+
+```{r install-dev, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("ericmshearer/OCepi")
+```
+
+## Contact
+
+Simplest ways to contact me:
+
+-   Questions/Feedback: [ericshearer\@me.com](mailto:ericshearer@me.com){.email}
+-   Issues/Bugs: <https://github.com/ericmshearer/OCepi/issues>
