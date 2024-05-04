@@ -10,9 +10,20 @@ template:
   code_font:
     google: JetBrains Mono
 navbar:
+  left:
+  - text: Functions
+    href: reference/index.html
+  - text: Examples
+    menu:
+    - text: Data Cleaning
+      href: articles/data-cleaning.html
+    - text: Date Conversions
+      href: articles/date-conversions.html
+    - text: Extending ggplot2
+      href: articles/extending-ggplot2.html
   right:
-    - icon: fa-github
-      href: https://github.com/ericmshearer/OCepi
+  - icon: fa-github
+    href: https://github.com/ericmshearer/OCepi
 reference:
 - title: Cleaning data
 - subtitle: Recoding
@@ -53,3 +64,4 @@ reference:
   - rate_per_100k
   - add_percent
   - n_percent
+
