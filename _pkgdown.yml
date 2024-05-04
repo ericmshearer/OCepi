@@ -9,6 +9,10 @@ template:
     google: Roboto
   code_font:
     google: JetBrains Mono
+navbar:
+  right:
+    - icon: fa-github
+      href: https://github.com/ericmshearer/OCepi
 reference:
 - title: Cleaning data
 - subtitle: Recoding
@@ -49,4 +53,3 @@ reference:
   - rate_per_100k
   - add_percent
   - n_percent
-
