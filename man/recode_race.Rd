@@ -17,7 +17,7 @@ recode_race(ethnicity_col, race_col, abbr_names = FALSE)
 Merged race/ethnicity variable.
 }
 \description{
-Simplify race/ethnicity patient data to one variable using CalREDIE, CAIR2, or VRBIS datasets. Hierarchy defaults to Hispanic/Latinx regardless of reported race. Function can handle one (e.g. CAIR2) or two inputs (e.g. CalREDIE). If using with VRBIS dataset, expected input is "Multi-status Race" column.
+Simplify race/ethnicity patient data to one variable using data from CalREDIE, CAIR2, VRBIS, or LOINC codes. Hierarchy defaults to Hispanic/Latinx regardless of reported race. Function can handle one (e.g. CAIR2) or two inputs (e.g. CalREDIE). If using with VRBIS dataset, expected input is "Multi-status Race" column.
 }
 \examples{
 recode_race("Hispanic","Black or African American")

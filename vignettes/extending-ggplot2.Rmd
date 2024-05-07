@@ -22,6 +22,11 @@ highlight <- data.frame(
   scores = c(89,62,74,88,89.5,82)
   )
 
+points <- data.frame(
+  x = sample(1:50, 50),
+  y = sample(1:50, 50)
+)
+
 cleveland <- data.frame(Country = c("UK-A","US-A","UK-B","US-B"), PRE = c(0,1,2,3), POST = c(4,5,6,7))
 
 re <- data.frame(group = c("Native Hawaiian or Other Pacific Islander","Black or African American","American Indian or Alaska Native"), score = c(89.5, 84, 73))
@@ -154,10 +159,10 @@ Core functions:
 
 -   `theme_apollo` - minimal, clean theme for plots
 -   `apollo_label` - labels that match branding aesthetic
--   `end_points` - subset data at last time series data point for labeling line plots
+-   `end_points` - subset at last time series data point
 -   `wrap_labels` - wrap long axis labels to better fit plot
--   `geom_dumbbell` - dumbbell-style plot
--   `geom_lollipop` - lollipop-style plot
+-   `geom_dumbbell` - dumbbell plot
+-   `geom_lollipop` - lollipop plot
 -   `highlight_geom` - highlight geom\_\* of interest based on expression
 
 ## theme_apollo & apollo_label
@@ -201,7 +206,7 @@ linelist %>%
 
 ## Get line plot label data
 
-In some cases, you may want to add labels at the end of a line plot to increase readability. The simplest way to get the data from the last point in a time series is to put filtered data into `geom_text`:
+For line plots with >1 group, it is recommended to direct label groups. For line plots, `end_points` will subset the data to the last date in a time series, even if data contains >1 group and those groups end at different dates (thank you Butte County for the suggestion).
 
 ```{r end-points, fig.height=7, fig.width=10}
 ggplot(data = ts, aes(x = date, y = scores, group = site, linetype = site, colour = site)) +
@@ -212,8 +217,7 @@ ggplot(data = ts, aes(x = date, y = scores, group = site, linetype = site, colou
   scale_colour_manual(values = c(A = "blue", B = "red")) +
   apollo_label(data = end_points(ts, date), aes(label = site), hjust = 0) +
     labs(
-    title = "Title Goes Here",
-    subtitle = "Subtitle Goes Here\n",
+    title = "Comparison of Treatment Groups Over Time\n",
     x = "Date",
     y = "Percentage (%)"
   )
@@ -231,8 +235,7 @@ ggplot(data = re, aes(x = group, y = score, label = score)) +
   theme_apollo(direction = "vertical") +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
   labs(
-    title = "Title Goes Here",
-    subtitle = "Subtitle Goes Here\n",
+    title = "Outcomes Across Select Race/Ethnicity\n",
     x = "Race/Ethnicity",
     y = "Percentage (%)"
   ) +
@@ -241,15 +244,14 @@ ggplot(data = re, aes(x = group, y = score, label = score)) +
 
 With wrapping:
 
-```{r wrap-label, fig.height=5, fig.height=8}
+```{r wrap-label, fig.height=8, fig.width=8}
 ggplot(data = re, aes(x = group, y = score, label = score)) +
   geom_col() +
   scale_x_discrete(labels = wrap_labels(width = 15)) +
   theme_apollo(direction = "vertical") +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
     labs(
-    title = "Title Goes Here",
-    subtitle = "Subtitle Goes Here\n",
+    title = "Outcomes Across Select Race/Ethnicity\n",
     x = "Race/Ethnicity",
     y = "Percentage (%)"
   ) +
@@ -269,7 +271,7 @@ ggplot(data = cleveland, aes(x = PRE, xend = POST, y = Country)) +
 
 ## Lollipop Plot
 
-Lollipop Plot is similar to Cleveland Dot Plot, but has only one point with a stem.
+Lollipop plot is similar to dumbbell plot, but has only one point with a stem.
 
 ```{r lollipop, fig.height=8, fig.width=10}
 ggplot(data = cleveland, aes(x = Country, y = POST, color = Country)) +
@@ -280,11 +282,17 @@ ggplot(data = cleveland, aes(x = Country, y = POST, color = Country)) +
 
 ## Highlight Group of Interest
 
-In plots with multiple categories, you may want to draw attention to a specific group - whether it's the highest/lowest value, a group of interest, etc. `highlight_geom` takes two arguments - an expression (similar to what you'd use in `dplyr::filter`), and a color for highlighting. There are additional arguments for points (`alpha`, `size`) and lines (`linewidth`).
+In plots with multiple categories, you may want to draw attention to a specific group - whether it's the highest/lowest value, a group of interest, etc. `highlight_geom` requires two main arguments - 1) an expression (similar to what you'd use in `dplyr::filter`), and 2) a color for highlighting. Although sensible defaults are built-in, the following arguments can be modified:
 
-The highlighting does work with facets, but this function should be considered experimental and to be used with caution. Currently works well with `geom_col`/`geom_bar`, `geom_line`, and `geom_point`.
+-   alpha: transparency
+-   linewidth: line thickness (`geom_line`, `geom_sf`)
+-   size: point size
 
-```{r highlight, fig.height=8, fig.width=10, warning=FALSE}
+The highlighting does work with `facet_wrap` and `facet_grid`. Currently works with `geom_col`/`geom_bar`, `geom_line`, `geom_sf`, and `geom_point`.
+
+#### Bar plot
+
+```{r highlight-bar, fig.height=8, fig.width=10, warning=FALSE}
 ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
   geom_col() +
   facet_wrap(~site) +
@@ -292,8 +300,34 @@ ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
   theme_apollo(direction = "vertical") +
   labs(
-    title = "Showcasing how highlight_geom() works\n",
-    caption = "Agency/Unit Name Goes Here."
+    title = "highlight_geom - bar plot\n"
   ) +
   apollo_label(vjust = -0.3)
+```
+
+#### Line plot
+
+```{r highlight-line, fig.height=8, fig.width=10, warning=FALSE}
+ggplot(data = ts, aes(x = date, y = scores, group = site, label = site)) +
+  geom_line(linewidth = 1) +
+  highlight_geom(site == "A", pal = "darkblue", linewidth = 1.5) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
+  theme_apollo(direction = "vertical") +
+  labs(
+    title = "highlight_geom - line plot\n"
+  ) +
+  apollo_label(data = end_points(ts, date), hjust = -0.3)
+```
+
+#### Point plot
+
+```{r highlight-point, fig.height=8, fig.width=10, warning=FALSE}
+ggplot(data = points, aes(x = x, y = y)) +
+  geom_point(size = 3) +
+  highlight_geom(y %in% c(20:25), pal = "darkred", size = 4) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,55)) +
+  theme_apollo(direction = "vertical") +
+  labs(
+    title = "highlight_geom - point plot\n"
+  )
 ```

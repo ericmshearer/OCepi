@@ -1,4 +1,13 @@
 url: https://ericmshearer.github.io/OCepi/
 template:
   bootstrap: 5
-
+  theme: arrow-light
+  bslib:
+    base_font: {google: "Roboto"}
+    heading_font: {google: "Roboto"}
+    code_font: {google: "JetBrains Mono"}
+navbar:
+  right:
+  - icon: fa-github
+    text: "github"
+    href: https://github.com/ericmshearer/OCepi

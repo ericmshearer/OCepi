@@ -148,7 +148,7 @@ head(linelist, 10)
 
 ## Core Functions:
 
--   `recode_race` - able to accept: ethnicity and race, race only, LOINC codes, and 'Multi-race Status' variable from VRBIS.
+-   `recode_race` - able to accept: ethnicity and race, race only, LOINC codes (thank you Monterey for suggestion), and 'Multi-race Status' variable from VRBIS.
 
     -   Set `abbr_names` to TRUE to abbreviate long category names i.e. "American Indian or Alaska Native" to "AI/AN".
 
@@ -272,7 +272,9 @@ df <- df %>%
 Small cell sizes may need to be suppressed to protect patient confidentiality prior to reporting. In this example, any cell sizes `less_than` 10 will be suppressed and `replace_with` double asterisk.
 
 ```{r suppress}
-linelist %>% count(age_group) %>% mutate(n_suppress = suppress(n, less_than = 10, replace_with = "**"))
+linelist %>%
+  count(age_group) %>%
+  mutate(n_suppress = suppress(n, less_than = 10, replace_with = "**"))
 ```
 
 ## Redaction
