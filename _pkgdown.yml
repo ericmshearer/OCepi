@@ -13,7 +13,7 @@ template:
 navbar:
   bg: primary
   right:
-  - icon: fa-github
+  - icon: fa-github2
     text: github
     href: https://github.com/ericmshearer/OCepi
 
