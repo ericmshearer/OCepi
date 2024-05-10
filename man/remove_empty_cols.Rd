@@ -13,7 +13,7 @@ remove_empty_cols(df)
 Dataframe with blank/empty columns removed. Message printed to console with total columns removed.
 }
 \description{
-Ability to drop columns when either completely NA or "".
+Drop columns when either completely NA or "".
 }
 \examples{
 test <- data.frame(a = c(NA,NA,NA), b = c("","",""), c = c(1,2,3))

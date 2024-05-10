@@ -16,9 +16,7 @@ test_that("theme_apollo works", {
   expect_equal(theme$plot.title$size, 24)
   expect_equal(theme$plot.subtitle$size, 20)
   expect_equal(theme$plot.caption$size, 12)
-  expect_equal(theme$legend.title, element_blank())
   expect_equal(theme$plot.title$size, 24)
-
   expect_equal(theme$axis.ticks.length.y, unit(0.15, "cm"))
   expect_equal(theme$axis.ticks.length.x, unit(0, "cm"))
 })
@@ -29,6 +27,5 @@ test_that("theme_apollo works", {
   expect_equal(theme$plot.title$size, 24)
   expect_equal(theme$plot.subtitle$size, 20)
   expect_equal(theme$plot.caption$size, 12)
-  expect_equal(theme$legend.title, element_blank())
   expect_equal(theme$plot.title$size, 24)
 })

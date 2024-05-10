@@ -11,7 +11,7 @@ add_percent(n, digits = 2, multiply = TRUE)
 
 \item{digits}{Number of digits to round.}
 
-\item{multiply}{Boolean TRUE/FALSE to multiply proportion by 100.}
+\item{multiply}{Default set to TRUE. To keep as fraction set to FALSE.}
 }
 \value{
 Proportion.

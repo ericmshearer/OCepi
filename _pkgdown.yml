@@ -3,6 +3,7 @@ template:
   bootstrap: 5
   theme: arrow-light
   bslib:
+    primary: '#353d42'
     base_font:
       google: Roboto
     heading_font:
@@ -10,6 +11,7 @@ template:
     code_font:
       google: JetBrains Mono
 navbar:
+  bg: primary
   right:
   - icon: fa-github
     text: github

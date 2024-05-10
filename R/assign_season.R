@@ -4,7 +4,7 @@
 #'
 #' @param date Input date.
 #'
-#' @return Character in format XXXX-XX.
+#' @return Character in format YYYY-YY.
 #' @export
 #'
 #' @examples

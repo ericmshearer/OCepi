@@ -1,6 +1,6 @@
 #' Remove Empty Columns
 #'
-#' Ability to drop columns when either completely NA or "".
+#' Drop columns when either completely NA or "".
 #'
 #' @param df Input dataframe.
 #'

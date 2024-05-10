@@ -7,13 +7,13 @@
 hiv_redact(df)
 }
 \arguments{
-\item{df}{Dataframe with HIV/AIDS removed.}
+\item{df}{Dataframe to scan.}
 }
 \value{
-Dataframe. Warning message printed to console if HIV/AIDS data detected.
+Dataframe with HIV and/or AIDS removed.
 }
 \description{
-Convert manual process of redacting sensitive health information. Works exclusively on dataframes.
+Remove iterations of HIV and/or AIDS from dataframe.
 }
 \examples{
 df <- data.frame(cause = c("cancer","hepatitis","COVID-19","HIV"))

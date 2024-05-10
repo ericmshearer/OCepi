@@ -33,73 +33,75 @@ theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, le
     font = font
   }
 
-  if(orient == "horizontal"){
-    theme(
+  switch(direction,
+         vertical = {
+           ticks_x = unit(0.15, "cm")
+           ticks_y = unit(0, "cm")
+           panel_y = element_line(color = grid_color, linewidth = 0.20)
+           panel_x = element_blank()
+           axis_title = element_text(family = font, size = 15, color = axis_color)
+           axis_text = element_text(family = font, size = 15, color = axis_color)
+           axis_text_x = element_text(family = font, margin = margin(t = 5, r = 0, b = 10, l = 0), color = axis_color)
+           axis_text_y = element_text(family = font, margin = margin(t = 0, r = 0, b = 0, l = 10), color = axis_color)
+         },
+         horizontal = {
+           ticks_x = unit(0, "cm")
+           ticks_y = unit(0.15, "cm")
+           panel_y = element_blank()
+           panel_x = element_line(color = grid_color, linewidth = 0.20)
+           axis_title = element_text(family = font, size = 15, color = axis_color)
+           axis_text = element_text(family = font, size = 15, color = axis_color)
+           axis_text_x = element_text(family = font, margin = margin(t = 5, r = 0, b = 10, l = 0), color = axis_color)
+           axis_text_y = element_text(family = font, margin = margin(t = 0, r = 5, b = 0, l = 10), color = axis_color)
+         },
+         map = {
+           ticks_x = NULL
+           ticks_y = NULL
+           panel_y = NULL
+           panel_x = NULL
+           axis_title = element_blank()
+           axis_text = element_blank()
+           axis_text_x = element_blank()
+           axis_text_y = element_blank()
+           # axis_title = element_text(family = NULL, size = 15, color = "#FFFFFF")
+           # axis_text = element_text(family = NULL, size = 15, color = "#FFFFFF")
+           # axis_text_x = element_text(family = NULL, margin = margin(t = 1, r = 1, b = 1, l = 1), color = "#FFFFFF")
+           # axis_text_y = element_text(family = NULL, margin = margin(t = 1, r = 1, b = 1, l = 1), color = "#FFFFFF")
+         }
+  )
 
-      plot.title = element_text(family = font, size = 24, hjust = 0, face = "bold", color = title_color, margin = margin(10, 0, 0, 0)),
-      plot.subtitle = element_text(family = font, size = 20, hjust = 0, margin = margin(5, 0, 20, 0), color = title_color),
-      plot.caption = element_text(family = font, size = 12, color = axis_color),
+  theme(
 
-      legend.title = element_blank(),
-      legend.text = element_text(family = font, size = 12, color = axis_color),
-      legend.position = legend_loc,
-      # legend.text = element_text(hjust = 0),
-      legend.background = element_blank(),
-      legend.key = element_blank(),
+    plot.title = element_text(family = font, size = 24, hjust = 0, face = "bold", color = title_color, margin = margin(t = 10, r = 0, b = 0, l = 0)),
+    plot.subtitle = element_text(family = font, size = 20, hjust = 0, margin = margin(t = 5, r = 0, b = 27, l = 0), color = title_color),
+    plot.caption = element_text(family = font, size = 12, color = title_color),
 
-      axis.title = element_text(family = font, size = 15, color = axis_color),
-      axis.text = element_text(family = font, size = 15, color = axis_color),
-      axis.text.x = element_text(family = font, margin = margin(5, 0, 10, 0), color = axis_color),
-      axis.text.y = element_text(family = font, margin = margin(0, 5, 0, 10), color = axis_color),
-      axis.ticks = element_line(color = grid_color, linewidth = 0.1),
-      axis.ticks.length.y = unit(0.15, "cm"),
-      axis.ticks.length.x = unit(0, "cm"),
-      axis.line = element_blank(),
+    legend.title = element_text(family = font, size = 12, color = axis_color),
+    legend.text = element_text(family = font, size = 12, color = axis_color),
+    legend.position = legend_loc,
+    legend.background = element_blank(),
+    legend.key = element_blank(),
 
-      panel.grid.minor = element_blank(),
-      panel.grid.major.y = element_blank(),
-      panel.grid.major.x = element_line(color = grid_color),
-      panel.spacing.x = unit(0.85, "cm"),
+    axis.title = axis_title,
+    axis.text = axis_text,
+    axis.text.x = axis_text_x,
+    axis.text.y = axis_text_y,
+    axis.ticks = element_line(color = grid_color, linewidth = 0.1),
+    axis.ticks.length.x = ticks_x,
+    axis.ticks.length.y = ticks_y,
+    axis.line = element_blank(),
 
-      panel.background = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = panel_y,
+    panel.grid.major.x = panel_x,
 
-      strip.text = element_text(family = font, size = 20, hjust = 0, margin = margin(0,0,15,0), color = title_color),
-      strip.background = element_rect(fill = "#FFFFFF")
-    )
-  } else {
-    theme(
+    panel.background = element_blank(),
+    panel.spacing.x = unit(0.85, "cm"),
+    panel.spacing.y = unit(1, "cm"),
 
-      plot.title = element_text(family = font, size = 24, hjust = 0, face = "bold", color = title_color, margin = margin(10, 0, 0, 0)),
-      plot.subtitle = element_text(family = font, size = 20, hjust = 0, margin = margin(5, 0, 5, 0), color = title_color),
-      plot.caption = element_text(family = font, size = 12, color = title_color),
-
-      legend.title = element_blank(),
-      legend.text = element_text(family = font, size = 12, color = axis_color),
-      legend.position = legend_loc,
-      # legend.text = element_text(hjust = 0),
-      legend.background = element_blank(),
-      legend.key = element_blank(),
-
-      axis.title = element_text(family = font, size = 15, color = axis_color),
-      axis.text = element_text(family = font, size = 15, color = axis_color),
-      axis.text.x = element_text(family = font, margin = margin(5, 0, 10, 0), color = axis_color),
-      axis.text.y = element_text(family = font, margin = margin(0, 0, 0, 10), color = axis_color),
-      axis.ticks = element_line(color = grid_color, linewidth = 0.1),
-      axis.ticks.length.x = unit(0.15, "cm"),
-      axis.ticks.length.y = unit(0, "cm"),
-      axis.line = element_blank(),
-
-      panel.grid.minor = element_blank(),
-      panel.grid.major.y = element_line(color = grid_color, linewidth = 0.20),
-      panel.grid.major.x = element_blank(),
-
-      panel.background = element_blank(),
-      panel.spacing.x = unit(0.85, "cm"),
-
-      strip.text = element_text(family = font, size = 20, hjust = 0, margin = margin(0,0,15,0), color = title_color),
-      strip.background = element_rect(fill = "#FFFFFF")
-    )
-  }
+    strip.text = element_text(family = font, size = 20, vjust = 0.5, hjust = 0.5, margin = margin(t = 0, r = 0, b = 15, l = 0), color = title_color),
+    strip.background = element_rect(fill = "#FFFFFF")
+  )
 }
 
 #' Apollo Label

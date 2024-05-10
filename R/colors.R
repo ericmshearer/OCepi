@@ -26,5 +26,5 @@ cdcd_color <- function(...){
   if(!cols %in% names(team_colors)){
     stop("Color not available.")
   }
-  team_colors[cols]
+  unname(team_colors[cols])
 }

@@ -11,13 +11,13 @@ n_percent(n, percent, reverse = FALSE)
 
 \item{percent}{Proportion variable.}
 
-\item{reverse}{TRUE/FALSE to set order.}
+\item{reverse}{Default set to false. Order switched to percent n if FALSE.}
 }
 \value{
 Plot label as character.
 }
 \description{
-Standardized plot labels with options for ordering: n % or % n.
+Standardized plot labels with options for ordering.
 }
 \examples{
 n_percent(5, 25)

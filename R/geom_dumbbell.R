@@ -1,6 +1,6 @@
 #' Dumbbell Plot
 #'
-#' Dumbbell plot using ggplot2. Arose out of need to create timelines.
+#' Line plot with two points at each end representing different values.
 #'
 #' @param data Dataframe.
 #' @param mapping Requires following aesthetics: x = starting point, xend = ending point, y = category/factor.

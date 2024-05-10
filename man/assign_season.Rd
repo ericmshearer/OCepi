@@ -10,7 +10,7 @@ assign_season(date)
 \item{date}{Input date.}
 }
 \value{
-Character in format XXXX-XX.
+Character in format YYYY-YY.
 }
 \description{
 Calculate respiratory season based on laboratory or episode date. Respiratory season is defined as week 40 through week 39.

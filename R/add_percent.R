@@ -4,7 +4,7 @@
 #'
 #' @param n Count/frequency variable.
 #' @param digits Number of digits to round.
-#' @param multiply Boolean TRUE/FALSE to multiply proportion by 100.
+#' @param multiply Default set to TRUE. To keep as fraction set to FALSE.
 #'
 #' @return Proportion.
 #' @export

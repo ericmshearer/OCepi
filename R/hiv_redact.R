@@ -1,10 +1,10 @@
 #' Redact HIV/AIDS from Dataframe
 #'
-#' Convert manual process of redacting sensitive health information. Works exclusively on dataframes.
+#' Remove iterations of HIV and/or AIDS from dataframe.
 #'
-#' @param df Dataframe with HIV/AIDS removed.
+#' @param df Dataframe to scan.
 #'
-#' @return Dataframe. Warning message printed to console if HIV/AIDS data detected.
+#' @return Dataframe with HIV and/or AIDS removed.
 #' @export
 #'
 #' @examples

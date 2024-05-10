@@ -8,7 +8,6 @@
 #'
 #' @return Dataframe filtered at maximum (or most recent) date including all groups at that date.
 #' @export
-#' @importFrom stats na.omit
 #'
 #' @examples
 #' df <- data.frame(Date = seq.Date(from = as.Date("2023-01-01"), to = as.Date("2023-12-01"),
@@ -16,7 +15,7 @@
 #' end_points(df, Date)
 end_points <- function(df, date = NULL, group_by = NULL){
   if(missing(date)){
-    stop("Please enter date varibale.")
+    stop("Please enter date variable.")
   }
 
   date <- deparse(substitute(date))
@@ -24,7 +23,7 @@ end_points <- function(df, date = NULL, group_by = NULL){
   if(!missing(group_by)){
     group <- deparse(substitute(group_by))
     df <- df[with(df, order(df[[group]], df[[date]])), ]
-    df <- na.omit(df)
+    df <- df[!is.na(df[[date]]),]
     out <- df[cumsum(table(df[[group]])), ]
   } else{
     most_recent_date = max(df[[date]])

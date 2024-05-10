@@ -1,10 +1,10 @@
 #' Plot Labels for Counts & Proportion
 #'
-#' Standardized plot labels with options for ordering: n % or % n.
+#' Standardized plot labels with options for ordering.
 #'
 #' @param n Counts variable.
 #' @param percent Proportion variable.
-#' @param reverse TRUE/FALSE to set order.
+#' @param reverse Default set to false. Order switched to percent n if FALSE.
 #'
 #' @return Plot label as character.
 #' @export

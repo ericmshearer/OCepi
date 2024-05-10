@@ -64,7 +64,7 @@ which_facet <- function(plot){
 }
 
 lighten_color <- function(color = NULL, amount = 0.5) {
-  if(length(color) < 7 | substr(color,1,1)!="#"){
+  if(length(color) > 7 | substr(color,1,1)!="#"){
     stop("Invalid color input. Please review hex code.")
   }
   rgb_color <- grDevices::col2rgb(color)

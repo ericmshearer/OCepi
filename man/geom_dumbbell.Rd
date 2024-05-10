@@ -55,7 +55,7 @@ GeomDumbbell
 Dumbbell plot.
 }
 \description{
-Dumbbell plot using ggplot2. Arose out of need to create timelines.
+Line plot with two points at each end representing different values.
 }
 \examples{
 library(ggplot2)

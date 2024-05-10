@@ -163,7 +163,9 @@ Core functions:
 -   `wrap_labels` - wrap long axis labels to better fit plot
 -   `geom_dumbbell` - dumbbell plot
 -   `geom_lollipop` - lollipop plot
+-   `highlight_title` - color specific words in ggplot2 for emphasis
 -   `highlight_geom` - highlight geom\_\* of interest based on expression
+-   `desaturate_geom` - desaturate geom\_\* of interest based on expression
 
 ## theme_apollo & apollo_label
 
@@ -288,19 +290,40 @@ In plots with multiple categories, you may want to draw attention to a specific 
 -   linewidth: line thickness (`geom_line`, `geom_sf`)
 -   size: point size
 
-The highlighting does work with `facet_wrap` and `facet_grid`. Currently works with `geom_col`/`geom_bar`, `geom_line`, `geom_sf`, and `geom_point`.
+An alternative to `highlight_geom` is `desaturate_geom`. Instead of fading non-emphasized categories to gray, they will retain color but desaturated to a specified level using argument `desaturate`. Options to customize include:
 
-#### Bar plot
+-   desaturate: level of desaturation ranging from 0 to 1 (with 1 being highest level of desaturation)
+-   size: point size
+-   linewidth: line thickness (`geom_line`, `geom_sf`)
+-   stroke: outline linewidth when using `geom_point`
+
+If you'd like to highlight one or more words in your title to match, you may use `highlight_title`. Please note this requires package `ggtext` to work, and add this to your code chunk: `theme(plot.title = ggtext::element_markdown())`.
+
+Both highlighting approaches work with `facet_wrap` and `facet_grid`. Currently works with `geom_col`/`geom_bar`, `geom_line`, `geom_sf`, and `geom_point`.
+
+#### bar plot
 
 ```{r highlight-bar, fig.height=8, fig.width=10, warning=FALSE}
 ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
   geom_col() +
   facet_wrap(~site) +
-  highlight_geom(scores == max(scores), pal = "#9E0059") +
+  highlight_geom(scores == max(scores), pal = cdcd_color("london pink")) +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
   theme_apollo(direction = "vertical") +
   labs(
-    title = "highlight_geom - bar plot\n"
+    title = highlight_title("highlight_geom - bar plot<br>", words = c("highlight_geom" = cdcd_color("london pink"))),
+  ) +
+  apollo_label(vjust = -0.3) +
+  theme(plot.title = ggtext::element_markdown())
+
+ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
+  geom_col() +
+  facet_wrap(~site) +
+  desaturate_geom(scores == max(scores), pal = "#d55c19", desaturate = 0.75) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
+  theme_apollo(direction = "vertical") +
+  labs(
+    title = "desaturate_geom - bar plot\n"
   ) +
   apollo_label(vjust = -0.3)
 ```
@@ -317,6 +340,16 @@ ggplot(data = ts, aes(x = date, y = scores, group = site, label = site)) +
     title = "highlight_geom - line plot\n"
   ) +
   apollo_label(data = end_points(ts, date), hjust = -0.3)
+
+ggplot(data = ts, aes(x = date, y = scores, group = site, label = site)) +
+  geom_line(linewidth = 1) +
+  desaturate_geom(site == "A", pal = "#113a72", linewidth = 1.5, desaturate = 0.6) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
+  theme_apollo(direction = "vertical") +
+  labs(
+    title = "desaturate_geom - line plot\n"
+  ) +
+  apollo_label(data = end_points(ts, date), hjust = -0.3)
 ```
 
 #### Point plot
@@ -324,10 +357,19 @@ ggplot(data = ts, aes(x = date, y = scores, group = site, label = site)) +
 ```{r highlight-point, fig.height=8, fig.width=10, warning=FALSE}
 ggplot(data = points, aes(x = x, y = y)) +
   geom_point(size = 3) +
-  highlight_geom(y %in% c(20:25), pal = "darkred", size = 4) +
+  highlight_geom(y %in% c(20:25), pal = "#8B0000", size = 4) +
   scale_y_continuous(expand = c(0,0), limits = c(0,55)) +
   theme_apollo(direction = "vertical") +
   labs(
     title = "highlight_geom - point plot\n"
+  )
+
+ggplot(data = points, aes(x = x, y = y)) +
+  geom_point(size = 3) +
+  desaturate_geom(y %in% c(20:25), pal = "#355E3B", size = 4, desaturate = 0.7, stroke = 0.5) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,55)) +
+  theme_apollo(direction = "vertical") +
+  labs(
+    title = "desaturate_geom - point plot\n"
   )
 ```
