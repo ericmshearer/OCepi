@@ -24,7 +24,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary" data-bs-theme="dark"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">OCepi</a>
 
@@ -56,7 +56,7 @@
       <ul class="navbar-nav">
 <li class="nav-item">
   <a class="external-link nav-link" href="https://github.com/ericmshearer/OCepi">
-    <span class="fa fa-github"></span>
+    <span class="fa fa-github2"></span>
      
     github
   </a>
@@ -99,8 +99,14 @@ plot</li>
 <li>
 <code>geom_lollipop</code> - lollipop plot</li>
 <li>
+<code>highlight_title</code> - color specific words in ggplot2 for
+emphasis</li>
+<li>
 <code>highlight_geom</code> - highlight geom_* of interest based on
 expression</li>
+<li>
+<code>desaturate_geom</code> - desaturate geom_* of interest based
+on expression</li>
 </ul>
 <div class="section level2">
 <h2 id="theme_apollo-apollo_label">theme_apollo &amp; apollo_label<a class="anchor" aria-label="anchor" href="#theme_apollo-apollo_label"></a>
@@ -244,30 +250,62 @@ modified:</p>
 <code>geom_sf</code>)</li>
 <li>size: point size</li>
 </ul>
-<p>The highlighting does work with <code>facet_wrap</code> and
+<p>An alternative to <code>highlight_geom</code> is
+<code>desaturate_geom</code>. Instead of fading non-emphasized
+categories to gray, they will retain color but desaturated to a
+specified level using argument <code>desaturate</code>. Options to
+customize include:</p>
+<ul>
+<li>desaturate: level of desaturation ranging from 0 to 1 (with 1 being
+highest level of desaturation)</li>
+<li>size: point size</li>
+<li>linewidth: line thickness (<code>geom_line</code>,
+<code>geom_sf</code>)</li>
+<li>stroke: outline linewidth when using <code>geom_point</code>
+</li>
+</ul>
+<p>If you’d like to highlight one or more words in your title to match,
+you may use <code>highlight_title</code>. Please note this requires
+package <code>ggtext</code> to work, and add this to your code chunk:
+<code>theme(plot.title = ggtext::element_markdown())</code>.</p>
+<p>Both highlighting approaches work with <code>facet_wrap</code> and
 <code>facet_grid</code>. Currently works with
 <code>geom_col</code>/<code>geom_bar</code>, <code>geom_line</code>,
 <code>geom_sf</code>, and <code>geom_point</code>.</p>
 <div class="section level4">
-<h4 id="bar-plot">Bar plot<a class="anchor" aria-label="anchor" href="#bar-plot"></a>
+<h4 id="bar-plot">bar plot<a class="anchor" aria-label="anchor" href="#bar-plot"></a>
 </h4>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">highlight</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">locations</span>, y <span class="op">=</span> <span class="va">scores</span>, label <span class="op">=</span> <span class="va">scores</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">site</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/highlight_geom.html">highlight_geom</a></span><span class="op">(</span><span class="va">scores</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">scores</span><span class="op">)</span>, pal <span class="op">=</span> <span class="st">"#9E0059"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/highlight_geom.html">highlight_geom</a></span><span class="op">(</span><span class="va">scores</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">scores</span><span class="op">)</span>, pal <span class="op">=</span> <span class="fu"><a href="../reference/cdcd_color.html">cdcd_color</a></span><span class="op">(</span><span class="st">"london pink"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"highlight_geom - bar plot\n"</span></span>
+<span>    title <span class="op">=</span> <span class="fu"><a href="../reference/highlight_title.html">highlight_title</a></span><span class="op">(</span><span class="st">"highlight_geom - bar plot&lt;br&gt;"</span>, words <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"highlight_geom"</span> <span class="op">=</span> <span class="fu"><a href="../reference/cdcd_color.html">cdcd_color</a></span><span class="op">(</span><span class="st">"london pink"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/apollo_label.html">apollo_label</a></span><span class="op">(</span>vjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">ggtext</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/ggtext/reference/element_markdown.html" class="external-link">element_markdown</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="extending-ggplot2_files/figure-html/highlight-bar-1.png" width="960"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">highlight</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">locations</span>, y <span class="op">=</span> <span class="va">scores</span>, label <span class="op">=</span> <span class="va">scores</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">site</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/desaturate_geom.html">desaturate_geom</a></span><span class="op">(</span><span class="va">scores</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">scores</span><span class="op">)</span>, pal <span class="op">=</span> <span class="st">"#d55c19"</span>, desaturate <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"desaturate_geom - bar plot\n"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/apollo_label.html">apollo_label</a></span><span class="op">(</span>vjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="extending-ggplot2_files/figure-html/highlight-bar-1.png" width="960"></p>
+<p><img src="extending-ggplot2_files/figure-html/highlight-bar-2.png" width="960"></p>
 </div>
 <div class="section level4">
 <h4 id="line-plot">Line plot<a class="anchor" aria-label="anchor" href="#line-plot"></a>
 </h4>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ts</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">scores</span>, group <span class="op">=</span> <span class="va">site</span>, label <span class="op">=</span> <span class="va">site</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/highlight_geom.html">highlight_geom</a></span><span class="op">(</span><span class="va">site</span> <span class="op">==</span> <span class="st">"A"</span>, pal <span class="op">=</span> <span class="st">"darkblue"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
@@ -278,20 +316,43 @@ modified:</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/apollo_label.html">apollo_label</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/end_points.html">end_points</a></span><span class="op">(</span><span class="va">ts</span>, <span class="va">date</span><span class="op">)</span>, hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="extending-ggplot2_files/figure-html/highlight-line-1.png" width="960"></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ts</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">scores</span>, group <span class="op">=</span> <span class="va">site</span>, label <span class="op">=</span> <span class="va">site</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/desaturate_geom.html">desaturate_geom</a></span><span class="op">(</span><span class="va">site</span> <span class="op">==</span> <span class="st">"A"</span>, pal <span class="op">=</span> <span class="st">"#113a72"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, desaturate <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"desaturate_geom - line plot\n"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/apollo_label.html">apollo_label</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/end_points.html">end_points</a></span><span class="op">(</span><span class="va">ts</span>, <span class="va">date</span><span class="op">)</span>, hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.3</span><span class="op">)</span></span></code></pre></div>
+<p><img src="extending-ggplot2_files/figure-html/highlight-line-2.png" width="960"></p>
 </div>
 <div class="section level4">
 <h4 id="point-plot">Point plot<a class="anchor" aria-label="anchor" href="#point-plot"></a>
 </h4>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">points</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/highlight_geom.html">highlight_geom</a></span><span class="op">(</span><span class="va">y</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span>, pal <span class="op">=</span> <span class="st">"darkred"</span>, size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/highlight_geom.html">highlight_geom</a></span><span class="op">(</span><span class="va">y</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span>, pal <span class="op">=</span> <span class="st">"#8B0000"</span>, size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">55</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"highlight_geom - point plot\n"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="extending-ggplot2_files/figure-html/highlight-point-1.png" width="960"></p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">points</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/desaturate_geom.html">desaturate_geom</a></span><span class="op">(</span><span class="va">y</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span>, pal <span class="op">=</span> <span class="st">"#355E3B"</span>, size <span class="op">=</span> <span class="fl">4</span>, desaturate <span class="op">=</span> <span class="fl">0.7</span>, stroke <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">55</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"desaturate_geom - point plot\n"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="extending-ggplot2_files/figure-html/highlight-point-2.png" width="960"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
