@@ -5,7 +5,6 @@
 #' @param expr Expression
 #' @param pal color for highlighted geom
 #' @param size Point size if using geom_point
-#' @param alpha Alpha for transparency
 #' @param linewidth Linewidth if using geom_line or geom_sf
 #'
 #' @return ggplot2 with highlighted layer
@@ -17,13 +16,12 @@
 #' ggplot(data = df, aes(x = locations, y = scores)) +
 #' geom_col() +
 #' highlight_geom(scores==max(scores), pal = "#9E0059")
-highlight_geom <- function(expr, pal, size = 3, alpha = 1, linewidth = 1.5) {
+highlight_geom <- function(expr, pal, size = 5, linewidth = 1.5) {
   structure(
     list(
       expr = rlang::enquo(expr),
       color = pal,
       size = size,
-      alpha = alpha,
       linewidth = linewidth
     ),
     class = "highlight"
@@ -36,25 +34,30 @@ highlight_geom <- function(expr, pal, size = 3, alpha = 1, linewidth = 1.5) {
 #' @export
 #' @import dplyr
 ggplot_add.highlight <- function(object, plot, object_name) {
+
   geom_type <- get_geom_type(plot)
 
   cloned_layer <- clone_layer(plot$layers[[1]])
 
   if(!inherits(plot$facet, "FacetNull")){
-    facet_on = which_facet(plot)
+    facet_on <- which_facet(plot)
 
     new_data <- plot$data %>%
       dplyr::group_by_at(facet_on) %>%
       dplyr::filter(!!object$expr) %>%
       dplyr::ungroup()
   } else {
-    new_data <- dplyr::filter(plot$data, !!object$expr)
+    new_data <- plot$data %>%
+      filter(!!object$expr)
   }
 
   #highlight layer
   cloned_layer$data <- new_data
+  cloned_layer$mapping <- plot$mapping
   cloned_layer$aes_params$fill = object$color
   cloned_layer$aes_params$colour = object$color
+  cloned_layer$aes_params$alpha = NULL
+  cloned_layer$geom_params$na.rm = TRUE
 
   if(geom_type == "point"){
     cloned_layer$aes_params$size = object$size
@@ -65,9 +68,16 @@ ggplot_add.highlight <- function(object, plot, object_name) {
   }
 
   #faded layer
-  plot$layers[[1]]$aes_params$colour = "#cccccc"
-  plot$layers[[1]]$aes_params$fill = "#cccccc"
-  plot$layers[[1]]$aes_params$alpha = object$alpha
+  plot$layers[[1]] <- faded_layer(plot$layers[[1]])
+
+  if(geom_type %in% c("bar","col")){
+    cloned_layer$geom_params$width = 0.9
+  }
+
+  if(geom_type == "boxplot"){
+    cloned_layer$aes_params$colour = "#000000"
+    plot$layers[[1]]$aes_params$colour = "#000000"
+  }
 
   if(geom_type == "sf"){
     plot$layers[[1]]$aes_params$fill = NULL
@@ -76,5 +86,6 @@ ggplot_add.highlight <- function(object, plot, object_name) {
     cloned_layer$aes_params$linewidth = object$linewidth
   }
 
+  #new output
   plot %+% cloned_layer
 }

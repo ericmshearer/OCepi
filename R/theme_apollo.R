@@ -17,9 +17,9 @@ theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, le
   orient = match.arg(direction)
   leg = match.arg(legend)
 
-  title_color = "#231f20"
-  axis_color = "#353d42"
-  grid_color = "#E8EDEE"
+  title_color = cdcd_color("title color")
+  axis_color = cdcd_color("axis color")
+  grid_color = cdcd_color("grid color")
 
   if(leg == "Show"){
     legend_loc = "top"

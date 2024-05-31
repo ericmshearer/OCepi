@@ -51,11 +51,15 @@ ggplot_add.desaturate <- function(object, plot, object_name){
     new_data <- dplyr::filter(plot$data, !!object$expr)
   }
 
+  #cloned layer
   cloned_layer <- clone_layer(plot$layers[[1]])
-  cloned_layer$data <- new_data
 
+  cloned_layer$data <- new_data
+  cloned_layer$mapping <- plot$mapping
   cloned_layer$aes_params$fill = object$color
   cloned_layer$aes_params$colour = object$color
+  cloned_layer$aes_params$alpha = NULL
+  cloned_layer$geom_params$na.rm = TRUE
 
   #original
   plot$layers[[1]]$aes_params$colour = lighten_color(object$color, amount = object$desaturate)
@@ -66,6 +70,10 @@ ggplot_add.desaturate <- function(object, plot, object_name){
     plot$layers[[1]]$aes_params$shape = 21
     plot$layers[[1]]$aes_params$colour = object$color
     plot$layers[[1]]$aes_params$stroke = object$stroke
+  }
+
+  if(geom_type %in% c("bar","col")){
+    cloned_layer$geom_params$width = 0.9
   }
 
   if(geom_type == "line"){

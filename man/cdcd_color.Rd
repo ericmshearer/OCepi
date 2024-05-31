@@ -7,7 +7,7 @@
 cdcd_color(...)
 }
 \arguments{
-\item{...}{Name of color(s) from team_colors.}
+\item{...}{Name of color(s) from cd_cols.}
 }
 \value{
 Hex codes.
@@ -16,8 +16,7 @@ Hex codes.
 Function to call commonly used colors for data visualizations.
 }
 \details{
-Use names(team_colors) to return all possible colors. Current options:
-\code{green}, \code{light blue}, \code{london grey}, \code{london pink}, \code{orange}.
+Use names(cd_cols) to return all possible colors.
 }
 \examples{
 cdcd_color("green")

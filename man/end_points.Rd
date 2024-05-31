@@ -14,7 +14,7 @@ end_points(df, date = NULL, group_by = NULL)
 \item{group_by}{For time series that end at different dates, specify group variable.}
 }
 \value{
-Dataframe filtered at maximum (or most recent) date including all groups at that date.
+Data.frame filtered at maximum (or most recent) date including all groups at that date.
 }
 \description{
 Subset dataframe to label last point in geom_line. Function takes into account time series that don't end at the same time point.

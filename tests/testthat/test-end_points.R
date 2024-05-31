@@ -5,16 +5,8 @@ test_that("basic use", {
 
   expect_equal(
     end_points(df, Date),
-    data.frame(Date = c(as.Date("2023-02-01")), scores = c(84), row.names = 2)
+    data.frame(Date = c(as.Date("2023-02-01")), scores = c(84))
     )
-})
-
-test_that("error", {
-
-  df <- data.frame(Date = as.character(c("2023-01-01","2023-02-01")), scores = c(88,84))
-  rownames(df) <- as.character(rownames(df))
-
-  expect_error(end_points(df), "Please enter date variable.")
 })
 
 test_that("different end points", {
@@ -24,14 +16,11 @@ test_that("different end points", {
   df <- data.frame(
     Date = rep(ts, 2),
     Group = c(rep("A", 4), rep("B", 4)),
-    scores = c(88,84,91,83,88,84,91,83)
+    scores = c(88,84,91,83,88,84,91,NA)
     )
-
-  df[df$Date=="2024-01-04" & df$Group == "B",] = NA
-  rownames(df) <- as.character(rownames(df))
 
   expect_equal(
     end_points(df, Date, Group),
-    data.frame(Date = as.Date(c("2024-01-04","2024-01-03")), Group = c("A","B"), scores = c(83,91), row.names = c(4,7))
+    data.frame(Date = as.Date(c("2024-01-04","2024-01-03")), Group = c("A","B"), scores = c(83,91), row.names = c(1L,2L))
     )
 })

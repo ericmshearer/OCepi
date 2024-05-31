@@ -76,3 +76,21 @@ lighten_color <- function(color = NULL, amount = 0.5) {
   new_color <- grDevices::rgb(new_red, new_green, new_blue, maxColorValue = 255)
   return(new_color)
 }
+
+get_col <- function(df, type = NULL){
+  col_info <- sapply(df, class)
+  which_col <- match(type, unname(col_info))
+  pull_col <- names(col_info[which_col])
+  return(list(pull_col, which_col))
+  }
+
+faded_layer <- function(layer, geom_type){
+  fade_fill = layer$aes_params$fill %||% "#cccccc"
+  fade_col = fade_fill
+  alpha_lev = layer$aes_params$alpha %||% NULL
+
+  layer$aes_params$fill = fade_fill
+  layer$aes_params$colour = fade_col
+  layer$aes_params$alpha = alpha_lev
+  return(layer)
+}

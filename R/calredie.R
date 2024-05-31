@@ -41,8 +41,8 @@ recode_orientation <- function(col){
 #'
 #' Simplify race/ethnicity patient data to one variable using data from CalREDIE, CAIR2, VRBIS, or LOINC codes. Hierarchy defaults to Hispanic/Latinx regardless of reported race. Function can handle one (e.g. CAIR2) or two inputs (e.g. CalREDIE). If using with VRBIS dataset, expected input is "Multi-status Race" column.
 #'
-#' @param ethnicity_col Patient ethnicity variable.
-#' @param race_col Patient race variable.
+#' @param ethnicity Patient ethnicity variable.
+#' @param race Patient race variable.
 #' @param abbr_names TRUE/FALSE, option to abbreviate long category names.
 #'
 #' @return Merged race/ethnicity variable.
@@ -52,51 +52,53 @@ recode_orientation <- function(col){
 #' recode_race("Hispanic","Black or African American")
 #' recode_race("Native Hawaiian or Other Pacific Islander", abbr_names = FALSE)
 #' recode_race("1")
-recode_race <- function(ethnicity_col, race_col, abbr_names = FALSE){
+recode_race <- function(ethnicity, race, abbr_names = FALSE){
 
-  if(missing(race_col)){
-    ethnicity_col = trimws(ethnicity_col)
-    combo_var = ethnicity_col
+  if(missing(race)){
+    ethnicity = trimws(ethnicity)
+    combo_var = ethnicity
   } else{
-    ethnicity_col = trimws(ethnicity_col)
-    race_col = trimws(race_col)
-    combo_var = ifelse(ethnicity_col %in% c("Hispanic or Latino","Latino","Hispanic","2135-2"), "Hispanic or Latino", race_col)
+    ethnicity = trimws(ethnicity)
+    race = trimws(race)
+    combo_var = ifelse(ethnicity %in% c("Hispanic or Latino","Latino","Hispanic","2135-2"), ethnicity, race)
   }
 
-  if(abbr_names == TRUE){names = "Abbr"} else {names = "Full"}
+  if(abbr_names){
+    names = "Abbr"
+  }else {
+      names = "Full"
+      }
 
   race_list = list(
     Full = list(
       `American Indian/Alaska Native` = c("American Indian or Alaska Native","1002-5","3"),
-      Asian = c("Asian","2028-5","2034-7","2036-2","2039-6","2040-4","2047-9","4"),
+      Asian = c("Asian","2028-5","2028-9","2034-7","2036-2","2039-6","2040-4","2047-9","4"),
       `Black/African American` = c("Black or African American","Black","2054-5","2"),
       `Hispanic/Latinx` = c("Hispanic or Latino","Latino","Hispanic","2135-2","8"),
       `Multiple Races` = c("Multiracial","Multiple Races","7"),
       `Native Hawaiian/Other Pacific Islander` = c("Native Hawaiian or Other Pacific Islander","Native Hawaiian","Other Pacific Islander","2076-8","2079-2","2087-5","2088-3","2080-0","2500-7","5"),
       White = c("White","2106-3","1"),
-      Other = c("Other","Other race","6"),
-      Unknown = c(NA_character_,"Unknown","Unknown race","9")
+      Other = c("Other","Other race","6","2131-1"),
+      Unknown = c(NA_character_,"Unknown","Unknown race","9","NR")
     ),
     Abbr = list(
       `AI/AN` = c("American Indian or Alaska Native","1002-5","3"),
-      Asian = c("Asian","2028-5","2034-7","2036-2","2039-6","2040-4","2047-9","4"),
+      Asian = c("Asian","2028-5","2028-9","2034-7","2036-2","2039-6","2040-4","2047-9","4"),
       `Black/African American` = c("Black or African American","Black","2054-5","2"),
       `Hispanic/Latinx` = c("Hispanic or Latino","Latino","Hispanic","2135-2","8"),
       `Multiple Races` = c("Multiracial","Multiple Races","7"),
       NHOPI = c("Native Hawaiian or Other Pacific Islander","Native Hawaiian","Other Pacific Islander","2076-8","2079-2","2087-5","2088-3","2080-0","2500-7","5"),
       White = c("White","2106-3","1"),
-      Other = c("Other","Other race","6"),
-      Unknown = c(NA_character_,"Unknown","Unknown race","9")
+      Other = c("Other","Other race","6","2131-1"),
+      Unknown = c(NA_character_,"Unknown","Unknown race","9","NR")
     )
   )
 
   race_list <- race_list[names][[1]]
+  mapping <- invert_map(race_list)
+  vec_pos <- match(combo_var, names(mapping))
 
-  test <- invert_map(race_list)
-
-  vec_pos <- match(combo_var, names(test))
-
-  out <- test[vec_pos]
+  out <- mapping[vec_pos]
   out <- unname(out)
   return(out)
 }

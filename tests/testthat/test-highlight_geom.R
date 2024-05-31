@@ -51,8 +51,8 @@ test_that("check point aes", {
   )
 
   p <- ggplot(data = df, aes(x = loc, y = scores)) +
-    geom_point(stat = "identity") +
-    highlight_geom(loc=="a", pal = "#d55c19", alpha = 0.5, size = 3)
+    geom_point(stat = "identity", alpha = 0.5) +
+    highlight_geom(loc=="a", pal = "#d55c19", size = 3)
 
   expect_equal(
     p$layers[[1]]$aes_params$alpha,

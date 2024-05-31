@@ -16,7 +16,6 @@ geom_lollipop(
   inherit.aes = TRUE,
   position = "identity",
   na.rm = FALSE,
-  linewidth = NULL,
   ...
 )
 
@@ -35,20 +34,18 @@ GeomLollipop
 
 \item{na.rm}{Boolean to remove NA values.}
 
-\item{linewidth}{Change linewidth.}
-
 \item{...}{The other arguments!}
 }
 \value{
 Lollipop plot.
 }
 \description{
-Point plot with stem.
+Point plot with stem. Custom aesthetics via: linetype (stem), linewidth (stem), color (point), size (point).
 }
 \examples{
 df <- data.frame(locations = letters[1:5], scores = c(90,82,87,91,74))
 
-ggplot(data = df, aes(x = locations, y = scores)) +
- geom_lollipop(size = 10, linewidth = 2, color = "red")
+ggplot(data = df, aes(x = locations, y = scores, yend = 0)) +
+ geom_lollipop(size = 10, linewidth = 2, linetype = "dashed", color = "red")
 }
 \keyword{datasets}

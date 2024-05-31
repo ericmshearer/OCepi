@@ -16,24 +16,6 @@ library(OCepi)
 library(dplyr)
 library(ggplot2)
 
-highlight <- data.frame(
-  site = c("A","A","A","B","B","B"),
-  locations = rep(letters[1:3],2),
-  scores = c(89,62,74,88,89.5,82)
-  )
-
-points <- data.frame(
-  x = sample(1:50, 50),
-  y = sample(1:50, 50)
-)
-
-cleveland <- data.frame(Country = c("UK-A","US-A","UK-B","US-B"), PRE = c(0,1,2,3), POST = c(4,5,6,7))
-
-re <- data.frame(group = c("Native Hawaiian or Other Pacific Islander","Black or African American","American Indian or Alaska Native"), score = c(89.5, 84, 73))
-
-year2023 <- seq.Date(from = as.Date("2023-01-01"), to = as.Date("2023-12-01"), by = "month")
-ts <- data.frame(date = rep(year2023, 2), site = c(rep("A",12),rep("B",12)), scores = sample(50:95, 24))
-
 linelist <- "Ethnicity,Race,Gender,Age,SexualOrientation,SpecimenDate
 Non-Hispanic or Latino,Multiple Races,M,46,HET,6/7/2022
 Unknown,Unknown,M,4,HET,6/9/2022
@@ -159,7 +141,7 @@ Core functions:
 
 -   `theme_apollo` - minimal, clean theme for plots
 -   `apollo_label` - labels that match branding aesthetic
--   `end_points` - subset at last time series data point
+-   `end_points` - subset data at last time series data point
 -   `wrap_labels` - wrap long axis labels to better fit plot
 -   `geom_dumbbell` - dumbbell plot
 -   `geom_lollipop` - lollipop plot
@@ -184,7 +166,7 @@ linelist %>%
   )
 ```
 
-Now we apply `theme_apollo` and `apollo_label`. Note: when using `coord_flip` for horizontal bar charts, set `direction` to "horizontal" within `theme_apollo`.
+Now applying `theme_apollo` and `apollo_label`. Note: when using `coord_flip` for horizontal bar charts, set `direction` to "horizontal" within `theme_apollo`.
 
 ```{r nice-plot, fig.height=7, fig.width=10}
 linelist %>%
@@ -194,30 +176,39 @@ linelist %>%
     label = n_percent(n, percent, reverse = TRUE)
   ) %>%
   ggplot(aes(x = age_group, y = percent, label = label)) +
-  geom_col(fill = "#353D42") +
+  geom_col() +
   scale_y_continuous(expand = c(0,0), limits = c(0,55)) +
   theme_apollo(direction = "vertical") +
   labs(
     title = "Title Goes Here",
-    subtitle = "Subtitle Goes Here\n",
+    subtitle = "Subtitle Goes Here",
     x = "Age Groups (Years)",
     y = "Percentage (%)"
   ) +
   apollo_label(vjust = -0.3)
 ```
 
-## Get line plot label data
+## end_points
 
-For line plots with >1 group, it is recommended to direct label groups. For line plots, `end_points` will subset the data to the last date in a time series, even if data contains >1 group and those groups end at different dates (thank you Butte County for the suggestion).
+For line plots with \>1 group, it is recommended to direct label groups. For line plots, `end_points` will subset the data to the last date in a time series, even if groups end at different dates (thank you Butte County for the suggestion).
 
 ```{r end-points, fig.height=7, fig.width=10}
-ggplot(data = ts, aes(x = date, y = scores, group = site, linetype = site, colour = site)) +
+set.seed(1234)
+year2023 <- seq.Date(as.Date("2023-01-01"), as.Date("2023-12-01"), by = "month")
+
+ts <- data.frame(
+  Month = rep(year2023,2),
+  Site = c(rep("A",12), rep("B",12)),
+  Scores = c(sample(65:99, 12), sample(65:99, 12))
+)
+
+ggplot(data = ts, aes(x = Month, y = Scores, group = Site, linetype = Site, colour = Site)) +
   geom_line(linewidth = 1) +
-  scale_x_date(breaks = ts$date, date_labels = "%b\n%Y") +
+  scale_x_date(breaks = ts$Month, date_labels = "%b\n%Y") +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
   theme_apollo(direction = "vertical") +
   scale_colour_manual(values = c(A = "blue", B = "red")) +
-  apollo_label(data = end_points(ts, date), aes(label = site), hjust = 0) +
+  apollo_label(data = end_points(ts, Month), aes(label = Site), hjust = 0) +
     labs(
     title = "Comparison of Treatment Groups Over Time\n",
     x = "Date",
@@ -225,13 +216,15 @@ ggplot(data = ts, aes(x = date, y = scores, group = site, linetype = site, colou
   )
 ```
 
-## Wrap long axis labels
+## wrap_labels
 
-For categories with long titles (e.g. race/ethnicity), you may need the option to wrap text to better fit under/next to the axis. To specify amount of wrapping, use `width` argument to adjust (lower width = more wrapping, higher width = less wrapping).
+For categories with long titles (e.g. race/ethnicity), you may need to wrap text to better fit under/next to the axis. Use `width` argument to adjust amount of wrapping (lower width = more wrapping, higher width = less wrapping).
 
 Without wrapping:
 
 ```{r no-wrap, fig.height=5, fig.width=8}
+re <- data.frame(group = c("Native Hawaiian or Other Pacific Islander","Black or African American","American Indian or Alaska Native"), score = c(89.5, 84, 73))
+
 ggplot(data = re, aes(x = group, y = score, label = score)) +
   geom_col() +
   theme_apollo(direction = "vertical") +
@@ -260,42 +253,53 @@ ggplot(data = re, aes(x = group, y = score, label = score)) +
   apollo_label(vjust = -0.3)
 ```
 
-## Dumbbell Plot
+## geom_dumbbell
 
-Dumbbell plots consist of two points connected by a solid line. Useful in showing changes in pre/post test scores or timelines. Dataset requires two x variables (x and xend), y variable (character/factor). Speciy within `geom_dumbbell`: point colors (colour_x and colour_xend), line thickness (linewidth), line color (colour), and point size (size).
+Dumbbell plots consist of two points connected by a solid line. Useful in showing changes in pre/post test scores or timelines. Dataset requires two x variables (x and xend) and y variable (usually character/factor).
+
+-   To customize the points, use colour_x, colour_end, and size.
+-   To customize line, use colour and linewidth.
 
 ```{r cleveland, fig.height=8, fig.width=8}
-ggplot(data = cleveland, aes(x = PRE, xend = POST, y = Country)) +
+pre_post <- data.frame(Country = c("UK-A","US-A","UK-B","US-B"), PRE = c(0,1,2,3), POST = c(4,5,6,7))
+
+ggplot(data = pre_post, aes(x = PRE, xend = POST, y = Country)) +
   geom_dumbbell(colour_x = "red", colour_xend = "blue", size = 5, linewidth = 2, colour = "black") +
   labs(title = "Dumbbell Plot", x = "Pre/Post Scores", y = "Country") +
   theme_apollo(direction = "vertical")
 ```
 
-## Lollipop Plot
+## geom_lollipop
 
 Lollipop plot is similar to dumbbell plot, but has only one point with a stem.
 
+-   To customize the stem, use linewidth and linetype (default stem color is black.)
+-   To customize point, use size and color.
+-   For most plots, set `yend = 0`.
+
 ```{r lollipop, fig.height=8, fig.width=10}
-ggplot(data = cleveland, aes(x = Country, y = POST, color = Country)) +
-  geom_lollipop(colour = "red", size = 5, linewidth = 1) +
+ggplot(data = pre_post, aes(x = Country, y = POST, yend = 0)) +
+  geom_lollipop(color = cdcd_color("orange"), size = 5, linewidth = 1) +
   labs(title = "Lollipop Plot", x = "Country", y = "Post Score") +
   theme_apollo(direction = "vertical")
 ```
 
-## Highlight Group of Interest
+## highlight_geom & desaturate_geom
 
-In plots with multiple categories, you may want to draw attention to a specific group - whether it's the highest/lowest value, a group of interest, etc. `highlight_geom` requires two main arguments - 1) an expression (similar to what you'd use in `dplyr::filter`), and 2) a color for highlighting. Although sensible defaults are built-in, the following arguments can be modified:
+When making data visualizations, emphasizing certain data points and de-emphasizing others helps the viewer see the takehome message. This can be achieved using colors against gray or lightening certain groups to help the main group jump out. {OCepi} providers two ways to do this: `highlight_geom` and `desaturate_geom`.
 
--   alpha: transparency
--   linewidth: line thickness (`geom_line`, `geom_sf`)
--   size: point size
+`highlight_geom` requires two basic arguments - 1) an expression (similar to what you'd use in `dplyr::filter`), and 2) a color for highlighting. Although sensible defaults are built-in, the following arguments within `highlight_geom` can be customized:
 
-An alternative to `highlight_geom` is `desaturate_geom`. Instead of fading non-emphasized categories to gray, they will retain color but desaturated to a specified level using argument `desaturate`. Options to customize include:
+-   size (`geom_point`)
+-   linewidth (`geom_line`, `geom_sf`)
 
--   desaturate: level of desaturation ranging from 0 to 1 (with 1 being highest level of desaturation)
--   size: point size
--   linewidth: line thickness (`geom_line`, `geom_sf`)
--   stroke: outline linewidth when using `geom_point`
+Please note: the default fade color/fill for `highlight_geom` is light grey (#cccccc). To override, add fill/color to `geom_*` (e.g. `geom_line(color = "black")`.
+
+`desaturate_geom` requires the same two basic arguments as `highlight_geom` plus `desaturate` (range 0-1, 1 highest level of desaturation). Instead of fading non-emphasized categories to gray, they will retain color but be desaturated. Options to customize include:
+
+-   size (points)
+-   linewidth (`geom_line`, `geom_sf`)
+-   stroke (outline linewidth when using `geom_point`)
 
 If you'd like to highlight one or more words in your title to match, you may use `highlight_title`. Please note this requires package `ggtext` to work, and add this to your code chunk: `theme(plot.title = ggtext::element_markdown())`.
 
@@ -304,6 +308,12 @@ Both highlighting approaches work with `facet_wrap` and `facet_grid`. Currently 
 #### bar plot
 
 ```{r highlight-bar, fig.height=8, fig.width=10, warning=FALSE}
+highlight <- data.frame(
+  site = c("A","A","A","B","B","B"),
+  locations = rep(letters[1:3],2),
+  scores = c(89,62,74,88,89.5,82)
+  )
+
 ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
   geom_col() +
   facet_wrap(~site) +
@@ -331,30 +341,35 @@ ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
 #### Line plot
 
 ```{r highlight-line, fig.height=8, fig.width=10, warning=FALSE}
-ggplot(data = ts, aes(x = date, y = scores, group = site, label = site)) +
+ggplot(data = ts, aes(x = Month, y = Scores, group = Site, label = Site)) +
   geom_line(linewidth = 1) +
-  highlight_geom(site == "A", pal = "darkblue", linewidth = 1.5) +
+  highlight_geom(Site == "A", pal = "darkblue", linewidth = 1.5) +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
   theme_apollo(direction = "vertical") +
   labs(
     title = "highlight_geom - line plot\n"
   ) +
-  apollo_label(data = end_points(ts, date), hjust = -0.3)
+  apollo_label(data = end_points(ts, Month), hjust = -0.3)
 
-ggplot(data = ts, aes(x = date, y = scores, group = site, label = site)) +
+ggplot(data = ts, aes(x = Month, y = Scores, group = Site, label = Site)) +
   geom_line(linewidth = 1) +
-  desaturate_geom(site == "A", pal = "#113a72", linewidth = 1.5, desaturate = 0.6) +
+  desaturate_geom(Site == "A", pal = "#113a72", linewidth = 1.5, desaturate = 0.6) +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
   theme_apollo(direction = "vertical") +
   labs(
     title = "desaturate_geom - line plot\n"
   ) +
-  apollo_label(data = end_points(ts, date), hjust = -0.3)
+  apollo_label(data = end_points(ts, Month), hjust = -0.3)
 ```
 
 #### Point plot
 
 ```{r highlight-point, fig.height=8, fig.width=10, warning=FALSE}
+points <- data.frame(
+  x = sample(1:50, 50),
+  y = sample(1:50, 50)
+)
+
 ggplot(data = points, aes(x = x, y = y)) +
   geom_point(size = 3) +
   highlight_geom(y %in% c(20:25), pal = "#8B0000", size = 4) +

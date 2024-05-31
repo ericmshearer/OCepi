@@ -5,7 +5,7 @@
 \alias{ggplot_add.highlight}
 \title{Highlight Geom Using Expression}
 \usage{
-highlight_geom(expr, pal, size = 3, alpha = 1, linewidth = 1.5)
+highlight_geom(expr, pal, size = 5, linewidth = 1.5)
 }
 \arguments{
 \item{expr}{Expression}
@@ -13,8 +13,6 @@ highlight_geom(expr, pal, size = 3, alpha = 1, linewidth = 1.5)
 \item{pal}{color for highlighted geom}
 
 \item{size}{Point size if using geom_point}
-
-\item{alpha}{Alpha for transparency}
 
 \item{linewidth}{Linewidth if using geom_line or geom_sf}
 }
