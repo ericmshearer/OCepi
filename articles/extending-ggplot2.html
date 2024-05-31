@@ -9,9 +9,7 @@
 <title>Extending ggplot2 • OCepi</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/JetBrains_Mono-0.4.9/font.css" rel="stylesheet">
-<!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Extending ggplot2">
 <meta property="og:description" content="OCepi">
@@ -90,7 +88,8 @@
 <code>apollo_label</code> - labels that match branding
 aesthetic</li>
 <li>
-<code>end_points</code> - subset at last time series data point</li>
+<code>end_points</code> - subset data at last time series data
+point</li>
 <li>
 <code>wrap_labels</code> - wrap long axis labels to better fit
 plot</li>
@@ -124,7 +123,7 @@ on expression</li>
 <span>    y <span class="op">=</span> <span class="st">"Percentage (%)"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="extending-ggplot2_files/figure-html/boring-plot-1.png" width="960"></p>
-<p>Now we apply <code>theme_apollo</code> and <code>apollo_label</code>.
+<p>Now applying <code>theme_apollo</code> and <code>apollo_label</code>.
 Note: when using <code>coord_flip</code> for horizontal bar charts, set
 <code>direction</code> to “horizontal” within
 <code>theme_apollo</code>.</p>
@@ -136,12 +135,12 @@ Note: when using <code>coord_flip</code> for horizontal bar charts, set
 <span>    label <span class="op">=</span> <span class="fu"><a href="../reference/n_percent.html">n_percent</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">percent</span>, reverse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age_group</span>, y <span class="op">=</span> <span class="va">percent</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#353D42"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">55</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Title Goes Here"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"Subtitle Goes Here\n"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Subtitle Goes Here"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"Age Groups (Years)"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Percentage (%)"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
@@ -149,21 +148,29 @@ Note: when using <code>coord_flip</code> for horizontal bar charts, set
 <p><img src="extending-ggplot2_files/figure-html/nice-plot-1.png" width="960"></p>
 </div>
 <div class="section level2">
-<h2 id="get-line-plot-label-data">Get line plot label data<a class="anchor" aria-label="anchor" href="#get-line-plot-label-data"></a>
+<h2 id="end_points">end_points<a class="anchor" aria-label="anchor" href="#end_points"></a>
 </h2>
 <p>For line plots with &gt;1 group, it is recommended to direct label
 groups. For line plots, <code>end_points</code> will subset the data to
-the last date in a time series, even if data contains &gt;1 group and
-those groups end at different dates (thank you Butte County for the
-suggestion).</p>
+the last date in a time series, even if groups end at different dates
+(thank you Butte County for the suggestion).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ts</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">scores</span>, group <span class="op">=</span> <span class="va">site</span>, linetype <span class="op">=</span> <span class="va">site</span>, colour <span class="op">=</span> <span class="va">site</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">year2023</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.Date.html" class="external-link">seq.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2023-01-01"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2023-12-01"</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"month"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Month <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">year2023</span>,<span class="fl">2</span><span class="op">)</span>,</span>
+<span>  Site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"A"</span>,<span class="fl">12</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"B"</span>,<span class="fl">12</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  Scores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">65</span><span class="op">:</span><span class="fl">99</span>, <span class="fl">12</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">65</span><span class="op">:</span><span class="fl">99</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ts</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Month</span>, y <span class="op">=</span> <span class="va">Scores</span>, group <span class="op">=</span> <span class="va">Site</span>, linetype <span class="op">=</span> <span class="va">Site</span>, colour <span class="op">=</span> <span class="va">Site</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">scale_x_date</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="va">ts</span><span class="op">$</span><span class="va">date</span>, date_labels <span class="op">=</span> <span class="st">"%b\n%Y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">scale_x_date</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="va">ts</span><span class="op">$</span><span class="va">Month</span>, date_labels <span class="op">=</span> <span class="st">"%b\n%Y"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>A <span class="op">=</span> <span class="st">"blue"</span>, B <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/apollo_label.html">apollo_label</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/end_points.html">end_points</a></span><span class="op">(</span><span class="va">ts</span>, <span class="va">date</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">site</span><span class="op">)</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/apollo_label.html">apollo_label</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/end_points.html">end_points</a></span><span class="op">(</span><span class="va">ts</span>, <span class="va">Month</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">Site</span><span class="op">)</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Comparison of Treatment Groups Over Time\n"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"Date"</span>,</span>
@@ -172,15 +179,17 @@ suggestion).</p>
 <p><img src="extending-ggplot2_files/figure-html/end-points-1.png" width="960"></p>
 </div>
 <div class="section level2">
-<h2 id="wrap-long-axis-labels">Wrap long axis labels<a class="anchor" aria-label="anchor" href="#wrap-long-axis-labels"></a>
+<h2 id="wrap_labels">wrap_labels<a class="anchor" aria-label="anchor" href="#wrap_labels"></a>
 </h2>
 <p>For categories with long titles (e.g. race/ethnicity), you may need
-the option to wrap text to better fit under/next to the axis. To specify
-amount of wrapping, use <code>width</code> argument to adjust (lower
-width = more wrapping, higher width = less wrapping).</p>
+to wrap text to better fit under/next to the axis. Use
+<code>width</code> argument to adjust amount of wrapping (lower width =
+more wrapping, higher width = less wrapping).</p>
 <p>Without wrapping:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">re</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">score</span>, label <span class="op">=</span> <span class="va">score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="va">re</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Native Hawaiian or Other Pacific Islander"</span>,<span class="st">"Black or African American"</span>,<span class="st">"American Indian or Alaska Native"</span><span class="op">)</span>, score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">89.5</span>, <span class="fl">84</span>, <span class="fl">73</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">re</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">score</span>, label <span class="op">=</span> <span class="va">score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -207,62 +216,73 @@ width = more wrapping, higher width = less wrapping).</p>
 <p><img src="extending-ggplot2_files/figure-html/wrap-label-1.png" width="768"></p>
 </div>
 <div class="section level2">
-<h2 id="dumbbell-plot">Dumbbell Plot<a class="anchor" aria-label="anchor" href="#dumbbell-plot"></a>
+<h2 id="geom_dumbbell">geom_dumbbell<a class="anchor" aria-label="anchor" href="#geom_dumbbell"></a>
 </h2>
 <p>Dumbbell plots consist of two points connected by a solid line.
 Useful in showing changes in pre/post test scores or timelines. Dataset
-requires two x variables (x and xend), y variable (character/factor).
-Speciy within <code>geom_dumbbell</code>: point colors (colour_x and
-colour_xend), line thickness (linewidth), line color (colour), and point
-size (size).</p>
+requires two x variables (x and xend) and y variable (usually
+character/factor).</p>
+<ul>
+<li>To customize the points, use colour_x, colour_end, and size.</li>
+<li>To customize line, use colour and linewidth.</li>
+</ul>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cleveland</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">PRE</span>, xend <span class="op">=</span> <span class="va">POST</span>, y <span class="op">=</span> <span class="va">Country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="va">pre_post</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"UK-A"</span>,<span class="st">"US-A"</span>,<span class="st">"UK-B"</span>,<span class="st">"US-B"</span><span class="op">)</span>, PRE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>, POST <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">pre_post</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">PRE</span>, xend <span class="op">=</span> <span class="va">POST</span>, y <span class="op">=</span> <span class="va">Country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_dumbbell.html">geom_dumbbell</a></span><span class="op">(</span>colour_x <span class="op">=</span> <span class="st">"red"</span>, colour_xend <span class="op">=</span> <span class="st">"blue"</span>, size <span class="op">=</span> <span class="fl">5</span>, linewidth <span class="op">=</span> <span class="fl">2</span>, colour <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Dumbbell Plot"</span>, x <span class="op">=</span> <span class="st">"Pre/Post Scores"</span>, y <span class="op">=</span> <span class="st">"Country"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="extending-ggplot2_files/figure-html/cleveland-1.png" width="768"></p>
 </div>
 <div class="section level2">
-<h2 id="lollipop-plot">Lollipop Plot<a class="anchor" aria-label="anchor" href="#lollipop-plot"></a>
+<h2 id="geom_lollipop">geom_lollipop<a class="anchor" aria-label="anchor" href="#geom_lollipop"></a>
 </h2>
 <p>Lollipop plot is similar to dumbbell plot, but has only one point
 with a stem.</p>
+<ul>
+<li>To customize the stem, use linewidth and linetype (default stem
+color is black.)</li>
+<li>To customize point, use size and color.</li>
+<li>For most plots, set <code>yend = 0</code>.</li>
+</ul>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cleveland</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Country</span>, y <span class="op">=</span> <span class="va">POST</span>, color <span class="op">=</span> <span class="va">Country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/geom_lollipop.html">geom_lollipop</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">5</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">pre_post</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Country</span>, y <span class="op">=</span> <span class="va">POST</span>, yend <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_lollipop.html">geom_lollipop</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="../reference/cdcd_color.html">cdcd_color</a></span><span class="op">(</span><span class="st">"orange"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">5</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Lollipop Plot"</span>, x <span class="op">=</span> <span class="st">"Country"</span>, y <span class="op">=</span> <span class="st">"Post Score"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="extending-ggplot2_files/figure-html/lollipop-1.png" width="960"></p>
 </div>
 <div class="section level2">
-<h2 id="highlight-group-of-interest">Highlight Group of Interest<a class="anchor" aria-label="anchor" href="#highlight-group-of-interest"></a>
+<h2 id="highlight_geom-desaturate_geom">highlight_geom &amp; desaturate_geom<a class="anchor" aria-label="anchor" href="#highlight_geom-desaturate_geom"></a>
 </h2>
-<p>In plots with multiple categories, you may want to draw attention to
-a specific group - whether it’s the highest/lowest value, a group of
-interest, etc. <code>highlight_geom</code> requires two main arguments -
-1) an expression (similar to what you’d use in
-<code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">dplyr::filter</a></code>), and 2) a color for highlighting. Although
-sensible defaults are built-in, the following arguments can be
-modified:</p>
+<p>When making data visualizations, emphasizing certain data points and
+de-emphasizing others helps the viewer see the takehome message. This
+can be achieved using colors against gray or lightening certain groups
+to help the main group jump out. {OCepi} providers two ways to do this:
+<code>highlight_geom</code> and <code>desaturate_geom</code>.</p>
+<p><code>highlight_geom</code> requires two basic arguments - 1) an
+expression (similar to what you’d use in <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">dplyr::filter</a></code>),
+and 2) a color for highlighting. Although sensible defaults are
+built-in, the following arguments within <code>highlight_geom</code> can
+be customized:</p>
 <ul>
-<li>alpha: transparency</li>
-<li>linewidth: line thickness (<code>geom_line</code>,
-<code>geom_sf</code>)</li>
-<li>size: point size</li>
+<li>size (<code>geom_point</code>)</li>
+<li>linewidth (<code>geom_line</code>, <code>geom_sf</code>)</li>
 </ul>
-<p>An alternative to <code>highlight_geom</code> is
-<code>desaturate_geom</code>. Instead of fading non-emphasized
-categories to gray, they will retain color but desaturated to a
-specified level using argument <code>desaturate</code>. Options to
-customize include:</p>
+<p>Please note: the default fade color/fill for
+<code>highlight_geom</code> is light grey (#cccccc). To override, add
+fill/color to <code>geom_*</code>
+(e.g. <code>geom_line(color = "black")</code>.</p>
+<p><code>desaturate_geom</code> requires the same two basic arguments as
+<code>highlight_geom</code> plus <code>desaturate</code> (range 0-1, 1
+highest level of desaturation). Instead of fading non-emphasized
+categories to gray, they will retain color but be desaturated. Options
+to customize include:</p>
 <ul>
-<li>desaturate: level of desaturation ranging from 0 to 1 (with 1 being
-highest level of desaturation)</li>
-<li>size: point size</li>
-<li>linewidth: line thickness (<code>geom_line</code>,
-<code>geom_sf</code>)</li>
-<li>stroke: outline linewidth when using <code>geom_point</code>
-</li>
+<li>size (points)</li>
+<li>linewidth (<code>geom_line</code>, <code>geom_sf</code>)</li>
+<li>stroke (outline linewidth when using <code>geom_point</code>)</li>
 </ul>
 <p>If you’d like to highlight one or more words in your title to match,
 you may use <code>highlight_title</code>. Please note this requires
@@ -276,7 +296,13 @@ package <code>ggtext</code> to work, and add this to your code chunk:
 <h4 id="bar-plot">bar plot<a class="anchor" aria-label="anchor" href="#bar-plot"></a>
 </h4>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">highlight</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">locations</span>, y <span class="op">=</span> <span class="va">scores</span>, label <span class="op">=</span> <span class="va">scores</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="va">highlight</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"B"</span>,<span class="st">"B"</span><span class="op">)</span>,</span>
+<span>  locations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,<span class="fl">2</span><span class="op">)</span>,</span>
+<span>  scores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">89</span>,<span class="fl">62</span>,<span class="fl">74</span>,<span class="fl">88</span>,<span class="fl">89.5</span>,<span class="fl">82</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">highlight</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">locations</span>, y <span class="op">=</span> <span class="va">scores</span>, label <span class="op">=</span> <span class="va">scores</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">site</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/highlight_geom.html">highlight_geom</a></span><span class="op">(</span><span class="va">scores</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">scores</span><span class="op">)</span>, pal <span class="op">=</span> <span class="fu"><a href="../reference/cdcd_color.html">cdcd_color</a></span><span class="op">(</span><span class="st">"london pink"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -306,34 +332,39 @@ package <code>ggtext</code> to work, and add this to your code chunk:
 <h4 id="line-plot">Line plot<a class="anchor" aria-label="anchor" href="#line-plot"></a>
 </h4>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ts</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">scores</span>, group <span class="op">=</span> <span class="va">site</span>, label <span class="op">=</span> <span class="va">site</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ts</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Month</span>, y <span class="op">=</span> <span class="va">Scores</span>, group <span class="op">=</span> <span class="va">Site</span>, label <span class="op">=</span> <span class="va">Site</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/highlight_geom.html">highlight_geom</a></span><span class="op">(</span><span class="va">site</span> <span class="op">==</span> <span class="st">"A"</span>, pal <span class="op">=</span> <span class="st">"darkblue"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/highlight_geom.html">highlight_geom</a></span><span class="op">(</span><span class="va">Site</span> <span class="op">==</span> <span class="st">"A"</span>, pal <span class="op">=</span> <span class="st">"darkblue"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"highlight_geom - line plot\n"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/apollo_label.html">apollo_label</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/end_points.html">end_points</a></span><span class="op">(</span><span class="va">ts</span>, <span class="va">date</span><span class="op">)</span>, hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.3</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/apollo_label.html">apollo_label</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/end_points.html">end_points</a></span><span class="op">(</span><span class="va">ts</span>, <span class="va">Month</span><span class="op">)</span>, hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="extending-ggplot2_files/figure-html/highlight-line-1.png" width="960"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ts</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">scores</span>, group <span class="op">=</span> <span class="va">site</span>, label <span class="op">=</span> <span class="va">site</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ts</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Month</span>, y <span class="op">=</span> <span class="va">Scores</span>, group <span class="op">=</span> <span class="va">Site</span>, label <span class="op">=</span> <span class="va">Site</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/desaturate_geom.html">desaturate_geom</a></span><span class="op">(</span><span class="va">site</span> <span class="op">==</span> <span class="st">"A"</span>, pal <span class="op">=</span> <span class="st">"#113a72"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, desaturate <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/desaturate_geom.html">desaturate_geom</a></span><span class="op">(</span><span class="va">Site</span> <span class="op">==</span> <span class="st">"A"</span>, pal <span class="op">=</span> <span class="st">"#113a72"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, desaturate <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"desaturate_geom - line plot\n"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/apollo_label.html">apollo_label</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/end_points.html">end_points</a></span><span class="op">(</span><span class="va">ts</span>, <span class="va">date</span><span class="op">)</span>, hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.3</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/apollo_label.html">apollo_label</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/end_points.html">end_points</a></span><span class="op">(</span><span class="va">ts</span>, <span class="va">Month</span><span class="op">)</span>, hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="extending-ggplot2_files/figure-html/highlight-line-2.png" width="960"></p>
 </div>
 <div class="section level4">
 <h4 id="point-plot">Point plot<a class="anchor" aria-label="anchor" href="#point-plot"></a>
 </h4>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">points</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="va">points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">50</span><span class="op">)</span>,</span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">points</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/highlight_geom.html">highlight_geom</a></span><span class="op">(</span><span class="va">y</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span>, pal <span class="op">=</span> <span class="st">"#8B0000"</span>, size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">55</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
