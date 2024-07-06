@@ -18,124 +18,158 @@ knitr::opts_chunk$set(
 library(OCepi)
 library(dplyr)
 library(ggplot2)
-linelist <- "Ethnicity,Race,Gender,Age,SexualOrientation,SpecimenDate
-Non-Hispanic or Latino,Multiple Races,M,46,HET,6/7/2022
-Unknown,Unknown,M,4,HET,6/9/2022
-Non-Hispanic or Latino,White,F,52,UNK,6/7/2022
-Non-Hispanic or Latino,White,F,77,UNK,6/11/2022
-Unknown,American Indian or Alaska Native,M,71,HET,6/10/2022
-Non-Hispanic or Latino,Other,M,70,HET,6/9/2022
-Non-Hispanic or Latino,Black or African American,F,11,HET,6/8/2022
-Non-Hispanic or Latino,Black or African American,F,8,HET,6/12/2022
-Hispanic or Latino,American Indian or Alaska Native,F,41,HET,6/12/2022
-Non-Hispanic or Latino,Black or African American,M,56,HET,6/10/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,F,40,HET,6/14/2022
-Non-Hispanic or Latino,Black or African American,M,1,HET,6/8/2022
-Non-Hispanic or Latino,Other,F,60,HET,6/7/2022
-Hispanic or Latino,American Indian or Alaska Native,F,22,HET,6/10/2022
-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,84,HET,6/6/2022
-Non-Hispanic or Latino,Unknown,F,16,HET,6/13/2022
-Hispanic or Latino,White,M,46,HET,6/7/2022
-Non-Hispanic or Latino,Unknown,U,6,HET,6/13/2022
-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,73,HET,6/8/2022
-Non-Hispanic or Latino,Black or African American,F,81,HET,6/8/2022
-Non-Hispanic or Latino,Black or African American,M,51,DNK,6/4/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,2,HET,6/11/2022
-Non-Hispanic or Latino,Other,M,18,HET,6/7/2022
-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,25,HET,6/15/2022
-Non-Hispanic or Latino,White,U,7,HET,6/7/2022
-Non-Hispanic or Latino,Other,F,35,HET,6/7/2022
-Non-Hispanic or Latino,Other,F,67,HET,6/10/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,60,HET,6/10/2022
-Hispanic or Latino,Asian,U,62,UNK,6/6/2022
-Non-Hispanic or Latino,Other,F,61,HET,6/4/2022
-Non-Hispanic or Latino,Other,F,71,HET,6/5/2022
-Non-Hispanic or Latino,White,F,5,HET,6/7/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,F,27,HET,6/11/2022
-Unknown,Native Hawaiian or Other Pacific Islander,M,13,HET,6/7/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,42,HET,6/13/2022
-Hispanic or Latino,White,U,34,HET,6/11/2022
-Non-Hispanic or Latino,White,M,32,HET,6/12/2022
-Non-Hispanic or Latino,Black or African American,F,9,HET,6/4/2022
-Non-Hispanic or Latino,White,D,55,HET,6/9/2022
-Non-Hispanic or Latino,Black or African American,M,33,HET,6/10/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,U,87,UNK,6/10/2022
-Non-Hispanic or Latino,White,F,86,DNK,6/10/2022
-Non-Hispanic or Latino,Asian,F,20,HET,6/9/2022
-Non-Hispanic or Latino,White,U,24,DNK,6/8/2022
-Hispanic or Latino,American Indian or Alaska Native,U,45,UNK,6/11/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,58,HET,6/13/2022
-Hispanic or Latino,White,F,89,HET,6/13/2022
-Hispanic or Latino,Asian,M,48,HET,6/11/2022
-Non-Hispanic or Latino,Other,M,42,HET,6/13/2022
-Non-Hispanic or Latino,White,F,56,HET,6/9/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,1,HET,6/9/2022
-Non-Hispanic or Latino,Black or African American,M,25,HET,6/7/2022
-Non-Hispanic or Latino,Asian,F,58,UNK,6/9/2022
-Non-Hispanic or Latino,White,F,39,DNK,6/7/2022
-Non-Hispanic or Latino,Asian,M,38,HET,6/14/2022
-Non-Hispanic or Latino,Multiple Races,M,58,HET,6/12/2022
-Non-Hispanic or Latino,Black or African American,F,12,HET,6/15/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,M,40,HET,6/8/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,52,HET,6/9/2022
-Non-Hispanic or Latino,Multiple Races,F,10,HET,6/12/2022
-Non-Hispanic or Latino,Black or African American,M,29,HET,6/10/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,15,HET,6/9/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,F,22,HET,6/5/2022
-Hispanic or Latino,American Indian or Alaska Native,F,75,HET,6/11/2022
-Unknown,White,F,85,HET,6/12/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,F,72,HET,6/16/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,U,14,HET,6/18/2022
-Non-Hispanic or Latino,Asian,F,80,HET,6/12/2022
-Hispanic or Latino,Asian,F,32,HET,6/13/2022
-Non-Hispanic or Latino,Asian,M,75,HET,6/10/2022
-Non-Hispanic or Latino,Unknown,D,71,HOM,6/11/2022
-Non-Hispanic or Latino,Black or African American,D,17,HET,6/9/2022
-Non-Hispanic or Latino,Other,F,46,HET,6/7/2022
-Non-Hispanic or Latino,Other,M,83,UNK,6/9/2022
-Non-Hispanic or Latino,Asian,M,79,HET,6/8/2022
-Non-Hispanic or Latino,Unknown,M,20,HET,6/11/2022
-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,61,HET,6/9/2022
-Non-Hispanic or Latino,Black or African American,M,32,HET,6/10/2022
-Non-Hispanic or Latino,White,F,50,HET,6/14/2022
-Hispanic or Latino,Unknown,D,85,HOM,6/13/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,4,HET,6/9/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,59,HET,6/8/2022
-Unknown,Black or African American,M,75,HET,6/9/2022
-Non-Hispanic or Latino,Multiple Races,M,45,HET,6/13/2022
-Non-Hispanic or Latino,Black or African American,U,56,HET,6/9/2022
-Non-Hispanic or Latino,Other,F,36,HET,6/11/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,M,79,HET,6/6/2022
-Hispanic or Latino,American Indian or Alaska Native,M,88,HET,6/9/2022
-Hispanic or Latino,Other,F,82,HET,6/16/2022
-Non-Hispanic or Latino,Black or African American,F,7,HET,6/8/2022
-Non-Hispanic or Latino,Unknown,D,26,HET,6/11/2022
-Non-Hispanic or Latino,Multiple Races,F,75,DNK,6/11/2022
-Unknown,Other,D,8,HET,6/8/2022
-Non-Hispanic or Latino,Unknown,M,77,HET,6/15/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,M,14,HET,6/14/2022
-Non-Hispanic or Latino,Other,F,71,HOM,6/8/2022
-Non-Hispanic or Latino,Other,F,23,HET,6/10/2022
-Non-Hispanic or Latino,White,F,16,HET,6/6/2022
-Non-Hispanic or Latino,Asian,F,43,BIS,6/9/2022
-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,74,HET,6/8/2022
-Unknown,White,M,70,HET,6/14/2022
-Non-Hispanic or Latino,Multiple Races,M,39,HET,6/10/2022
-Non-Hispanic or Latino,Unknown,F,31,HET,6/14/2022
-Hispanic or Latino,Asian,M,38,HET,6/9/2022
-Non-Hispanic or Latino,Other,F,31,HET,6/8/2022"
+linelist <- data.frame(
+   stringsAsFactors = FALSE,
+          Ethnicity = c("Non-Hispanic or Latino",
+                        "Unknown","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Unknown","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Hispanic or Latino","Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Hispanic or Latino","Hispanic or Latino",
+                        "Non-Hispanic or Latino","Hispanic or Latino","Non-Hispanic or Latino",
+                        "Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Unknown",
+                        "Non-Hispanic or Latino","Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Hispanic or Latino",
+                        "Non-Hispanic or Latino","Hispanic or Latino",
+                        "Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Hispanic or Latino","Unknown",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Unknown",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Hispanic or Latino",
+                        "Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Unknown",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Hispanic or Latino",
+                        "Unknown","Non-Hispanic or Latino",
+                        "Non-Hispanic or Latino","Hispanic or Latino","Non-Hispanic or Latino"),
+               Race = c("Multiple Races","Unknown",
+                        "White","White","American Indian or Alaska Native",
+                        "Other","Black or African American",
+                        "Black or African American","American Indian or Alaska Native",
+                        "Black or African American","American Indian or Alaska Native",
+                        "Black or African American","Other",
+                        "American Indian or Alaska Native",
+                        "Native Hawaiian or Other Pacific Islander","Unknown","White","Unknown",
+                        "Native Hawaiian or Other Pacific Islander","Black or African American",
+                        "Black or African American",
+                        "Native Hawaiian or Other Pacific Islander","Other",
+                        "Native Hawaiian or Other Pacific Islander","White","Other","Other",
+                        "Native Hawaiian or Other Pacific Islander","Asian","Other","Other",
+                        "White","American Indian or Alaska Native",
+                        "Native Hawaiian or Other Pacific Islander",
+                        "Native Hawaiian or Other Pacific Islander","White","White",
+                        "Black or African American","White","Black or African American",
+                        "American Indian or Alaska Native","White","Asian",
+                        "White","American Indian or Alaska Native",
+                        "Native Hawaiian or Other Pacific Islander","White","Asian","Other",
+                        "White","Native Hawaiian or Other Pacific Islander",
+                        "Black or African American","Asian","White","Asian",
+                        "Multiple Races","Black or African American",
+                        "American Indian or Alaska Native",
+                        "Native Hawaiian or Other Pacific Islander","Multiple Races",
+                        "Black or African American","Native Hawaiian or Other Pacific Islander",
+                        "American Indian or Alaska Native",
+                        "American Indian or Alaska Native","White","American Indian or Alaska Native",
+                        "American Indian or Alaska Native","Asian","Asian",
+                        "Asian","Unknown","Black or African American","Other",
+                        "Other","Asian","Unknown",
+                        "Native Hawaiian or Other Pacific Islander","Black or African American","White",
+                        "Unknown","Native Hawaiian or Other Pacific Islander",
+                        "Native Hawaiian or Other Pacific Islander",
+                        "Black or African American","Multiple Races",
+                        "Black or African American","Other","American Indian or Alaska Native",
+                        "American Indian or Alaska Native","Other",
+                        "Black or African American","Unknown","Multiple Races","Other",
+                        "Unknown","American Indian or Alaska Native","Other",
+                        "Other","White","Asian",
+                        "Native Hawaiian or Other Pacific Islander","White","Multiple Races","Unknown",
+                        "Asian","Other"),
+             Gender = c("M","M","F","F","M","M",
+                        "F","F","F","M","F","M","F","F","M","F","M",
+                        "U","F","F","M","M","M","F","U","F","F","F",
+                        "U","F","F","F","F","M","M","U","M","F","D",
+                        "M","U","F","F","U","U","M","F","M","M","F","F",
+                        "M","F","F","M","M","F","M","F","F","M","TF",
+                        "F","F","F","F","U","F","TF","M","D","D",
+                        "TF","M","M","TF","M","M","F","D","F","F","M",
+                        "M","U","F","M","M","F","F","D","F","D","M","M",
+                        "F","F","F","F","M","M","M","F","M","F"),
+                Age = c(46L,4L,52L,77L,71L,70L,
+                        11L,8L,41L,56L,40L,1L,60L,22L,84L,16L,46L,6L,
+                        73L,81L,51L,2L,18L,25L,7L,35L,67L,60L,62L,
+                        61L,71L,5L,27L,13L,42L,34L,32L,9L,55L,33L,87L,
+                        86L,20L,24L,45L,58L,89L,48L,42L,56L,1L,25L,
+                        58L,39L,38L,58L,12L,40L,52L,10L,29L,15L,22L,75L,
+                        85L,72L,14L,80L,32L,75L,71L,17L,46L,83L,79L,
+                        20L,61L,32L,50L,85L,4L,59L,75L,45L,56L,36L,
+                        79L,88L,82L,7L,26L,75L,8L,77L,14L,71L,23L,16L,
+                        43L,74L,70L,39L,31L,38L,31L),
+  SexualOrientation = c("HET","HET","UNK","UNK",
+                        "HET","HET","HET","HET","HET","HET","HET","HET",
+                        "HET","HET","HET","HET","HET","HET","HET","HET",
+                        "DNK","HET","HET","HET","HET","HET","HET","HET",
+                        "UNK","HET","HET","HET","HET","HET","HET","HET",
+                        "HET","HET","HET","HET","UNK","DNK","HET","DNK",
+                        "UNK","HET","HET","HET","HET","HET","HET","HET",
+                        "UNK","DNK","HET","HET","HET","HET","HET","HET",
+                        "HET","HET","HET","HET","HET","HET","HET","HET",
+                        "HET","HET","HOM","HET","HET","UNK","HET","HET",
+                        "HET","HET","HET","HOM","HET","HET","HET","HET",
+                        "HET","HET","HET","HET","HET","HET","HET","DNK",
+                        "HET","HET","HET","HOM","HET","HET","BIS","HET",
+                        "HET","HET","HET","HET","HET"),
+       SpecimenDate = c("6/7/2022","6/9/2022",
+                        "6/7/2022","6/11/2022","6/10/2022","6/9/2022","6/8/2022",
+                        "6/12/2022","6/12/2022","6/10/2022","6/14/2022",
+                        "6/8/2022","6/7/2022","6/10/2022","6/6/2022",
+                        "6/13/2022","6/7/2022","6/13/2022","6/8/2022","6/8/2022",
+                        "6/4/2022","6/11/2022","6/7/2022","6/15/2022","6/7/2022",
+                        "6/7/2022","6/10/2022","6/10/2022","6/6/2022",
+                        "6/4/2022","6/5/2022","6/7/2022","6/11/2022","6/7/2022",
+                        "6/13/2022","6/11/2022","6/12/2022","6/4/2022",
+                        "6/9/2022","6/10/2022","6/10/2022","6/10/2022",
+                        "6/9/2022","6/8/2022","6/11/2022","6/13/2022","6/13/2022",
+                        "6/11/2022","6/13/2022","6/9/2022","6/9/2022",
+                        "6/7/2022","6/9/2022","6/7/2022","6/14/2022","6/12/2022",
+                        "6/15/2022","6/8/2022","6/9/2022","6/12/2022",
+                        "6/10/2022","6/9/2022","6/5/2022","6/11/2022","6/12/2022",
+                        "6/16/2022","6/18/2022","6/12/2022","6/13/2022",
+                        "6/10/2022","6/11/2022","6/9/2022","6/7/2022","6/9/2022",
+                        "6/8/2022","6/11/2022","6/9/2022","6/10/2022",
+                        "6/14/2022","6/13/2022","6/9/2022","6/8/2022","6/9/2022",
+                        "6/13/2022","6/9/2022","6/11/2022","6/6/2022",
+                        "6/9/2022","6/16/2022","6/8/2022","6/11/2022","6/11/2022",
+                        "6/8/2022","6/15/2022","6/14/2022","6/8/2022",
+                        "6/10/2022","6/6/2022","6/9/2022","6/8/2022","6/14/2022",
+                        "6/10/2022","6/14/2022","6/9/2022","6/8/2022")
+)
 
-header.true <- function(df){
-  names(df) <- as.character(unlist(df[1,]))
-  df[-1,]
-}
-
-linelist <- dplyr::as_tibble(linelist) %>%
-  tidyr::separate_rows(value, sep = "\n") %>%
-  tidyr::separate_wider_delim(value, delim = ",", names = paste0("V",1:6))
-linelist <- header.true(linelist)
-linelist$Age <- as.numeric(linelist$Age)
-linelist$SpecimenDate <- as.Date(linelist$SpecimenDate, "%m/%d/%Y")
+linelist <- linelist %>%
+  mutate(SpecimenDate = as.Date(SpecimenDate, "%m/%d/%Y"))
 ```
 
 The functions in this package were designed to simplify and standardize the most frequent recoding tasks. The examples below will use simulated outbreak data:
@@ -144,66 +178,74 @@ The functions in this package were designed to simplify and standardize the most
 head(linelist, 10)
 ```
 
-# Recoding
+## recode_race
 
-## Core Functions:
+`recode_race` can be used several different ways: ethnicity and race (CalREDIE), race only (CAIR2), LOINC codes (Syndromic, thank you Monterey for suggestion), and 'Multi-race Status' (VRBIS). If recoding using ethnicity and race, order should be `recode_race(ethnicity, race)`. To abbreviate long categories (i.e. Native Hawaiian/Other Pacific Islander to NHOPI), set `abbr_names` to TRUE.
 
--   `recode_race` - able to accept: ethnicity and race, race only, LOINC codes (thank you Monterey for suggestion), and 'Multi-race Status' variable from VRBIS.
-
-    -   Set `abbr_names` to TRUE to abbreviate long category names i.e. "American Indian or Alaska Native" to "AI/AN".
-
-    -   If using ethnicity and race, use order `recode_race(ethnicity, race)`.
-
--   `recode_gender` - can be used with CalREDIE or VRBIS; aims to use the most inclusive terms possible.
-
--   `recode_orientation` - created specifically for CalREDIE. Expects CTCIAdtlDemOrient variable.
-
--   `age_groups` - has several presets for grouping age:
-
-    -   **cair2 peds**: \<12 M, 12-15 M, 16-23 M, 24 M, 25-47 M, 4-6 Years, 6+ Years
-    -   **covid:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75-84, 85+
-    -   **decade:** 0-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
-    -   **enteric:** 0-4, 5-14, 15-24, 25-44, 45-64, 65+
-    -   **flu vax:** 0-18, 19-49, 50-64, 65+
-    -   **hcv:** 0-17, 18-39, 40-59, 60+
-    -   **infant:** 0-2M, 3-4M, 5-6M, 7-8M, 9-10M, 11-12M
-    -   **mpox:** 0-15, 16-24, 25-34, 35-44, 45-54, 55-64, 65+
-    -   **pertussis:** <1, 1-6, 7-10, 11-19, 20+
-    -   **school:** 0-4, 5-11, 12-17, 18-64, 65+
-    -   **wnv:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65+
-
-Example:
-
-```{r demographics}
-linelist <- linelist %>%
+```{r recode-race}
+linelist |>
   mutate(
-    Gender = recode_gender(Gender),
-    race_ethnicity = recode_race(Ethnicity, Race, abbr_names = TRUE),
-    age_group = age_groups(Age, type = "school"),
-    SexualOrientation = recode_orientation(SexualOrientation)
-  )
+    race_ethnicity = recode_race(Ethnicity, Race, abbr_names = FALSE)
+  ) |>
+  count(race_ethnicity)
 ```
 
-Frequency table with percentage using `add_percent` and incidence rates using `rate_per_100k`:
+Other use cases:
+```{r recode-race-other}
+recode_race("2028-9") #Syndromic/ESSENCE
 
-```{r freq, message=FALSE, warning=FALSE}
-linelist %>%
-  count(age_group) %>%
-  mutate(
-    percent = add_percent(n),
-    rate = case_when(
-      age_group == "0-4" ~ rate_per_100k(n, 100000, digits = 1),
-      age_group == "5-11" ~ rate_per_100k(n, 300000, digits = 1),
-      age_group == "12-17" ~ rate_per_100k(n, 500000, digits = 1),
-      age_group == "18-64" ~ rate_per_100k(n, 1000000, digits = 1),
-      age_group == "65+" ~ rate_per_100k(n, 2000000, digits = 1)
-      )
-    )
+recode_race("3") #VRBIS
 ```
 
-## Addresses
+## recode_gender
 
-Our best attempt to standardize and clean addresses is through `clean_address`. This function will: convert characters to title casing, recode abbreviated cardinal directions, and recode abbreviated street endings (i.e. Street, Circle, Plaza). On occasion there is a need to drop additional address data (i.e. Apartment, Unit), which can be done using `keep_extra`.
+Can be used with CalREDIE, VRBIS, and CAIR2 (or really any other dataset that abbreviates their gender variable to single letters).
+
+```{r recode-gender}
+linelist |>
+  mutate(Gender = recode_gender(Gender)) |>
+  count(Gender)
+```
+
+## recode_orientation
+
+Designed specifically for use with CalREDIE. Expects CTCIAdtlDemOrient variable.
+
+```{r recode-orientation}
+linelist |>
+  mutate(SexualOrientation = recode_orientation(SexualOrientation)) |>
+  count(SexualOrientation)
+```
+
+## age_groups
+
+"If you have to copy and paste code more than twice, create a function". With `age_groups`, we no longer have to copy + paste long `dplyr::case_when` statements to recode age to age groups.
+
+```{r age-groups}
+linelist |>
+  mutate(age_group = age_groups(Age), type = "decade") |>
+  count(age_group)
+```
+
+The default age groups is set to decade, but the following presets are available for use:
+
+-   **cair2 peds**: \<12 M, 12-15 M, 16-23 M, 24 M, 25-47 M, 4-6 Years, 6+ Years
+-   **covid:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75-84, 85+
+-   **decade:** 0-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80+
+-   **enteric:** 0-4, 5-14, 15-24, 25-44, 45-64, 65+
+-   **flu vax:** 0-18, 19-49, 50-64, 65+
+-   **hcv:** 0-17, 18-39, 40-59, 60+
+-   **infant:** 0-2M, 3-4M, 5-6M, 7-8M, 9-10M, 11-12M
+-   **mpox:** 0-15, 16-24, 25-34, 35-44, 45-54, 55-64, 65+
+-   **pertussis:** <1, 1-6, 7-10, 11-19, 20+
+-   **school:** 0-4, 5-11, 12-17, 18-64, 65+
+-   **wnv:** 0-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65+
+
+Please note: the returned output is set to factor to maintain proper ordering.
+
+## clean_address
+
+Our best attempt to standardize and clean addresses is through `clean_address`. This function will: convert characters to title casing, recode abbreviated cardinal directions, and recode abbreviated street endings (i.e. Street, Circle, Plaza). Set `keep_extra` to FALSE to drop additional address data (i.e. Apartment, Unit).
 
 ```{r clean-address}
 cases <- data.frame(
@@ -216,7 +258,7 @@ cases %>%
     )
 ```
 
-## Phone Numbers
+## clean_phone
 
 We also attempt to standardize phone number to a 10 digit U.S. format. If after removing country code and symbols, and length is not 10 characters, returned value is NA.
 
@@ -229,7 +271,7 @@ cases %>%
   mutate(HomePhone_clean = clean_phone(HomePhone))
 ```
 
-## Census Tracts
+## recode_ctract
 
 Census tract across datasets are not always the same - some contain state and county fips codes, some do not. To make them match, use `recode_ctract` to remove state and county fips code.
 
@@ -237,49 +279,67 @@ Census tract across datasets are not always the same - some contain state and co
 recode_ctract("06059099244")
 ```
 
-## VRBIS
+## vrbis_manner_death
 
-Core functions:
-
--   `vrbis_manner_death` - expects "Manner of Death" variable, follows CCDF data dictionary
--   `vrbis_place_death` - expects "Place of Death (Facility)", follows CCDF data dictionary
--   `vrbis_resident` - determine if death belongs to your local health jurisdiction
+Expects "Manner of Death" variable, follows CCDF data dictionary
 
 ```{r vrbis1, message = FALSE, warning = FALSE}
 vrbis_manner_death("A")
+```
 
+## vrbis_place_death
+
+Expects "Place of Death (Facility)", follows CCDF data dictionary
+
+```{r vrbis2, message = FALSE, warning = FALSE}
 vrbis_place_death(6)
 ```
 
-To use `vrbis_resident`, you will need to know your county fips code and CCDF county code (from appendix G). Returned output is 0/1 where 1 indicates death belongs to your county. For columns, you'll need (in order): "Place of Death (Facility)", "County of Death (Code)", "Decedents County of Residence (NCHS Code)". Next, plug in your fips code to `fips` and CCDF county code to `county` arguments.
+## vrbis_resident
 
-```{r vrbis2, message = FALSE, warning = FALSE, eval = FALSE}
-df <- df %>%
-  mutate(
-    lhj_resident = vrbis_resident(
-      place_of_death,
-      county_of_death_code,
-      decedents_county_of_residence_NCHS_Code,
-      fips = "059",
-      county = "30"
-      )
-    ) %>%
-  filter(lhj_resident == 1)
+To use `vrbis_resident`, you will need to know your county fips code and CCDF county code (appendix G). Returned output is 0/1 where 1 indicates death belongs to your county. For columns, you'll need (in order): "Place of Death (Facility)", "County of Death (Code)", "Decedents County of Residence (NCHS Code)". Next, plug in your fips code to `fips` and CCDF county code to `county_code` arguments.
+
+```{r vrbis3, message = FALSE, warning = FALSE, eval = FALSE}
+#Example 1 - OC SNF resident
+vrbis_resident(
+  "6",
+  "30",
+  "059",
+  fips = "059",
+  county_code = "30"
+  )
+
+#Example 2 - OC Community Death
+vrbis_resident(
+  "1",
+  "30",
+  "059",
+  fips = "059",
+  county_code = "30"
+  )
+
+#Example 3 - Non-OC resident dies in OC facility
+vrbis_resident(
+  "1",
+  "29",
+  "058",
+  fips = "059",
+  county_code = "30"
+  )
 ```
 
-# Data Masking
-
-## Suppression
+## suppress
 
 Small cell sizes may need to be suppressed to protect patient confidentiality prior to reporting. In this example, any cell sizes `less_than` 10 will be suppressed and `replace_with` double asterisk.
 
 ```{r suppress}
 linelist %>%
+  mutate(age_group = age_groups(Age)) %>%
   count(age_group) %>%
   mutate(n_suppress = suppress(n, less_than = 10, replace_with = "**"))
 ```
 
-## Redaction
+## hiv_redact
 
 Depending on unit/program policy, any mention of HIV or AIDS may need to be removed from the dataset. While not yet exhaustive, this function accounts for several variations of HIV and AIDS. If found, a warning message is printed to the console.
 
@@ -291,9 +351,7 @@ df <- hiv_redact(df)
 print(df)
 ```
 
-# CAIR2
-
-## Baby Name
+## baby_name
 
 Removes variants of baby/twin/newborn from first name. Addresses data quality issue in birth hepatitis B doses.
 
@@ -305,9 +363,7 @@ baby_name("NEWBORN")
 baby_name("twin A")
 ```
 
-# Data Management
-
-## Data.frames
+## remove_empty_cols
 
 `remove_empty_cols` drops all columns from data.frame that are blank (represented by `NA` or "")
 

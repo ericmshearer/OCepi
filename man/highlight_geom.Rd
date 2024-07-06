@@ -5,7 +5,7 @@
 \alias{ggplot_add.highlight}
 \title{Highlight Geom Using Expression}
 \usage{
-highlight_geom(expr, pal, size = 5, linewidth = 1.5)
+highlight_geom(expr, pal, size = 5, linewidth = 1.2)
 }
 \arguments{
 \item{expr}{Expression}

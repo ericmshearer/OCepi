@@ -3,6 +3,12 @@ template:
   bootstrap: 5
   theme: arrow-light
   bslib:
+    base_font:
+      google: Roboto
+    heading_font:
+      google: Roboto
+    code_font:
+      google: JetBrains Mono
     primary: '#353d42'
 navbar:
   bg: primary

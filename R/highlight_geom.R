@@ -16,7 +16,7 @@
 #' ggplot(data = df, aes(x = locations, y = scores)) +
 #' geom_col() +
 #' highlight_geom(scores==max(scores), pal = "#9E0059")
-highlight_geom <- function(expr, pal, size = 5, linewidth = 1.5) {
+highlight_geom <- function(expr, pal, size = 5, linewidth = 1.2) {
   structure(
     list(
       expr = rlang::enquo(expr),
@@ -33,59 +33,25 @@ highlight_geom <- function(expr, pal, size = 5, linewidth = 1.5) {
 #' @usage NULL
 #' @export
 #' @import dplyr
+#' @importFrom purrr walk
 ggplot_add.highlight <- function(object, plot, object_name) {
 
-  geom_type <- get_geom_type(plot)
+  hi_layers <- lapply(plot$layers, clone_layer)
 
-  cloned_layer <- clone_layer(plot$layers[[1]])
-
-  if(!inherits(plot$facet, "FacetNull")){
-    facet_on <- which_facet(plot)
-
-    new_data <- plot$data %>%
-      dplyr::group_by_at(facet_on) %>%
-      dplyr::filter(!!object$expr) %>%
-      dplyr::ungroup()
-  } else {
-    new_data <- plot$data %>%
-      filter(!!object$expr)
+  for(i in 1:length(hi_layers)){
+    hi_layers[[i]]$data <- hi_layers[[i]]$data %|W|% plot$data
+    hi_layers[[i]]$mapping <- hi_layers[[i]]$mapping %||% plot$mapping
   }
 
-  #highlight layer
-  cloned_layer$data <- new_data
-  cloned_layer$mapping <- plot$mapping
-  cloned_layer$aes_params$fill = object$color
-  cloned_layer$aes_params$colour = object$color
-  cloned_layer$aes_params$alpha = NULL
-  cloned_layer$geom_params$na.rm = TRUE
+  attempt_filter <- sapply(hi_layers, test_run, expr = object$expr)
+  position <- which(attempt_filter, arr.ind = TRUE)
+  hi_layers <- hi_layers[position]
 
-  if(geom_type == "point"){
-    cloned_layer$aes_params$size = object$size
-  }
+  purrr::walk(hi_layers, style_layer, expr = object$expr, color = object$color, linewidth = object$linewidth,
+              size = object$size, plot = plot)
 
-  if(geom_type == "line"){
-    cloned_layer$aes_params$linewidth = object$linewidth
-  }
+  #original base layer
+  plot$layers <- lapply(plot$layers, faded_layer, plot = plot)
 
-  #faded layer
-  plot$layers[[1]] <- faded_layer(plot$layers[[1]])
-
-  if(geom_type %in% c("bar","col")){
-    cloned_layer$geom_params$width = 0.9
-  }
-
-  if(geom_type == "boxplot"){
-    cloned_layer$aes_params$colour = "#000000"
-    plot$layers[[1]]$aes_params$colour = "#000000"
-  }
-
-  if(geom_type == "sf"){
-    plot$layers[[1]]$aes_params$fill = NULL
-    plot$layers[[1]]$aes_params$colour = NULL
-    cloned_layer$aes_params$colour = "#000000"
-    cloned_layer$aes_params$linewidth = object$linewidth
-  }
-
-  #new output
-  plot %+% cloned_layer
+  plot %+% hi_layers
 }

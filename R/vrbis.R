@@ -70,9 +70,9 @@ vrbis_place_death <- function(col){
 #'
 vrbis_resident <- function(death_location, county_of_death, county_fips, fips = "059", county_code = "30"){
   death_location = toupper(death_location)
-  cond1 = (death_location %in% c("6","LTCF")) * (county_of_death == county_code) #LTCF residents in OC
+  cond1 = (death_location %in% c("6","LTCF")) * (county_of_death %in% c(county_code,"59")) #LTCF residents in OC
   cond2 = (death_location %in% c("6","LTCF")) * (county_of_death != county_code) #LTCF residents in another county
-  cond3 = (county_fips %in% fips) #general pop/non LTCF
+  cond3 = (county_fips %in% c(fips,"59")) #general pop/non LTCF
   count = ifelse(cond1 == 1 | cond3 == 1 & cond2 == 0, 1, 0)
   return(count)
 }

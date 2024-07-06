@@ -153,7 +153,7 @@ Core functions:
 
 Basic plot using ggplot2:
 
-```{r boring-plot, fig.height=8, fig.width=10}
+```{r boring-plot, dpi = 125, fig.width = 11, fig.height = 9}
 linelist %>%
   count(age_group) %>%
   ggplot(aes(x = age_group, y = n)) +
@@ -168,7 +168,7 @@ linelist %>%
 
 Now applying `theme_apollo` and `apollo_label`. Note: when using `coord_flip` for horizontal bar charts, set `direction` to "horizontal" within `theme_apollo`.
 
-```{r nice-plot, fig.height=7, fig.width=10}
+```{r nice-plot, dpi = 125, fig.width = 11, fig.height = 9}
 linelist %>%
   count(age_group) %>%
   mutate(
@@ -192,7 +192,7 @@ linelist %>%
 
 For line plots with \>1 group, it is recommended to direct label groups. For line plots, `end_points` will subset the data to the last date in a time series, even if groups end at different dates (thank you Butte County for the suggestion).
 
-```{r end-points, fig.height=7, fig.width=10}
+```{r end-points, dpi = 125, fig.width = 12, fig.height = 9}
 set.seed(1234)
 year2023 <- seq.Date(as.Date("2023-01-01"), as.Date("2023-12-01"), by = "month")
 
@@ -222,7 +222,7 @@ For categories with long titles (e.g. race/ethnicity), you may need to wrap text
 
 Without wrapping:
 
-```{r no-wrap, fig.height=5, fig.width=8}
+```{r no-wrap, dpi = 125, fig.width = 11, fig.height = 9}
 re <- data.frame(group = c("Native Hawaiian or Other Pacific Islander","Black or African American","American Indian or Alaska Native"), score = c(89.5, 84, 73))
 
 ggplot(data = re, aes(x = group, y = score, label = score)) +
@@ -239,7 +239,7 @@ ggplot(data = re, aes(x = group, y = score, label = score)) +
 
 With wrapping:
 
-```{r wrap-label, fig.height=8, fig.width=8}
+```{r wrap-label, dpi = 125, fig.width = 11, fig.height = 9}
 ggplot(data = re, aes(x = group, y = score, label = score)) +
   geom_col() +
   scale_x_discrete(labels = wrap_labels(width = 15)) +
@@ -260,7 +260,7 @@ Dumbbell plots consist of two points connected by a solid line. Useful in showin
 -   To customize the points, use colour_x, colour_end, and size.
 -   To customize line, use colour and linewidth.
 
-```{r cleveland, fig.height=8, fig.width=8}
+```{r cleveland, dpi = 125, fig.width = 12, fig.height = 9}
 pre_post <- data.frame(Country = c("UK-A","US-A","UK-B","US-B"), PRE = c(0,1,2,3), POST = c(4,5,6,7))
 
 ggplot(data = pre_post, aes(x = PRE, xend = POST, y = Country)) +
@@ -277,18 +277,46 @@ Lollipop plot is similar to dumbbell plot, but has only one point with a stem.
 -   To customize point, use size and color.
 -   For most plots, set `yend = 0`.
 
-```{r lollipop, fig.height=8, fig.width=10}
+```{r lollipop, dpi = 125, fig.width = 12, fig.height = 9}
 ggplot(data = pre_post, aes(x = Country, y = POST, yend = 0)) +
   geom_lollipop(color = cdcd_color("orange"), size = 5, linewidth = 1) +
   labs(title = "Lollipop Plot", x = "Country", y = "Post Score") +
   theme_apollo(direction = "vertical")
 ```
 
+An alternate use case for `geom_lollipop` is labeling specific dates in time series plot.
+
+```{r lollipop2, dpi = 125, fig.width = 12, fig.height = 9}
+set.seed(1234)
+df <- data.frame(
+  type = "a",
+  date = seq.Date(from = as.Date("2023-01-01"), to = as.Date("2023-12-01"), by = "month"),
+  value = c(1,2,1,3,4,6,8,10,14,12,9,8),
+  stringsAsFactors = FALSE
+  )
+
+peak_date = as.Date("2023-07-01")
+peak_n = 8
+
+ggplot(df, aes(x = date, y = value)) +
+  geom_line(linewidth = 1) +
+  annotate("text", x = peak_date, y = peak_n * 0.65, label = "Intervention Started\nHere.") +
+  geom_lollipop(data = filter(df, date == peak_date), aes(x = date, y = value, yend = value * 0.7), color = cdcd_color("london pink"), linetype = "dotted", size = 2.5) +
+    scale_x_date(expand = expansion(add = c(0,10)), breaks = "month", date_labels = "%b-%y") +
+  scale_y_continuous(expand = expansion(add = c(0,10))) +
+  theme_apollo(direction = "vertical") +
+  labs(
+    title = "Labeling line plot with geom_lollipop\n",
+    x = "Date",
+    y = "No. of Observations"
+  )
+```
+
 ## highlight_geom & desaturate_geom
 
 When making data visualizations, emphasizing certain data points and de-emphasizing others helps the viewer see the takehome message. This can be achieved using colors against gray or lightening certain groups to help the main group jump out. {OCepi} providers two ways to do this: `highlight_geom` and `desaturate_geom`.
 
-`highlight_geom` requires two basic arguments - 1) an expression (similar to what you'd use in `dplyr::filter`), and 2) a color for highlighting. Although sensible defaults are built-in, the following arguments within `highlight_geom` can be customized:
+`highlight_geom` requires two basic arguments - 1) an expression (similar to what you'd use in `dplyr::filter`), and 2) a color for highlighting. Although sensible defaults are built-in, the following additional arguments within `highlight_geom` can be customized:
 
 -   size (`geom_point`)
 -   linewidth (`geom_line`, `geom_sf`)
@@ -307,7 +335,7 @@ Both highlighting approaches work with `facet_wrap` and `facet_grid`. Currently 
 
 #### bar plot
 
-```{r highlight-bar, fig.height=8, fig.width=10, warning=FALSE}
+```{r highlight-bar, dpi = 125, fig.width = 12, fig.height = 9, warning = FALSE}
 highlight <- data.frame(
   site = c("A","A","A","B","B","B"),
   locations = rep(letters[1:3],2),
@@ -329,7 +357,7 @@ ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
 ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
   geom_col() +
   facet_wrap(~site) +
-  desaturate_geom(scores == max(scores), pal = "#d55c19", desaturate = 0.75) +
+  desaturate_geom(scores == max(scores), pal = "#d55c19", desaturate = 0.8) +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
   theme_apollo(direction = "vertical") +
   labs(
@@ -340,7 +368,7 @@ ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
 
 #### Line plot
 
-```{r highlight-line, fig.height=8, fig.width=10, warning=FALSE}
+```{r highlight-line, dpi = 125, fig.width = 12, fig.height = 9, warning = FALSE}
 ggplot(data = ts, aes(x = Month, y = Scores, group = Site, label = Site)) +
   geom_line(linewidth = 1) +
   highlight_geom(Site == "A", pal = "darkblue", linewidth = 1.5) +
@@ -364,7 +392,7 @@ ggplot(data = ts, aes(x = Month, y = Scores, group = Site, label = Site)) +
 
 #### Point plot
 
-```{r highlight-point, fig.height=8, fig.width=10, warning=FALSE}
+```{r highlight-point, dpi = 125, fig.width = 12, fig.height = 9, warning = FALSE}
 points <- data.frame(
   x = sample(1:50, 50),
   y = sample(1:50, 50)
