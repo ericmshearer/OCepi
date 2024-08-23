@@ -2,7 +2,7 @@
 #'
 #' Spend less thinking about how to setup R project directories.
 #'
-#' @param read_me
+#' @param read_me Boolean to indicate if you want to use built-in OCepi Rmd template.
 #'
 #' @return Three sub-directories and READme.
 #' @export

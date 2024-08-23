@@ -7,7 +7,7 @@
 setup_project(read_me = FALSE)
 }
 \arguments{
-\item{read_me}{}
+\item{read_me}{Boolean to indicate if you want to use built-in OCepi Rmd template.}
 }
 \value{
 Three sub-directories and READme.

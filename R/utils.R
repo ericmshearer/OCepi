@@ -40,6 +40,16 @@ invert_map <- function(map) {
   return(out)
 }
 
+partial <- function(var, n_char = 4, upper_case = TRUE){
+  if(upper_case){
+    out <- trimws(substr(var, 1, n_char))
+    out <- toupper(out)
+  } else{
+    out <- trimws(substr(var, 1, n_char))
+  }
+  return(out)
+}
+
 "%||%" <- function(a, b) if (!is.null(a)) a else b
 
 "%|W|%" <- function(a, b) {

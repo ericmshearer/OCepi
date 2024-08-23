@@ -21,9 +21,6 @@ cdcd_color <- function(...){
   return(out)
 }
 
-# List of colors and the order in which they are printed.
-#' Complete list of colors.
-#' @export
 cd_cols <- c(
   "green" = "#5ea15d",
   "turquoise" = "#63c5b5",
@@ -32,5 +29,7 @@ cd_cols <- c(
   "orange" = "#F28C28",
   `title color` = "#231f20",
   `axis color` = "#353d42",
-  `grid color` = "#E8EDEE"
-)
+  `grid color` = "#E8EDEE",
+  "plum" = "#b366a4",
+  "mustard" = "#da9400"
+ )

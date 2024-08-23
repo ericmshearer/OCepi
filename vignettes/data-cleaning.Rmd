@@ -362,15 +362,3 @@ baby_name("NEWBORN")
 
 baby_name("twin A")
 ```
-
-## remove_empty_cols
-
-`remove_empty_cols` drops all columns from data.frame that are blank (represented by `NA` or "")
-
-```{r, message = TRUE, warning = TRUE}
-df <- data.frame(a = c(NA,NA,NA), b = c("","",""), c = c(1,2,3))
-print(df)
-
-df <- remove_empty_cols(df)
-print(df)
-```

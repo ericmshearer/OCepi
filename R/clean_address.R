@@ -40,6 +40,9 @@ clean_address <- function(address_var, keep_extra = TRUE){
   address_var = gsub("\\bCT\\b", "COURT", address_var)
   address_var = gsub("\\bPL\\b", "PLACE", address_var)
   address_var = gsub("\\bPLZ\\b", "PLAZA", address_var)
+  address_var = gsub("\\bHTS\\b", "HEIGHTS", address_var)
+  address_var = gsub("\\bRDG\\b", "RIDGE", address_var)
+  address_var = gsub("\\bCV\\b", "COVE", address_var)
 
   #extra
   address_var = gsub("\\bAPT\\b", "APARTMENT", address_var)

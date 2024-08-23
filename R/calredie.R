@@ -54,52 +54,57 @@ recode_orientation <- function(col){
 #' recode_race("1")
 recode_race <- function(ethnicity, race, abbr_names = FALSE){
 
-  if(missing(race)){
-    ethnicity = trimws(ethnicity)
-    combo_var = ethnicity
-  } else{
-    ethnicity = trimws(ethnicity)
-    race = trimws(race)
-    combo_var = ifelse(ethnicity %in% c("Hispanic or Latino","Latino","Hispanic","2135-2"), ethnicity, race)
-  }
-
-  if(abbr_names){
-    names = "Abbr"
-  }else {
-      names = "Full"
-      }
-
   race_list = list(
     Full = list(
       `American Indian/Alaska Native` = c("American Indian or Alaska Native","1002-5","3"),
       Asian = c("Asian","2028-5","2028-9","2034-7","2036-2","2039-6","2040-4","2047-9","4"),
       `Black/African American` = c("Black or African American","Black","2054-5","2"),
-      `Hispanic/Latinx` = c("Hispanic or Latino","Latino","Hispanic","2135-2","8"),
+      `Not Hispanic or Latino` = c("Not Hispanic or Latino","2186-5"),
+      `Hispanic/Latinx` = c("Hispanic or Latino","Hispanic/Latinx","Latino","Hispanic","2135-2","8"),
       `Multiple Races` = c("Multiracial","Multiple Races","7"),
       `Native Hawaiian/Other Pacific Islander` = c("Native Hawaiian or Other Pacific Islander","Native Hawaiian","Other Pacific Islander","2076-8","2079-2","2087-5","2088-3","2080-0","2500-7","5"),
       White = c("White","2106-3","1"),
       Other = c("Other","Other race","6","2131-1"),
-      Unknown = c(NA_character_,"Unknown","Unknown race","9","NR")
+      Unknown = c(NA_character_,"Unknown","Unknown race","9","NR","PHC1175","POL","UNK")
     ),
     Abbr = list(
       `AI/AN` = c("American Indian or Alaska Native","1002-5","3"),
       Asian = c("Asian","2028-5","2028-9","2034-7","2036-2","2039-6","2040-4","2047-9","4"),
       `Black/African American` = c("Black or African American","Black","2054-5","2"),
-      `Hispanic/Latinx` = c("Hispanic or Latino","Latino","Hispanic","2135-2","8"),
+      `Not Hispanic or Latino` = c("Not Hispanic or Latino","2186-5"),
+      `Hispanic/Latinx` = c("Hispanic or Latino","Hispanic/Latinx","Latino","Hispanic","2135-2","8"),
       `Multiple Races` = c("Multiracial","Multiple Races","7"),
       NHOPI = c("Native Hawaiian or Other Pacific Islander","Native Hawaiian","Other Pacific Islander","2076-8","2079-2","2087-5","2088-3","2080-0","2500-7","5"),
       White = c("White","2106-3","1"),
       Other = c("Other","Other race","6","2131-1"),
-      Unknown = c(NA_character_,"Unknown","Unknown race","9","NR")
+      Unknown = c(NA_character_,"Unknown","Unknown race","9","NR","PHC1175","POL","UNK")
     )
   )
-
-  race_list <- race_list[names][[1]]
-  mapping <- invert_map(race_list)
-  vec_pos <- match(combo_var, names(mapping))
-
-  out <- mapping[vec_pos]
-  out <- unname(out)
+  if(abbr_names){
+    names = "Abbr"
+  }else {
+    names = "Full"
+  }
+  if(missing(race)){
+    ethnicity = trimws(ethnicity)
+    combo_var = ethnicity
+    race_list <- race_list[names][[1]]
+    mapping <- invert_map(race_list)
+    vec_pos <- match(combo_var, names(mapping))
+    out <- mapping[vec_pos]
+    out <- unname(out)
+    out <- ifelse(is.na(out), "Unknown", out)
+  } else{
+    ethnicity = trimws(ethnicity)
+    race = trimws(race)
+    combo_var = ifelse(ethnicity %in% c("Hispanic or Latino","Hispanic/Latinx","Latino","Hispanic","2135-2"), ethnicity, race)
+    race_list <- race_list[names][[1]]
+    mapping <- invert_map(race_list)
+    vec_pos <- match(combo_var, names(mapping))
+    out <- mapping[vec_pos]
+    out <- unname(out)
+    out <- ifelse(is.na(out), "Unknown", out)
+  }
   return(out)
 }
 
