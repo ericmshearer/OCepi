@@ -273,13 +273,13 @@ ggplot(data = pre_post, aes(x = PRE, xend = POST, y = Country)) +
 
 Lollipop plot is similar to dumbbell plot, but has only one point with a stem.
 
--   To customize the stem, use linewidth and linetype (default stem color is black.)
+-   To customize the stem, use line.colour, linewidth, and linetype (default stem color is black.)
 -   To customize point, use size and color.
 -   For most plots, set `yend = 0`.
 
 ```{r lollipop, dpi = 125, fig.width = 12, fig.height = 9}
 ggplot(data = pre_post, aes(x = Country, y = POST, yend = 0)) +
-  geom_lollipop(color = cdcd_color("orange"), size = 5, linewidth = 1) +
+  geom_lollipop(color = cdcd_color("orange"), line.colour = "#000000", size = 5, linewidth = 1) +
   labs(title = "Lollipop Plot", x = "Country", y = "Post Score") +
   theme_apollo(direction = "vertical")
 ```
@@ -301,7 +301,7 @@ peak_n = 8
 ggplot(df, aes(x = date, y = value)) +
   geom_line(linewidth = 1) +
   annotate("text", x = peak_date, y = peak_n * 0.65, label = "Intervention Started\nHere.") +
-  geom_lollipop(data = filter(df, date == peak_date), aes(x = date, y = value, yend = value * 0.7), color = cdcd_color("london pink"), linetype = "dotted", size = 2.5) +
+  geom_lollipop(data = filter(df, date == peak_date), aes(x = date, y = value, yend = value * 0.7), color = cdcd_color("london pink"), line.colour = "#000000", linetype = "dotted", size = 2.5) +
     scale_x_date(expand = expansion(add = c(0,10)), breaks = "month", date_labels = "%b-%y") +
   scale_y_continuous(expand = expansion(add = c(0,10))) +
   theme_apollo(direction = "vertical") +
@@ -327,7 +327,6 @@ Please note: the default fade color/fill for `highlight_geom` is light grey (#cc
 
 -   size (points)
 -   linewidth (`geom_line`, `geom_sf`)
--   stroke (outline linewidth when using `geom_point`)
 
 If you'd like to highlight one or more words in your title to match, you may use `highlight_title`. Please note this requires package `ggtext` to work, and add this to your code chunk: `theme(plot.title = ggtext::element_markdown())`.
 
@@ -409,7 +408,7 @@ ggplot(data = points, aes(x = x, y = y)) +
 
 ggplot(data = points, aes(x = x, y = y)) +
   geom_point(size = 3) +
-  desaturate_geom(y %in% c(20:25), pal = "#355E3B", size = 4, desaturate = 0.7, stroke = 0.5) +
+  desaturate_geom(y %in% c(20:25), pal = "#355E3B", size = 4, desaturate = 0.7) +
   scale_y_continuous(expand = c(0,0), limits = c(0,55)) +
   theme_apollo(direction = "vertical") +
   labs(

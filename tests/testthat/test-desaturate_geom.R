@@ -29,10 +29,8 @@ test_that("point params", {
 
   p <- ggplot(data = df, aes(x = loc, y = scores)) +
     geom_point(stat = "identity") +
-    desaturate_geom(loc=="a", pal = "#d55c19", desaturate = 0.7, stroke = 1)
+    desaturate_geom(loc=="a", pal = "#d55c19", desaturate = 0.7)
 
   expect_equal(p$layers[[1]]$aes_params$size, NULL)
-  expect_equal(p$layers[[1]]$aes_params$stroke, 1)
-  expect_equal(p$layers[[1]]$aes_params$shape, 21)
-  expect_equal(p$layers[[1]]$aes_params$colour, "#d55c19")
+  expect_equal(p$layers[[2]]$aes_params$colour, "#d55c19")
 })

@@ -14,6 +14,11 @@
 #' @importFrom grid unit
 
 theme_apollo <- function(direction = c("vertical","horizontal"), font = NULL, legend = c("Show","Hide")) {
+
+  if(missing(direction)) {
+    direction <- "vertical"
+  }
+
   orient = match.arg(direction)
   leg = match.arg(legend)
 

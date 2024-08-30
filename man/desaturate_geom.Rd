@@ -5,14 +5,7 @@
 \alias{ggplot_add.desaturate}
 \title{Desaturate Geom Using Expression}
 \usage{
-desaturate_geom(
-  expr,
-  pal,
-  size = 3,
-  desaturate = 0.5,
-  linewidth = 1.5,
-  stroke = 1.3
-)
+desaturate_geom(expr, pal, size = 3, desaturate = 0.5, linewidth = 1.5)
 }
 \arguments{
 \item{expr}{Expression}
@@ -24,8 +17,6 @@ desaturate_geom(
 \item{desaturate}{Level of desaturation for non-highlighted data points, ranges from 0-1 with 1 equal to highest level of desaturation}
 
 \item{linewidth}{Linewidth if using geom_line or geom_sf}
-
-\item{stroke}{Outline linewidth when using geom_point}
 }
 \value{
 Desaturated geon

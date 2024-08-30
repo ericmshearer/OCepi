@@ -15,6 +15,7 @@ geom_lollipop(
   show.legend = NA,
   inherit.aes = TRUE,
   position = "identity",
+  line.colour = NULL,
   na.rm = FALSE,
   ...
 )
@@ -31,6 +32,8 @@ GeomLollipop
 \item{inherit.aes}{If TRUE combine with default mapping at the top level of the plot.}
 
 \item{position}{Default set to "identity".}
+
+\item{line.colour}{Hex code to override line color}
 
 \item{na.rm}{Boolean to remove NA values.}
 
