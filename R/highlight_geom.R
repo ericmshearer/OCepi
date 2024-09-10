@@ -16,7 +16,7 @@
 #' ggplot(data = df, aes(x = locations, y = scores)) +
 #' geom_col() +
 #' highlight_geom(scores==max(scores), pal = "#9E0059")
-highlight_geom <- function(expr, pal, size = 5, linewidth = 1.2) {
+highlight_geom <- function(expr, pal = NULL, size = 3.14, linewidth = 1.2) {
   structure(
     list(
       expr = rlang::enquo(expr),
@@ -33,25 +33,49 @@ highlight_geom <- function(expr, pal, size = 5, linewidth = 1.2) {
 #' @usage NULL
 #' @export
 #' @import dplyr
-#' @importFrom purrr walk
 ggplot_add.highlight <- function(object, plot, object_name) {
 
-  hi_layers <- lapply(plot$layers, clone_layer)
+  style <- list(
+    color = object$color,
+    linewidth = object$linewidth,
+    size = object$size
+  )
 
-  for(i in 1:length(hi_layers)){
-    hi_layers[[i]]$data <- hi_layers[[i]]$data %|W|% plot$data
-    hi_layers[[i]]$mapping <- hi_layers[[i]]$mapping %||% plot$mapping
+  group <- rlang::quo_text(plot$mapping$colour)
+
+  if(group != "NULL"){
+    plot$data$group_no = as.integer(factor(plot$data[[group]]))
+    plot$layers[[1]]$mapping <- plot$mapping
+    plot$layers[[1]]$mapping$group <- rlang::sym("group_no")
   }
 
-  attempt_filter <- sapply(hi_layers, test_run, expr = object$expr)
-  position <- which(attempt_filter, arr.ind = TRUE)
-  hi_layers <- hi_layers[position]
+  #clone all layers
+  cloned_layers <- lapply(plot$layers, clone_layer)
 
-  purrr::walk(hi_layers, style_layer, expr = object$expr, color = object$color, linewidth = object$linewidth,
-              size = object$size, plot = plot)
+  # geoms <- sapply(plot$layers, get_geom_type)
+  # position <- which(geoms %in% c("text","label"), arr.ind = TRUE)
+  # text_layers <- cloned_layers[position]
 
-  #original base layer
-  plot$layers <- lapply(plot$layers, faded_layer, plot = plot)
+  #assign data and aes mapping to cloned layers
+  cloned_layers <- lapply(cloned_layers, layer_setup, data = plot$data, mapping = plot$mapping, plot = plot)
 
+  #test expression on each layer
+  filter_test <- sapply(cloned_layers, test_run, expr = object$expr)
+  #keep only layers that passed expression test
+  position <- which(filter_test, arr.ind = TRUE)
+  hi_layers <- cloned_layers[position]
+  hi_layers <- lapply(hi_layers, layer_setup, data = plot$data, mapping = plot$mapping)
+
+  #assign filtered date to hi_layers
+  hi_layers <- lapply(hi_layers, new_layer_data, expr = object$expr, plot = plot)
+
+  #style hi_layers
+  factor <- get_interval(plot$data) #for time series
+  hi_layers <- lapply(hi_layers, style_layer, width = factor, style = style)
+
+  #fade original layer
+  plot$layers <- lapply(plot$layers, faded_layer)
+
+  #final output
   plot %+% hi_layers
 }

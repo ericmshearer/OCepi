@@ -2,7 +2,7 @@
 % Please edit documentation in R/match.R
 \name{match_id_2}
 \alias{match_id_2}
-\title{Match ID #2}
+\title{Match ID #2 - Partial Name, DOB, Full Address}
 \usage{
 match_id_2(first_name, last_name, dob, address)
 }

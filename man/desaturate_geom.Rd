@@ -5,7 +5,13 @@
 \alias{ggplot_add.desaturate}
 \title{Desaturate Geom Using Expression}
 \usage{
-desaturate_geom(expr, pal, size = 3, desaturate = 0.5, linewidth = 1.5)
+desaturate_geom(
+  expr,
+  pal = NULL,
+  size = 3.14,
+  desaturate = 0.75,
+  linewidth = 1.2
+)
 }
 \arguments{
 \item{expr}{Expression}

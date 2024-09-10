@@ -1,6 +1,11 @@
-get_geom_type <- function(plot){
-  type = tolower(gsub("Geom", "", sapply(plot$layers, function(x) class(x$geom)[1])))
-  type = type[!type %in% c("text","label")]
+"%||%" <- function(a, b) if (!is.null(a)) a else b
+
+"%|W|%" <- function(a, b) {
+  if (!inherits(a, "waiver")) a else b
+}
+
+get_geom_type <- function(layer){
+  type = tolower(gsub("Geom", "", class(layer$geom)[1]))
   return(type)
 }
 
@@ -10,11 +15,19 @@ clone_layer <- function(layer){
   new_layer
 }
 
+layer_setup <- function(layer, data, mapping, plot){
+  layer$data <- layer$data %|W|% plot$data
+  layer$mapping <- layer$mapping %|W|% plot$mapping
+  return(layer)
+}
+
 which_facet <- function(plot){
   if(class(plot$facet)[1] == "FacetWrap"){
     out = unname(sapply(plot$facet$params[1]$facets, rlang::quo_text))
-  } else {
+  } else if(class(plot$facet)[1] == "FacetGrid") {
     out = unname(sapply(plot$facet$params$cols, rlang::quo_text))
+  } else {
+    out = NULL
   }
   return(out)
 }
@@ -40,52 +53,38 @@ get_col <- function(df, type = NULL){
   return(list(pull_col, which_col))
 }
 
-faded_layer <- function(layer, plot, desaturate){
+faded_layer <- function(layer){
 
-  geom <- get_geom_type(plot)
+  geom <- get_geom_type(layer)
 
   fade_fill = layer$aes_params$fill %||% "#cccccc"
-  fade_col = layer$aes_params$colour %||% "#cccccc"
-  alpha_lev = layer$aes_params$alpha %||% NULL
+  fade_col = layer$aes_params$colour  %||% "#cccccc"
 
   layer$aes_params$fill = fade_fill
   layer$aes_params$colour = fade_col
-  layer$aes_params$alpha = alpha_lev
 
-  if("boxplot" %in% geom){
-    layer$aes_params$colour = "#000000"
-  }
-
-  if("sf" %in% geom){
-    layer$aes_params$fill = NULL
+  if(geom %in% c("bar","col")){
     layer$aes_params$colour = NULL
   }
 
-  layer
+  if(geom %in% c("sf")){
+    layer$aes_params$colour = NULL
+  }
+
+  return(layer)
 }
 
-desaturate_layer <- function(layer, plot, color, desaturate){
+desaturate_layer <- function(layer, style){
 
-  geom <- get_geom_type(plot)
-
-  fade_fill = lighten_color(color, amount = desaturate)
-  fade_col = lighten_color(color, amount = desaturate)
+  fade_fill = lighten_color(style$color, amount = style$desaturate)
+  fade_col = lighten_color(style$color, amount = style$desaturate)
   alpha_lev = layer$aes_params$alpha %||% NULL
 
   layer$aes_params$fill = fade_fill
   layer$aes_params$colour = fade_col
   layer$aes_params$alpha = alpha_lev
 
-  if("boxplot" %in% geom){
-    layer$aes_params$colour = "#000000"
-  }
-
-  if("sf" %in% geom){
-    layer$aes_params$fill = NULL
-    layer$aes_params$colour = NULL
-  }
-
-  layer
+  return(layer)
 }
 
 test_run <- function(layer, expr){
@@ -103,21 +102,20 @@ test_run <- function(layer, expr){
 }
 
 get_interval <- function(data){
-  var_check <- sapply(data, function(x) !all(is.na(as.Date(as.character(x), format = "%Y-%m-%d"))))
-  date_var <- names(which(var_check))
+  date_var <- get_col(data, type = "Date")[[1]]
 
-  if(length(date_var)==1){
-    dates <- data[[date_var]]
-    factor <- as.numeric(min(dates - lag(dates), na.rm = TRUE))
+  if(!is.na(date_var)){
+    dates <- unique(data[[date_var]])
+    factor <- as.numeric(min(dates - dplyr::lag(dates), na.rm = TRUE))
   } else {
     factor <- 1
   }
   return(factor)
 }
 
-style_layer <- function(layer, expr, color, linewidth, size, geom, plot){
+new_layer_data <- function(layer, expr, plot){
 
-  geom <- get_geom_type(plot)
+  geom <- get_geom_type(layer)
 
   if(!inherits(plot$facet, "FacetNull")){
     facet_on <- which_facet(plot)
@@ -131,28 +129,37 @@ style_layer <- function(layer, expr, color, linewidth, size, geom, plot){
       filter(!!expr)
   }
 
-  int_factor <- get_interval(layer$data)
-
   layer$data <- new_data
-  layer$aes_params$fill = color
-  layer$aes_params$colour = color
-  layer$geom_params$width = 0.9 * int_factor
 
-  if("point" %in% geom){
-    layer$aes_params$size = size
+  layer$name <- "hi_layer"
+
+  return(layer)
+}
+
+style_layer <- function(layer, style, width){
+
+  geom <- get_geom_type(layer)
+
+  layer$aes_params$fill = style$color %||% NULL
+  layer$aes_params$colour = style$color %||% NULL
+  layer$geom_params$width = 0.9 * width
+
+  if(geom %in% c("line")){
+    layer$aes_params$linewidth = style$linewidth
+    # layer$aes_params$linetype = style$linetype
   }
 
-  if("boxplot" %in% geom){
-    layer$aes_params$colour = "#000000"
+  if(geom %in% c("bar","col")){
+    layer$aes_params$colour = NULL
   }
 
-  if("sf" %in% geom){
-    layer$aes_params$colour = "#000000"
-    layer$aes_params$linewidth = linewidth
+  if(geom %in% c("point")){
+    layer$aes_params$size = style$size
   }
 
-  if("line" %in% geom){
-    layer$aes_params$linewidth = linewidth
+  if(geom %in% c("sf")){
+    layer$aes_params$colour = NULL
   }
-  layer
+
+  return(layer)
 }

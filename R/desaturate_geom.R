@@ -17,7 +17,7 @@
 #' ggplot(data = df, aes(x = locations, y = scores)) +
 #' geom_col() +
 #' desaturate_geom(scores==max(scores), pal = "#d55c19", desaturate = 0.7)
-desaturate_geom <- function(expr, pal, size = 3, desaturate = 0.5, linewidth = 1.5){
+desaturate_geom <- function(expr, pal = NULL, size = 3.14, desaturate = 0.75, linewidth = 1.2){
   structure(
     list(
       expr = rlang::enquo(expr),
@@ -37,21 +37,54 @@ desaturate_geom <- function(expr, pal, size = 3, desaturate = 0.5, linewidth = 1
 #' @import dplyr
 ggplot_add.desaturate <- function(object, plot, object_name){
 
-  hi_layers <- lapply(plot$layers, clone_layer)
-
-  for(i in 1:length(hi_layers)){
-    hi_layers[[i]]$data <- hi_layers[[i]]$data %|W|% plot$data
-    hi_layers[[i]]$mapping <- hi_layers[[i]]$mapping %||% plot$mapping
+  if(is.null(object$color)){
+    color <- "#F8766D"
+  } else {
+    color <- object$color
   }
 
-  attempt_filter <- sapply(hi_layers, test_run, expr = object$expr)
-  position <- which(attempt_filter, arr.ind = TRUE)
-  hi_layers <- hi_layers[position]
+  style <- list(
+    color = color,
+    linewidth = object$linewidth,
+    size = object$size,
+    desaturate = object$desaturate
+  )
 
-  purrr::walk(hi_layers, style_layer, expr = object$expr, color = object$color, linewidth = object$linewidth,
-              size = object$size, plot = plot)
+  group <- rlang::quo_text(plot$mapping$colour)
 
-  purrr::walk(plot$layers, desaturate_layer, plot = plot, color = object$color, desaturate = object$desaturate)
+  if(group != "NULL"){
+    plot$data$group_no = as.integer(factor(plot$data[[group]]))
+    plot$layers[[1]]$mapping <- plot$mapping
+    plot$layers[[1]]$mapping$group <- rlang::sym("group_no")
+  }
 
+  #clone all layers
+  cloned_layers <- lapply(plot$layers, clone_layer)
+
+  # geoms <- sapply(plot$layers, get_geom_type)
+  # position <- which(geoms %in% c("text","label"), arr.ind = TRUE)
+  # text_layers <- cloned_layers[position]
+
+  #assign data and aes mapping to cloned layers
+  cloned_layers <- lapply(cloned_layers, layer_setup, data = plot$data, mapping = plot$mapping, plot = plot)
+
+  #test expression on each layer
+  filter_test <- sapply(cloned_layers, test_run, expr = object$expr)
+  #keep only layers that passed expression test
+  position <- which(filter_test, arr.ind = TRUE)
+  hi_layers <- cloned_layers[position]
+  hi_layers <- lapply(hi_layers, layer_setup, data = plot$data, mapping = plot$mapping)
+
+  #assign filtered date to hi_layers
+  hi_layers <- lapply(hi_layers, new_layer_data, expr = object$expr, plot = plot)
+
+  #style hi_layers
+  factor <- get_interval(plot$data) #for time series
+  hi_layers <- lapply(hi_layers, style_layer, width = factor, style = style)
+
+  #fade original layer
+  plot$layers <- lapply(plot$layers, desaturate_layer, style = style)
+
+  #final output
   plot %+% hi_layers
 }

@@ -1,4 +1,4 @@
-#' Match ID #1
+#' Match ID #1 - Partial Name, DOB, Partial Address
 #'
 #' Match ID for linking disparate datasets using parts of identifiers. Be aware of address formatting and consider recoding variable using clean_address.
 #'
@@ -17,7 +17,7 @@ match_id_1 <- function(first_name, last_name, dob, part_address){
   return(id)
   }
 
-#' Match ID #2
+#' Match ID #2 - Partial Name, DOB, Full Address
 #'
 #' Match ID for linking disparate datasets using parts of identifiers.
 #'
@@ -36,7 +36,7 @@ match_id_2 <- function(first_name, last_name, dob, address){
   return(id)
   }
 
-#' Match ID #3
+#' Match ID #3 - Partial Name, DOB, Phone Number
 #'
 #' Match ID for linking disparate datasets using parts of identifiers. Be aware of phone number formatting and consider recoding variable using clean_phone.
 #'
@@ -55,7 +55,7 @@ match_id_3 <- function(first_name, last_name, dob, phone_number){
   return(id)
   }
 
-#' Match ID #4
+#' Match ID #4 - Partial Name, DOB
 #'
 #' Match ID for linking disparate datasets using parts of identifiers.
 #'

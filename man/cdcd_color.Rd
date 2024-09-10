@@ -7,7 +7,7 @@
 cdcd_color(...)
 }
 \arguments{
-\item{...}{Name of color(s) from cd_cols.}
+\item{...}{Vector of color names. Run cdcd_color() to view all options.}
 }
 \value{
 Hex codes.
@@ -15,9 +15,7 @@ Hex codes.
 \description{
 Function to call commonly used colors for data visualizations.
 }
-\details{
-Use names(cd_cols) to return all possible colors.
-}
 \examples{
+cdcd_color()
 cdcd_color("green")
 }

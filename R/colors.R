@@ -2,14 +2,13 @@
 #'
 #' Function to call commonly used colors for data visualizations.
 #'
-#' Use names(cd_cols) to return all possible colors.
-#'
-#' @param ... Name of color(s) from cd_cols.
+#' @param ... Vector of color names. Run cdcd_color() to view all options.
 #'
 #' @return Hex codes.
 #' @export
 #'
 #' @examples
+#' cdcd_color()
 #' cdcd_color("green")
 cdcd_color <- function(...){
   cols <- c(...)
