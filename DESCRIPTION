@@ -7,7 +7,8 @@ Authors@R: c(
   )
 Description: Collection of standardized methods that address the mundane data wrangling tasks for public health epidemiologists. The functions included in this package can be broadly applied but were made specifically for epidemiologists at county and State agencies.
 Depends:
-    ggplot2
+    ggplot2,
+    R (>= 2.10)
 Imports:
     magrittr,
     dplyr,
@@ -21,7 +22,7 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     tidyr,
-    ggtext
+    sf
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://ericmshearer.github.io/OCepi/
