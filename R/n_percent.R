@@ -13,7 +13,7 @@
 #' n_percent(5, 25)
 #' n_percent(5, 25, reverse = TRUE)
 n_percent <- function(n, percent, reverse = FALSE){
-  percent = ifelse(percent > 0 & percent < 1, "<1%", sprintf("%s%%", percent))
+  percent = ifelse(n > 0 & percent < 1, "<1%", sprintf("%s%%", percent))
   label = sprintf("%s (%s)", formatC(n, big.mark = ","), percent)
   if(reverse == TRUE){
     label = sprintf("%s (%s)", percent, formatC(n, big.mark = ","))

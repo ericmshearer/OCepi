@@ -1,7 +1,19 @@
 pos_res <- c("POSITIVE","REACTIVE","DETECTED","10828004","260373001","840533007","PCRP11","PDETD",
-             "COVPRE","11214006","Positive for IgG","POS","DECTECTED")
+             "COVPRE","11214006","Positive for IgG","POS","DECTECTED","REA","PPOSI","REAC")
 
+#' ELR Terms - Positive
+#'
+#' A vector of SNOMED codes and keywords to be used with ELR recoding.
+#'
+#' @param collapse Boolean to collapse string separated by "|".
+#'
+#' @rdname elr
+#' @return Vector of characters.
 #' @export
+#'
+#' @examples
+#' pos(collapse = FALSE)
+#' pos()
 pos <- function(collapse = FALSE){
   if(collapse){
     out <- paste0(pos_res, collapse = "|")
@@ -13,9 +25,22 @@ pos <- function(collapse = FALSE){
 
 neg_res <- c("NEGATIVE","NON REACTIVE","NON-REACTIVE","NOT REACTIVE","NOT DETECTED","NEG","NDET",
              "NOT DETECT","260385009","26041500","NOTDETECTED","131194007","895231008","NONE DETECTED",
-             "NO DETECTED","NOT DETECTABLE","NOT DETECTE","NOT DETECTIVE","NOTDETECT","NOTDETECTED")
+             "NO DETECTED","NOT DETECTABLE","NOT DETECTE","NOT DETECTIVE","NOTDETECT","NOTDETECTED",
+             "NR","NONREACTIVE","NOTREACTIVE")
 
+#' ELR Terms - Negative
+#'
+#' A vector of SNOMED codes and keywords to be used with ELR recoding.
+#'
+#' @param collapse Boolean to collapse string separated by "|".
+#'
+#' @rdname elr
+#' @return Vector of characters.
 #' @export
+#'
+#' @examples
+#' neg(collapse = FALSE)
+#' neg()
 neg <- function(collapse = FALSE){
   if(collapse){
     out <- paste0(neg_res, collapse = "|")

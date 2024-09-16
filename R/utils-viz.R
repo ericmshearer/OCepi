@@ -15,9 +15,9 @@ clone_layer <- function(layer){
   new_layer
 }
 
-layer_setup <- function(layer, data, mapping, plot){
-  layer$data <- layer$data %|W|% plot$data
-  layer$mapping <- layer$mapping %|W|% plot$mapping
+layer_setup <- function(layer, data, mapping){
+  layer$data <- layer$data %|W|% data
+  layer$mapping <- layer$mapping %|W|% mapping
   return(layer)
 }
 
@@ -131,7 +131,7 @@ new_layer_data <- function(layer, expr, plot){
 
   layer$data <- new_data
 
-  layer$name <- "hi_layer"
+  layer$name <- sprintf("%s_hi_layer", geom)
 
   return(layer)
 }

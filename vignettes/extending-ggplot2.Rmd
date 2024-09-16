@@ -177,7 +177,7 @@ linelist %>%
   ) %>%
   ggplot(aes(x = age_group, y = percent, label = label)) +
   geom_col() +
-  scale_y_continuous(expand = c(0,0), limits = c(0,55)) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,54)) +
   theme_apollo(direction = "vertical") +
   labs(
     title = "Title Goes Here",
@@ -328,8 +328,6 @@ Please note: the default fade color/fill for `highlight_geom` is light grey (#cc
 -   size (points)
 -   linewidth (`geom_line`, `geom_sf`)
 
-If you'd like to highlight one or more words in your title to match, you may use `highlight_title`. Please note this requires package `ggtext` to work, and add this to your code chunk: `theme(plot.title = ggtext::element_markdown())`.
-
 Both highlighting approaches work with `facet_wrap` and `facet_grid`. Currently works with `geom_col`/`geom_bar`, `geom_line`, `geom_sf`, and `geom_point`.
 
 #### bar plot
@@ -348,10 +346,9 @@ ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
   theme_apollo(direction = "vertical") +
   labs(
-    title = highlight_title("highlight_geom - bar plot<br>", words = c("highlight_geom" = cdcd_color("london pink"))),
+    title = "highlight_geom - bar plot\n",
   ) +
-  apollo_label(vjust = -0.3) +
-  theme(plot.title = ggtext::element_markdown())
+  apollo_label(vjust = -0.3)
 
 ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
   geom_col() +

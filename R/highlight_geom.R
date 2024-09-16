@@ -35,6 +35,8 @@ highlight_geom <- function(expr, pal = NULL, size = 3.14, linewidth = 1.2) {
 #' @import dplyr
 ggplot_add.highlight <- function(object, plot, object_name) {
 
+  factor <- get_interval(plot$data) #for time series
+
   style <- list(
     color = object$color,
     linewidth = object$linewidth,
@@ -56,11 +58,13 @@ ggplot_add.highlight <- function(object, plot, object_name) {
   # position <- which(geoms %in% c("text","label"), arr.ind = TRUE)
   # text_layers <- cloned_layers[position]
 
-  #assign data and aes mapping to cloned layers
-  cloned_layers <- lapply(cloned_layers, layer_setup, data = plot$data, mapping = plot$mapping, plot = plot)
+  #assign data and aes mapping to original and cloned layers
+  cloned_layers <- lapply(cloned_layers, layer_setup, data = plot$data, mapping = plot$mapping)
+  plot$layers <- lapply(plot$layers, layer_setup, data = plot$data, mapping = plot$mapping)
 
   #test expression on each layer
   filter_test <- sapply(cloned_layers, test_run, expr = object$expr)
+
   #keep only layers that passed expression test
   position <- which(filter_test, arr.ind = TRUE)
   hi_layers <- cloned_layers[position]
@@ -68,9 +72,9 @@ ggplot_add.highlight <- function(object, plot, object_name) {
 
   #assign filtered date to hi_layers
   hi_layers <- lapply(hi_layers, new_layer_data, expr = object$expr, plot = plot)
+  plot$data <- hi_layers[[1]]$data
 
   #style hi_layers
-  factor <- get_interval(plot$data) #for time series
   hi_layers <- lapply(hi_layers, style_layer, width = factor, style = style)
 
   #fade original layer

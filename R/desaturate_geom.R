@@ -37,6 +37,8 @@ desaturate_geom <- function(expr, pal = NULL, size = 3.14, desaturate = 0.75, li
 #' @import dplyr
 ggplot_add.desaturate <- function(object, plot, object_name){
 
+  factor <- get_interval(plot$data) #for time series
+
   if(is.null(object$color)){
     color <- "#F8766D"
   } else {
@@ -66,7 +68,8 @@ ggplot_add.desaturate <- function(object, plot, object_name){
   # text_layers <- cloned_layers[position]
 
   #assign data and aes mapping to cloned layers
-  cloned_layers <- lapply(cloned_layers, layer_setup, data = plot$data, mapping = plot$mapping, plot = plot)
+  cloned_layers <- lapply(cloned_layers, layer_setup, data = plot$data, mapping = plot$mapping)
+  plot$layers <- lapply(plot$layers, layer_setup, data = plot$data, mapping = plot$mapping)
 
   #test expression on each layer
   filter_test <- sapply(cloned_layers, test_run, expr = object$expr)
@@ -77,9 +80,9 @@ ggplot_add.desaturate <- function(object, plot, object_name){
 
   #assign filtered date to hi_layers
   hi_layers <- lapply(hi_layers, new_layer_data, expr = object$expr, plot = plot)
+  plot$data <- hi_layers[[1]]$data
 
   #style hi_layers
-  factor <- get_interval(plot$data) #for time series
   hi_layers <- lapply(hi_layers, style_layer, width = factor, style = style)
 
   #fade original layer
