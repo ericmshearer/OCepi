@@ -40,7 +40,7 @@ ggplot_add.desaturate <- function(object, plot, object_name){
   factor <- get_interval(plot$data) #for time series
 
   if(is.null(object$color)){
-    color <- "#F8766D"
+    color <- "#595959"
   } else {
     color <- object$color
   }

@@ -4,7 +4,7 @@
 \alias{n_percent}
 \title{Plot Labels for Counts & Proportion}
 \usage{
-n_percent(n, percent, reverse = FALSE)
+n_percent(n, percent, reverse = FALSE, n_suppress = NULL)
 }
 \arguments{
 \item{n}{Counts variable.}
@@ -12,6 +12,8 @@ n_percent(n, percent, reverse = FALSE)
 \item{percent}{Proportion variable.}
 
 \item{reverse}{Default set to false. Order switched to percent n if FALSE.}
+
+\item{n_suppress}{Maximum value for suppression. Returns double asterisk.}
 }
 \value{
 Plot label as character.

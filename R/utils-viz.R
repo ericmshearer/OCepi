@@ -76,6 +76,8 @@ faded_layer <- function(layer){
 
 desaturate_layer <- function(layer, style){
 
+  geom <- get_geom_type(layer)
+
   fade_fill = lighten_color(style$color, amount = style$desaturate)
   fade_col = lighten_color(style$color, amount = style$desaturate)
   alpha_lev = layer$aes_params$alpha %||% NULL
@@ -83,6 +85,10 @@ desaturate_layer <- function(layer, style){
   layer$aes_params$fill = fade_fill
   layer$aes_params$colour = fade_col
   layer$aes_params$alpha = alpha_lev
+
+  if(geom %in% c("sf")){
+    layer$aes_params$colour = "#FFFFFF"
+  }
 
   return(layer)
 }
@@ -158,7 +164,8 @@ style_layer <- function(layer, style, width){
   }
 
   if(geom %in% c("sf")){
-    layer$aes_params$colour = NULL
+    layer$aes_params$colour = "#FFFFFF"
+    layer$aes_params$linewidth = style$linewidth
   }
 
   return(layer)
