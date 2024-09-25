@@ -16,6 +16,6 @@
 #'  scale_x_discrete(labels = wrap_labels(width = 15))
 wrap_labels <- function(width) {
   function(x) {
-    lapply(strwrap(x, width = width, simplify = FALSE), paste, collapse = "\n")
+    lapply(strwrap(gsub("\\/","\\/ ", x), width = width, simplify = FALSE), paste, collapse = "\n")
   }
 }

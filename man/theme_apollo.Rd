@@ -5,7 +5,7 @@
 \title{Apollo Theme}
 \usage{
 theme_apollo(
-  direction = c("vertical", "horizontal"),
+  direction = c("vertical", "horizontal", "map"),
   font = NULL,
   legend = c("Show", "Hide")
 )
