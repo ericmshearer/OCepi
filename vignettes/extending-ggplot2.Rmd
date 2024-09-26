@@ -218,7 +218,7 @@ ggplot(data = ts, aes(x = Month, y = Scores, group = Site, linetype = Site, colo
 
 ## wrap_labels
 
-For categories with long titles (e.g. race/ethnicity), you may need to wrap text to better fit under/next to the axis. Use `width` argument to adjust amount of wrapping (lower width = more wrapping, higher width = less wrapping).
+For categories with long titles (e.g. race/ethnicity), you may need to wrap text to better fit under/next to the axis. Functions like `scales::label_wrap()` are very useful in wrapping long labels via width argument. Our function will always wrap label at the forward slash, or if labels contains "or" (e.g. Black or African American), the "or" is replaced by a forward slash and then wrapped.
 
 Without wrapping:
 
@@ -242,7 +242,7 @@ With wrapping:
 ```{r wrap-label, dpi = 125, fig.width = 11, fig.height = 9}
 ggplot(data = re, aes(x = group, y = score, label = score)) +
   geom_col() +
-  scale_x_discrete(labels = wrap_labels(width = 15)) +
+  scale_x_discrete(labels = wrap_labels()) +
   theme_apollo(direction = "vertical") +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
     labs(

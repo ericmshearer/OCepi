@@ -11,7 +11,7 @@
 
 -   Fixed bug in `OCepi::add_percent()` where small proportions less than one were not being recoded to "\<1%".
 -   Aligned majority `OCepi::highlight_geom()` and `OCepi::desaturate_geom()` to share same core structure but deviate at fading and desaturating.
--   Enhanced `OCepi::wrap_labels()` so that long categories (e.g. race/ethnicity) with backslash wrap nicer.
+-   Enhanced `OCepi::wrap_labels()` so that text wraps at forward slash. If label contains "or", it is replaced by forward dlash then wrapped.
 
 # OCepi 0.1.0 (2023-09-15)
 

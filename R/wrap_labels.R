@@ -1,8 +1,6 @@
 #' Wrap Long Axis Labels
 #'
-#' Wrap long axis labels to avoid overcrowding.
-#'
-#' @param width Higher value = less wrapping, lower value = more wrapping. Recommended width is 15.
+#' Shorten total width of x-axis labels by breaking/wrapping text at forward slash or at "or".
 #'
 #' @return Wrapped labels.
 #' @export
@@ -13,9 +11,7 @@
 #'
 #' ggplot(data = df, aes(x = group, y = score)) +
 #'  geom_col() +
-#'  scale_x_discrete(labels = wrap_labels(width = 15))
-wrap_labels <- function(width) {
-  function(x) {
-    lapply(strwrap(gsub("\\/","\\/ ", x), width = width, simplify = FALSE), paste, collapse = "\n")
-  }
+#'  scale_x_discrete(labels = wrap_labels())
+wrap_labels <- function() {
+  function(x){sub("\\/| or", "\\/\n", x)}
 }

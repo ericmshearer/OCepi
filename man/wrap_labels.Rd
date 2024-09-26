@@ -4,16 +4,13 @@
 \alias{wrap_labels}
 \title{Wrap Long Axis Labels}
 \usage{
-wrap_labels(width)
-}
-\arguments{
-\item{width}{Higher value = less wrapping, lower value = more wrapping. Recommended width is 15.}
+wrap_labels()
 }
 \value{
 Wrapped labels.
 }
 \description{
-Wrap long axis labels to avoid overcrowding.
+Shorten total width of x-axis labels by breaking/wrapping text at forward slash or at "or".
 }
 \examples{
 df <- data.frame(group = c("Native Hawaiian or Other Pacific Islander",
@@ -21,5 +18,5 @@ df <- data.frame(group = c("Native Hawaiian or Other Pacific Islander",
 
 ggplot(data = df, aes(x = group, y = score)) +
  geom_col() +
- scale_x_discrete(labels = wrap_labels(width = 15))
+ scale_x_discrete(labels = wrap_labels())
 }
