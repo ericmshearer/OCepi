@@ -1,7 +1,7 @@
 Package: OCepi
 Type: Package
 Title: Collection of Common Data Cleaning Tools for Epidemiologists
-Version: 0.1.0.9000
+Version: 0.2.0
 Authors@R: c(
     person("Eric", "Shearer", , "ericshearer@me.com", role = c("aut","cre","cph"))
   )
@@ -22,6 +22,8 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     tidyr,
+    scales,
+    zoo,
     sf
 Config/testthat/edition: 3
 VignetteBuilder: knitr

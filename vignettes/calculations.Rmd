@@ -1,0 +1,75 @@
+---
+title: "Calculations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{calculations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(OCepi)
+library(dplyr)
+```
+
+## add_percent()
+
+One of the most used calculations is proportion. If you do not want to multiply proportion by 100, add argument `multiply = FALSE`.
+
+```{r prop}
+linelist |>
+  mutate(race_ethnicity = recode_race(Ethnicity, Race, abbr_names = TRUE)) |>
+  count(race_ethnicity) |>
+  mutate(percent = add_percent(n, digits = 1))
+```
+
+When preparing data for {ggplot2}, you may want to create labels with n and percent. Use argument `n_suppress` to suppress low values and `reverse` to set order of n and % (default is n then %).
+
+```{r prop2}
+linelist |>
+  mutate(race_ethnicity = recode_race(Ethnicity, Race, abbr_names = TRUE)) |>
+  count(race_ethnicity) |>
+  mutate(
+    percent = add_percent(n, digits = 1),
+    label = n_percent(n, percent, reverse = TRUE, n_suppress = 10)
+    )
+```
+
+## rate_per_100k()
+
+Another common calculation for our team are is incidence rate per 100,000.
+
+```{r rate}
+linelist |>
+  mutate(race_ethnicity = recode_race(Ethnicity, Race, abbr_names = TRUE)) |>
+  filter(race_ethnicity %in% c("White","NHOPI","Multiple Races")) |>
+  count(race_ethnicity) |>
+  mutate(incidence_rate = case_when(
+    race_ethnicity == "White" ~ rate_per_100k(n, 1500000, digits = 1),
+    race_ethnicity == "NHOPI" ~ rate_per_100k(n, 100000, digits = 1),
+    race_ethnicity == "Multiple Races" ~ rate_per_100k(n, 200000, digits = 1)
+    )
+  )
+```
+
+## time_between()
+
+`time_between()` calculates the time elapsed between two dates in the following units: days, weeks, months and years. Value is always rounded down to account for complete elapsed time. Note: order of dates does not necessarily matter, but beware of sign.
+
+```{r time-between}
+episode_date = as.Date("2020-04-01")
+death_date = as.Date("2020-05-15")
+
+time_between(death_date, episode_date, unit = "days")
+time_between(episode_date, death_date, unit = "days")
+
+dob = as.Date("1986-04-01")
+vaccine_date = as.Date("2023-05-15")
+
+time_between(vaccine_date, dob, unit = "years")
+time_between(dob, vaccine_date, unit = "years")
+```

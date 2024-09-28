@@ -25,3 +25,17 @@
 #' @examples
 #' data(oc_city_sf)
 "oc_city_sf"
+
+#' Outbreak Linelist
+#'
+#' @docType data
+#'
+#' @usage data(linelist)
+#'
+#' @format A tibble containing no PHI.
+#'
+#' @keywords datasets
+#'
+#' @examples
+#' data(linelist)
+"linelist"

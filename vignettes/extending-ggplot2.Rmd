@@ -12,217 +12,93 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(sf)
 library(OCepi)
 library(dplyr)
 library(ggplot2)
-
-linelist <- "Ethnicity,Race,Gender,Age,SexualOrientation,SpecimenDate
-Non-Hispanic or Latino,Multiple Races,M,46,HET,6/7/2022
-Unknown,Unknown,M,4,HET,6/9/2022
-Non-Hispanic or Latino,White,F,52,UNK,6/7/2022
-Non-Hispanic or Latino,White,F,77,UNK,6/11/2022
-Unknown,American Indian or Alaska Native,M,71,HET,6/10/2022
-Non-Hispanic or Latino,Other,M,70,HET,6/9/2022
-Non-Hispanic or Latino,Black or African American,F,11,HET,6/8/2022
-Non-Hispanic or Latino,Black or African American,F,8,HET,6/12/2022
-Hispanic or Latino,American Indian or Alaska Native,F,41,HET,6/12/2022
-Non-Hispanic or Latino,Black or African American,M,56,HET,6/10/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,F,40,HET,6/14/2022
-Non-Hispanic or Latino,Black or African American,M,1,HET,6/8/2022
-Non-Hispanic or Latino,Other,F,60,HET,6/7/2022
-Hispanic or Latino,American Indian or Alaska Native,F,22,HET,6/10/2022
-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,84,HET,6/6/2022
-Non-Hispanic or Latino,Unknown,F,16,HET,6/13/2022
-Hispanic or Latino,White,M,46,HET,6/7/2022
-Non-Hispanic or Latino,Unknown,U,6,HET,6/13/2022
-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,73,HET,6/8/2022
-Non-Hispanic or Latino,Black or African American,F,81,HET,6/8/2022
-Non-Hispanic or Latino,Black or African American,M,51,DNK,6/4/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,2,HET,6/11/2022
-Non-Hispanic or Latino,Other,M,18,HET,6/7/2022
-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,25,HET,6/15/2022
-Non-Hispanic or Latino,White,U,7,HET,6/7/2022
-Non-Hispanic or Latino,Other,F,35,HET,6/7/2022
-Non-Hispanic or Latino,Other,F,67,HET,6/10/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,60,HET,6/10/2022
-Hispanic or Latino,Asian,U,62,UNK,6/6/2022
-Non-Hispanic or Latino,Other,F,61,HET,6/4/2022
-Non-Hispanic or Latino,Other,F,71,HET,6/5/2022
-Non-Hispanic or Latino,White,F,5,HET,6/7/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,F,27,HET,6/11/2022
-Unknown,Native Hawaiian or Other Pacific Islander,M,13,HET,6/7/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,42,HET,6/13/2022
-Hispanic or Latino,White,U,34,HET,6/11/2022
-Non-Hispanic or Latino,White,M,32,HET,6/12/2022
-Non-Hispanic or Latino,Black or African American,F,9,HET,6/4/2022
-Non-Hispanic or Latino,White,D,55,HET,6/9/2022
-Non-Hispanic or Latino,Black or African American,M,33,HET,6/10/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,U,87,UNK,6/10/2022
-Non-Hispanic or Latino,White,F,86,DNK,6/10/2022
-Non-Hispanic or Latino,Asian,F,20,HET,6/9/2022
-Non-Hispanic or Latino,White,U,24,DNK,6/8/2022
-Hispanic or Latino,American Indian or Alaska Native,U,45,UNK,6/11/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,58,HET,6/13/2022
-Hispanic or Latino,White,F,89,HET,6/13/2022
-Hispanic or Latino,Asian,M,48,HET,6/11/2022
-Non-Hispanic or Latino,Other,M,42,HET,6/13/2022
-Non-Hispanic or Latino,White,F,56,HET,6/9/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,1,HET,6/9/2022
-Non-Hispanic or Latino,Black or African American,M,25,HET,6/7/2022
-Non-Hispanic or Latino,Asian,F,58,UNK,6/9/2022
-Non-Hispanic or Latino,White,F,39,DNK,6/7/2022
-Non-Hispanic or Latino,Asian,M,38,HET,6/14/2022
-Non-Hispanic or Latino,Multiple Races,M,58,HET,6/12/2022
-Non-Hispanic or Latino,Black or African American,F,12,HET,6/15/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,M,40,HET,6/8/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,52,HET,6/9/2022
-Non-Hispanic or Latino,Multiple Races,F,10,HET,6/12/2022
-Non-Hispanic or Latino,Black or African American,M,29,HET,6/10/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,15,HET,6/9/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,F,22,HET,6/5/2022
-Hispanic or Latino,American Indian or Alaska Native,F,75,HET,6/11/2022
-Unknown,White,F,85,HET,6/12/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,F,72,HET,6/16/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,U,14,HET,6/18/2022
-Non-Hispanic or Latino,Asian,F,80,HET,6/12/2022
-Hispanic or Latino,Asian,F,32,HET,6/13/2022
-Non-Hispanic or Latino,Asian,M,75,HET,6/10/2022
-Non-Hispanic or Latino,Unknown,D,71,HOM,6/11/2022
-Non-Hispanic or Latino,Black or African American,D,17,HET,6/9/2022
-Non-Hispanic or Latino,Other,F,46,HET,6/7/2022
-Non-Hispanic or Latino,Other,M,83,UNK,6/9/2022
-Non-Hispanic or Latino,Asian,M,79,HET,6/8/2022
-Non-Hispanic or Latino,Unknown,M,20,HET,6/11/2022
-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,61,HET,6/9/2022
-Non-Hispanic or Latino,Black or African American,M,32,HET,6/10/2022
-Non-Hispanic or Latino,White,F,50,HET,6/14/2022
-Hispanic or Latino,Unknown,D,85,HOM,6/13/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,4,HET,6/9/2022
-Non-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,F,59,HET,6/8/2022
-Unknown,Black or African American,M,75,HET,6/9/2022
-Non-Hispanic or Latino,Multiple Races,M,45,HET,6/13/2022
-Non-Hispanic or Latino,Black or African American,U,56,HET,6/9/2022
-Non-Hispanic or Latino,Other,F,36,HET,6/11/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,M,79,HET,6/6/2022
-Hispanic or Latino,American Indian or Alaska Native,M,88,HET,6/9/2022
-Hispanic or Latino,Other,F,82,HET,6/16/2022
-Non-Hispanic or Latino,Black or African American,F,7,HET,6/8/2022
-Non-Hispanic or Latino,Unknown,D,26,HET,6/11/2022
-Non-Hispanic or Latino,Multiple Races,F,75,DNK,6/11/2022
-Unknown,Other,D,8,HET,6/8/2022
-Non-Hispanic or Latino,Unknown,M,77,HET,6/15/2022
-Non-Hispanic or Latino,American Indian or Alaska Native,M,14,HET,6/14/2022
-Non-Hispanic or Latino,Other,F,71,HOM,6/8/2022
-Non-Hispanic or Latino,Other,F,23,HET,6/10/2022
-Non-Hispanic or Latino,White,F,16,HET,6/6/2022
-Non-Hispanic or Latino,Asian,F,43,BIS,6/9/2022
-Hispanic or Latino,Native Hawaiian or Other Pacific Islander,M,74,HET,6/8/2022
-Unknown,White,M,70,HET,6/14/2022
-Non-Hispanic or Latino,Multiple Races,M,39,HET,6/10/2022
-Non-Hispanic or Latino,Unknown,F,31,HET,6/14/2022
-Hispanic or Latino,Asian,M,38,HET,6/9/2022
-Non-Hispanic or Latino,Other,F,31,HET,6/8/2022"
-
-header.true <- function(df){
-  names(df) <- as.character(unlist(df[1,]))
-  df[-1,]
-}
-
-linelist <- dplyr::as_tibble(linelist) %>%
-  tidyr::separate_rows(value, sep = "\n") %>%
-  tidyr::separate_wider_delim(value, delim = ",", names = paste0("V",1:6))
-linelist <- header.true(linelist)
-linelist$Age <- as.numeric(linelist$Age)
-linelist$SpecimenDate <- as.Date(linelist$SpecimenDate, "%m/%d/%Y")
-linelist$age_group <- age_groups(linelist$Age, type = "school")
 ```
 
 Core functions:
 
--   `theme_apollo` - minimal, clean theme for plots
--   `apollo_label` - labels that match branding aesthetic
--   `end_points` - subset data at last time series data point
--   `wrap_labels` - wrap long axis labels to better fit plot
--   `geom_dumbbell` - dumbbell plot
--   `geom_lollipop` - lollipop plot
--   `highlight_title` - color specific words in ggplot2 for emphasis
--   `highlight_geom` - highlight geom\_\* of interest based on expression
--   `desaturate_geom` - desaturate geom\_\* of interest based on expression
+-   `theme_apollo()`, `apollo_label()` - minimal, clean theme for plots
+-   `end_points()` - subset data at last time series data point
+-   `wrap_labels()` - wrap long axis labels to better fit plot
+-   `cdcd_color()` - recall our most used colors
+-   `geom_dumbbell()` - dumbbell plot
+-   `geom_lollipop()` - lollipop plot
+-   `highlight_geom()` - highlight geom\_\* of interest based on expression
+-   `desaturate_geom()` - desaturate geom\_\* of interest based on expression
 
-## theme_apollo & apollo_label
+## theme_apollo() & apollo_label()
 
-Basic plot using ggplot2:
+Using West Nile Virus data, we'll build a plot using our theme, labels, and colors:
 
-```{r boring-plot, dpi = 125, fig.width = 11, fig.height = 9}
-linelist %>%
-  count(age_group) %>%
-  ggplot(aes(x = age_group, y = n)) +
-  geom_col() +
-    labs(
-    title = "Title Goes Here",
-    subtitle = "Subtitle Goes Here",
-    x = "Age Groups (Years)",
-    y = "Percentage (%)"
-  )
-```
+```{r boring-plot, fig.width = 10, fig.asp = 0.85}
+wnv <- read.csv("https://data.chhs.ca.gov/dataset/3205b420-3f62-4a02-8d2e-9a9ed34c49f4/resource/6ef33c1b-9f54-49f2-a92e-51a1b78f0a06/download/vendor.csv", na.strings = "", stringsAsFactors = FALSE) |>
+  group_by(County) |>
+  summarise(Total = sum(Reported.Positive.Cases)) |>
+  ungroup() |>
+  arrange(desc(Total)) |>
+  head(5)
 
-Now applying `theme_apollo` and `apollo_label`. Note: when using `coord_flip` for horizontal bar charts, set `direction` to "horizontal" within `theme_apollo`.
-
-```{r nice-plot, dpi = 125, fig.width = 11, fig.height = 9}
-linelist %>%
-  count(age_group) %>%
-  mutate(
-    percent = add_percent(n),
-    label = n_percent(n, percent, reverse = TRUE)
-  ) %>%
-  ggplot(aes(x = age_group, y = percent, label = label)) +
-  geom_col() +
-  scale_y_continuous(expand = c(0,0), limits = c(0,54)) +
-  theme_apollo(direction = "vertical") +
+ggplot(data = wnv, aes(x = reorder(County, -Total), y = Total)) +
+  geom_bar(stat = "identity", fill = cdcd_color("dodgers")) +
+  theme_apollo() +
+  apollo_label(data = wnv, aes(label = format(Total, big.mark = ",")), vjust = -0.3) +
+  scale_x_discrete(labels = scales::label_wrap(10)) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,2000), labels = scales::label_number(big.mark = ",")) +
   labs(
-    title = "Title Goes Here",
-    subtitle = "Subtitle Goes Here",
-    x = "Age Groups (Years)",
-    y = "Percentage (%)"
-  ) +
-  apollo_label(vjust = -0.3)
-```
-
-## end_points
-
-For line plots with \>1 group, it is recommended to direct label groups. For line plots, `end_points` will subset the data to the last date in a time series, even if groups end at different dates (thank you Butte County for the suggestion).
-
-```{r end-points, dpi = 125, fig.width = 12, fig.height = 9}
-set.seed(1234)
-year2023 <- seq.Date(as.Date("2023-01-01"), as.Date("2023-12-01"), by = "month")
-
-ts <- data.frame(
-  Month = rep(year2023,2),
-  Site = c(rep("A",12), rep("B",12)),
-  Scores = c(sample(65:99, 12), sample(65:99, 12))
-)
-
-ggplot(data = ts, aes(x = Month, y = Scores, group = Site, linetype = Site, colour = Site)) +
-  geom_line(linewidth = 1) +
-  scale_x_date(breaks = ts$Month, date_labels = "%b\n%Y") +
-  scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
-  theme_apollo(direction = "vertical") +
-  scale_colour_manual(values = c(A = "blue", B = "red")) +
-  apollo_label(data = end_points(ts, Month), aes(label = Site), hjust = 0) +
-    labs(
-    title = "Comparison of Treatment Groups Over Time\n",
-    x = "Date",
-    y = "Percentage (%)"
+    title = "West Nile Virus - Top 5 Jurisdictions",
+    subtitle = "PHS/Communicable Disease Control",
+    x = "Jurisdictions",
+    y = "Total Cases",
+    caption = "*Case counts are cumulative starting 2006."
   )
 ```
 
-## wrap_labels
+For horizontal plots or maps, update `theme_apollo(direction = "horizontal")` or `theme_apollo(direction = "map")` respectively.
+
+## end_points()
+
+For line plots with \>1 group, it is recommended to direct label groups. `end_points()` will subset the data to the last date in a time series, even if groups end at different dates (thank you Butte County for the suggestion).
+
+```{r end-points, fig.width = 12, fig.asp = 0.7}
+covid <- read.csv("https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/046cdd2b-31e5-4d34-9ed3-b48cdbc4be7a/download/covid19cases_test.csv", na.strings = "", stringsAsFactors = FALSE) |>
+  filter(area %in% c("Orange","Los Angeles","San Diego"))
+
+covid <- covid |>
+  group_by(area) |>
+  mutate(
+    date = as.Date(date, "%Y-%m-%d"),
+    rate = rate_per_100k(cases, population, digits = 1),
+    rate_ma_7 = round(zoo::rollmean(rate, k = 7, align = "right", na.pad = FALSE, fill = 0), digits = 2)
+  ) |>
+  ungroup() |>
+  filter(date <= "2020-12-23")
+
+ggplot(data = covid, aes(x = date, y = rate_ma_7, color = area)) +
+  geom_line(linewidth = 1.2) +
+  theme_apollo(legend = "Hide") +
+  geom_text(data = end_points(covid, date = date), aes(label = area), hjust = -0.05, show.legend = FALSE, size = 4.5) +
+  scale_x_date(date_labels = "%m/%Y", date_breaks = "2 months", expand = expansion(add = c(0,35))) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,155)) +
+  labs(
+    title = "COVID-19 Incidence Rates by County, 2020",
+    subtitle = "PHS/Communicable Disease Control",
+    x = "Episode Date",
+    y = "Crude Rate per 100k",
+    color = "County"
+  ) +
+  scale_color_manual(values = cdcd_color("dodgers","mustard","london pink"))
+```
+
+## wrap_labels()
 
 For categories with long titles (e.g. race/ethnicity), you may need to wrap text to better fit under/next to the axis. Functions like `scales::label_wrap()` are very useful in wrapping long labels via width argument. Our function will always wrap label at the forward slash, or if labels contains "or" (e.g. Black or African American), the "or" is replaced by a forward slash and then wrapped.
 
 Without wrapping:
 
-```{r no-wrap, dpi = 125, fig.width = 11, fig.height = 9}
+```{r no-wrap, fig.width = 8, fig.asp = 0.8}
 re <- data.frame(group = c("Native Hawaiian or Other Pacific Islander","Black or African American","American Indian or Alaska Native"), score = c(89.5, 84, 73))
 
 ggplot(data = re, aes(x = group, y = score, label = score)) +
@@ -239,7 +115,7 @@ ggplot(data = re, aes(x = group, y = score, label = score)) +
 
 With wrapping:
 
-```{r wrap-label, dpi = 125, fig.width = 11, fig.height = 9}
+```{r wrap-label, fig.width = 8, fig.asp = 0.8}
 ggplot(data = re, aes(x = group, y = score, label = score)) +
   geom_col() +
   scale_x_discrete(labels = wrap_labels()) +
@@ -253,40 +129,40 @@ ggplot(data = re, aes(x = group, y = score, label = score)) +
   apollo_label(vjust = -0.3)
 ```
 
-## geom_dumbbell
+## geom_dumbbell()
 
 Dumbbell plots consist of two points connected by a solid line. Useful in showing changes in pre/post test scores or timelines. Dataset requires two x variables (x and xend) and y variable (usually character/factor).
 
 -   To customize the points, use colour_x, colour_end, and size.
 -   To customize line, use colour and linewidth.
 
-```{r cleveland, dpi = 125, fig.width = 12, fig.height = 9}
+```{r cleveland, fig.width = 10, fig.asp = 0.7}
 pre_post <- data.frame(Country = c("UK-A","US-A","UK-B","US-B"), PRE = c(0,1,2,3), POST = c(4,5,6,7))
 
 ggplot(data = pre_post, aes(x = PRE, xend = POST, y = Country)) +
-  geom_dumbbell(colour_x = "red", colour_xend = "blue", size = 5, linewidth = 2, colour = "black") +
+  geom_dumbbell(colour_x = cdcd_color("mustard"), colour_xend = cdcd_color("mustard"), size = 5, linewidth = 2, colour = "black") +
   labs(title = "Dumbbell Plot", x = "Pre/Post Scores", y = "Country") +
   theme_apollo(direction = "vertical")
 ```
 
-## geom_lollipop
+## geom_lollipop()
 
-Lollipop plot is similar to dumbbell plot, but has only one point with a stem.
+Lollipop plot is similar to dumbbell plot, but has only one point.
 
 -   To customize the stem, use line.colour, linewidth, and linetype (default stem color is black.)
 -   To customize point, use size and color.
 -   For most plots, set `yend = 0`.
 
-```{r lollipop, dpi = 125, fig.width = 12, fig.height = 9}
+```{r lollipop, fig.width = 10, fig.asp = 0.85}
 ggplot(data = pre_post, aes(x = Country, y = POST, yend = 0)) +
-  geom_lollipop(color = cdcd_color("orange"), line.colour = "#000000", size = 5, linewidth = 1) +
+  geom_lollipop(color = cdcd_color("dodgers"), line.colour = "#000000", size = 5, linewidth = 1) +
   labs(title = "Lollipop Plot", x = "Country", y = "Post Score") +
   theme_apollo(direction = "vertical")
 ```
 
-An alternate use case for `geom_lollipop` is labeling specific dates in time series plot.
+An alternate use case for `geom_lollipop()` is labeling specific dates in time series plot.
 
-```{r lollipop2, dpi = 125, fig.width = 12, fig.height = 9}
+```{r lollipop2, fig.width = 10, fig.asp = 0.85}
 set.seed(1234)
 df <- data.frame(
   type = "a",
@@ -300,7 +176,7 @@ peak_n = 8
 
 ggplot(df, aes(x = date, y = value)) +
   geom_line(linewidth = 1) +
-  annotate("text", x = peak_date, y = peak_n * 0.65, label = "Intervention Started\nHere.") +
+  annotate("text", x = peak_date, y = peak_n * 0.6, label = "Intervention Started\nHere.", size = 5) +
   geom_lollipop(data = filter(df, date == peak_date), aes(x = date, y = value, yend = value * 0.7), color = cdcd_color("london pink"), line.colour = "#000000", linetype = "dotted", size = 2.5) +
     scale_x_date(expand = expansion(add = c(0,10)), breaks = "month", date_labels = "%b-%y") +
   scale_y_continuous(expand = expansion(add = c(0,10))) +
@@ -312,103 +188,74 @@ ggplot(df, aes(x = date, y = value)) +
   )
 ```
 
-## highlight_geom & desaturate_geom
+## highlight_geom() & desaturate_geom()
 
-When making data visualizations, emphasizing certain data points and de-emphasizing others helps the viewer see the takehome message. This can be achieved using colors against gray or lightening certain groups to help the main group jump out. {OCepi} providers two ways to do this: `highlight_geom` and `desaturate_geom`.
+When making data visualizations, emphasizing data points through highlighting/fading may help the viewer see the take home message. {OCepi} providers two ways to do this: `highlight_geom()` and `desaturate_geom()`. `highlight_geom()` requires two basic arguments - 1) an expression (similar to what you'd use in `dplyr::filter()`), and 2) a color for highlighting. Although sensible defaults are built-in, the following additional arguments within `highlight_geom()` can be customized:
 
-`highlight_geom` requires two basic arguments - 1) an expression (similar to what you'd use in `dplyr::filter`), and 2) a color for highlighting. Although sensible defaults are built-in, the following additional arguments within `highlight_geom` can be customized:
+-   size (`geom_point()`)
+-   linewidth (`geom_line()`, `geom_sf()`)
 
--   size (`geom_point`)
--   linewidth (`geom_line`, `geom_sf`)
+Please note: the default fade color/fill for `highlight_geom()` is light grey (#cccccc). To override, add fill/color to `geom_*` (e.g. `geom_line(color = "black")`.
 
-Please note: the default fade color/fill for `highlight_geom` is light grey (#cccccc). To override, add fill/color to `geom_*` (e.g. `geom_line(color = "black")`.
-
-`desaturate_geom` requires the same two basic arguments as `highlight_geom` plus `desaturate` (range 0-1, 1 highest level of desaturation). Instead of fading non-emphasized categories to gray, they will retain color but be desaturated. Options to customize include:
+`desaturate_geom()` requires the same two basic arguments as `highlight_geom()` plus `desaturate` (range 0-1, 1 highest level of desaturation). Instead of fading non-emphasized categories to gray, they will retain color but be desaturated. Options to customize include:
 
 -   size (points)
--   linewidth (`geom_line`, `geom_sf`)
+-   linewidth (`geom_line()`, `geom_sf()`)
 
-Both highlighting approaches work with `facet_wrap` and `facet_grid`. Currently works with `geom_col`/`geom_bar`, `geom_line`, `geom_sf`, and `geom_point`.
+Both highlighting approaches work with `facet_wrap()` and `facet_grid()`. Currently works with `geom_col()`/`geom_bar()`, `geom_line()`, `geom_sf()`, and `geom_point()`. Please note: your labels will be highlighted if you place the text/label function before the highlight/desaturate function. If you don't want your labels highlighted, placed labels after highlight/desaturate function.
 
-#### bar plot
+#### Bar - Highlight
 
-```{r highlight-bar, dpi = 125, fig.width = 12, fig.height = 9, warning = FALSE}
-highlight <- data.frame(
-  site = c("A","A","A","B","B","B"),
-  locations = rep(letters[1:3],2),
-  scores = c(89,62,74,88,89.5,82)
+```{r highlight-bar, fig.width = 12, fig.asp = 0.9, warning = FALSE}
+vpd <- read.csv("https://data.chhs.ca.gov/dataset/bd6a1ca8-dd41-4cbf-84a2-0e899af64b67/resource/a7a4d868-f6d2-49c9-8a11-904c69a0e3a0/download/izb-cases-by-county-year-2022.csv", na.strings = "", stringsAsFactors = FALSE) |>
+  filter(Disease == "Pertussis", County %in% c("Orange","Riverside"), Year >= 2009)
+
+ggplot(data = vpd, aes(x = as.character(Year), y = Count)) +
+  geom_col() +
+  facet_wrap(~County, nrow = 2) +
+  apollo_label(data = vpd, aes(label = Count), vjust = -0.3) +
+  highlight_geom(Count > 200, pal = cdcd_color("london pink")) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,525)) +
+  theme_apollo() +
+  labs(
+    title = "Pertussis Cases by Year, Orange & Riverside Counties",
+    subtitle = "PHS/Communicable Disease Control",
+    x = "Year",
+    y = "Total Cases",
+    caption = "*Years with >200 cases are highlighted."
   )
-
-ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
-  geom_col() +
-  facet_wrap(~site) +
-  highlight_geom(scores == max(scores), pal = cdcd_color("london pink")) +
-  scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
-  theme_apollo(direction = "vertical") +
-  labs(
-    title = "highlight_geom - bar plot\n",
-  ) +
-  apollo_label(vjust = -0.3)
-
-ggplot(data = highlight, aes(x = locations, y = scores, label = scores)) +
-  geom_col() +
-  facet_wrap(~site) +
-  desaturate_geom(scores == max(scores), pal = "#d55c19", desaturate = 0.8) +
-  scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
-  theme_apollo(direction = "vertical") +
-  labs(
-    title = "desaturate_geom - bar plot\n"
-  ) +
-  apollo_label(vjust = -0.3)
 ```
 
-#### Line plot
+#### Line - Highlight
 
-```{r highlight-line, dpi = 125, fig.width = 12, fig.height = 9, warning = FALSE}
-ggplot(data = ts, aes(x = Month, y = Scores, group = Site, label = Site)) +
-  geom_line(linewidth = 1) +
-  highlight_geom(Site == "A", pal = "darkblue", linewidth = 1.5) +
-  scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
-  theme_apollo(direction = "vertical") +
+```{r desaturate-line, fig.width = 12, fig.asp = 0.7}
+ggplot(data = covid, aes(x = date, y = rate_ma_7, group = area)) +
+  geom_line(linewidth = 1.2) +
+  apollo_label(data = end_points(covid, date), aes(label = area), hjust = -0.05, vjust = 0) +
+  highlight_geom(area == "Orange", pal = cdcd_color("london pink"), linewidth = 1.5) +
+  scale_x_date(date_labels = "%m/%Y", date_breaks = "2 months", expand = expansion(add = c(0,35))) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,155)) +
+  theme_apollo() +
   labs(
-    title = "highlight_geom - line plot\n"
-  ) +
-  apollo_label(data = end_points(ts, Month), hjust = -0.3)
-
-ggplot(data = ts, aes(x = Month, y = Scores, group = Site, label = Site)) +
-  geom_line(linewidth = 1) +
-  desaturate_geom(Site == "A", pal = "#113a72", linewidth = 1.5, desaturate = 0.6) +
-  scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
-  theme_apollo(direction = "vertical") +
-  labs(
-    title = "desaturate_geom - line plot\n"
-  ) +
-  apollo_label(data = end_points(ts, Month), hjust = -0.3)
+    title = "desaturate_geom - line plot",
+    subtitle = "Main group is highlighted, all others desaturated",
+    x = "Episode Date",
+    y = "Crude Rate per 100k"
+    )
 ```
 
-#### Point plot
+#### Shapefile/Map - desaturate
 
-```{r highlight-point, dpi = 125, fig.width = 12, fig.height = 9, warning = FALSE}
-points <- data.frame(
-  x = sample(1:50, 50),
-  y = sample(1:50, 50)
-)
+```{r highlight-sf, fig.width = 12, fig.asp = 1, warning = FALSE}
+base_zip <- oc_zip_sf
 
-ggplot(data = points, aes(x = x, y = y)) +
-  geom_point(size = 3) +
-  highlight_geom(y %in% c(20:25), pal = "#8B0000", size = 4) +
-  scale_y_continuous(expand = c(0,0), limits = c(0,55)) +
-  theme_apollo(direction = "vertical") +
+ggplot(data = oc_zip_sf) +
+  geom_sf() +
+  desaturate_geom(Zip %in% c(92702:92708), pal = cdcd_color("dodgers"), desaturate = 0.75, linewidth = 0.5) +
+  geom_sf_text(data = base_zip, aes(label = Zip)) +
+  theme_apollo(direction = "map") +
   labs(
-    title = "highlight_geom - point plot\n"
-  )
-
-ggplot(data = points, aes(x = x, y = y)) +
-  geom_point(size = 3) +
-  desaturate_geom(y %in% c(20:25), pal = "#355E3B", size = 4, desaturate = 0.7) +
-  scale_y_continuous(expand = c(0,0), limits = c(0,55)) +
-  theme_apollo(direction = "vertical") +
-  labs(
-    title = "desaturate_geom - point plot\n"
+    title = "Orange County Zip Codes",
+    subtitle = "Highlight geographies of interest"
   )
 ```

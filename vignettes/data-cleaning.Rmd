@@ -18,169 +18,19 @@ knitr::opts_chunk$set(
 library(OCepi)
 library(dplyr)
 library(ggplot2)
-linelist <- data.frame(
-   stringsAsFactors = FALSE,
-          Ethnicity = c("Non-Hispanic or Latino",
-                        "Unknown","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Unknown","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Hispanic or Latino","Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Hispanic or Latino","Hispanic or Latino",
-                        "Non-Hispanic or Latino","Hispanic or Latino","Non-Hispanic or Latino",
-                        "Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Unknown",
-                        "Non-Hispanic or Latino","Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Hispanic or Latino",
-                        "Non-Hispanic or Latino","Hispanic or Latino",
-                        "Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Hispanic or Latino","Unknown",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Unknown",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Hispanic or Latino",
-                        "Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Unknown",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Non-Hispanic or Latino","Hispanic or Latino",
-                        "Unknown","Non-Hispanic or Latino",
-                        "Non-Hispanic or Latino","Hispanic or Latino","Non-Hispanic or Latino"),
-               Race = c("Multiple Races","Unknown",
-                        "White","White","American Indian or Alaska Native",
-                        "Other","Black or African American",
-                        "Black or African American","American Indian or Alaska Native",
-                        "Black or African American","American Indian or Alaska Native",
-                        "Black or African American","Other",
-                        "American Indian or Alaska Native",
-                        "Native Hawaiian or Other Pacific Islander","Unknown","White","Unknown",
-                        "Native Hawaiian or Other Pacific Islander","Black or African American",
-                        "Black or African American",
-                        "Native Hawaiian or Other Pacific Islander","Other",
-                        "Native Hawaiian or Other Pacific Islander","White","Other","Other",
-                        "Native Hawaiian or Other Pacific Islander","Asian","Other","Other",
-                        "White","American Indian or Alaska Native",
-                        "Native Hawaiian or Other Pacific Islander",
-                        "Native Hawaiian or Other Pacific Islander","White","White",
-                        "Black or African American","White","Black or African American",
-                        "American Indian or Alaska Native","White","Asian",
-                        "White","American Indian or Alaska Native",
-                        "Native Hawaiian or Other Pacific Islander","White","Asian","Other",
-                        "White","Native Hawaiian or Other Pacific Islander",
-                        "Black or African American","Asian","White","Asian",
-                        "Multiple Races","Black or African American",
-                        "American Indian or Alaska Native",
-                        "Native Hawaiian or Other Pacific Islander","Multiple Races",
-                        "Black or African American","Native Hawaiian or Other Pacific Islander",
-                        "American Indian or Alaska Native",
-                        "American Indian or Alaska Native","White","American Indian or Alaska Native",
-                        "American Indian or Alaska Native","Asian","Asian",
-                        "Asian","Unknown","Black or African American","Other",
-                        "Other","Asian","Unknown",
-                        "Native Hawaiian or Other Pacific Islander","Black or African American","White",
-                        "Unknown","Native Hawaiian or Other Pacific Islander",
-                        "Native Hawaiian or Other Pacific Islander",
-                        "Black or African American","Multiple Races",
-                        "Black or African American","Other","American Indian or Alaska Native",
-                        "American Indian or Alaska Native","Other",
-                        "Black or African American","Unknown","Multiple Races","Other",
-                        "Unknown","American Indian or Alaska Native","Other",
-                        "Other","White","Asian",
-                        "Native Hawaiian or Other Pacific Islander","White","Multiple Races","Unknown",
-                        "Asian","Other"),
-             Gender = c("M","M","F","F","M","M",
-                        "F","F","F","M","F","M","F","F","M","F","M",
-                        "U","F","F","M","M","M","F","U","F","F","F",
-                        "U","F","F","F","F","M","M","U","M","F","D",
-                        "M","U","F","F","U","U","M","F","M","M","F","F",
-                        "M","F","F","M","M","F","M","F","F","M","TF",
-                        "F","F","F","F","U","F","TF","M","D","D",
-                        "TF","M","M","TF","M","M","F","D","F","F","M",
-                        "M","U","F","M","M","F","F","D","F","D","M","M",
-                        "F","F","F","F","M","M","M","F","M","F"),
-                Age = c(46L,4L,52L,77L,71L,70L,
-                        11L,8L,41L,56L,40L,1L,60L,22L,84L,16L,46L,6L,
-                        73L,81L,51L,2L,18L,25L,7L,35L,67L,60L,62L,
-                        61L,71L,5L,27L,13L,42L,34L,32L,9L,55L,33L,87L,
-                        86L,20L,24L,45L,58L,89L,48L,42L,56L,1L,25L,
-                        58L,39L,38L,58L,12L,40L,52L,10L,29L,15L,22L,75L,
-                        85L,72L,14L,80L,32L,75L,71L,17L,46L,83L,79L,
-                        20L,61L,32L,50L,85L,4L,59L,75L,45L,56L,36L,
-                        79L,88L,82L,7L,26L,75L,8L,77L,14L,71L,23L,16L,
-                        43L,74L,70L,39L,31L,38L,31L),
-  SexualOrientation = c("HET","HET","UNK","UNK",
-                        "HET","HET","HET","HET","HET","HET","HET","HET",
-                        "HET","HET","HET","HET","HET","HET","HET","HET",
-                        "DNK","HET","HET","HET","HET","HET","HET","HET",
-                        "UNK","HET","HET","HET","HET","HET","HET","HET",
-                        "HET","HET","HET","HET","UNK","DNK","HET","DNK",
-                        "UNK","HET","HET","HET","HET","HET","HET","HET",
-                        "UNK","DNK","HET","HET","HET","HET","HET","HET",
-                        "HET","HET","HET","HET","HET","HET","HET","HET",
-                        "HET","HET","HOM","HET","HET","UNK","HET","HET",
-                        "HET","HET","HET","HOM","HET","HET","HET","HET",
-                        "HET","HET","HET","HET","HET","HET","HET","DNK",
-                        "HET","HET","HET","HOM","HET","HET","BIS","HET",
-                        "HET","HET","HET","HET","HET"),
-       SpecimenDate = c("6/7/2022","6/9/2022",
-                        "6/7/2022","6/11/2022","6/10/2022","6/9/2022","6/8/2022",
-                        "6/12/2022","6/12/2022","6/10/2022","6/14/2022",
-                        "6/8/2022","6/7/2022","6/10/2022","6/6/2022",
-                        "6/13/2022","6/7/2022","6/13/2022","6/8/2022","6/8/2022",
-                        "6/4/2022","6/11/2022","6/7/2022","6/15/2022","6/7/2022",
-                        "6/7/2022","6/10/2022","6/10/2022","6/6/2022",
-                        "6/4/2022","6/5/2022","6/7/2022","6/11/2022","6/7/2022",
-                        "6/13/2022","6/11/2022","6/12/2022","6/4/2022",
-                        "6/9/2022","6/10/2022","6/10/2022","6/10/2022",
-                        "6/9/2022","6/8/2022","6/11/2022","6/13/2022","6/13/2022",
-                        "6/11/2022","6/13/2022","6/9/2022","6/9/2022",
-                        "6/7/2022","6/9/2022","6/7/2022","6/14/2022","6/12/2022",
-                        "6/15/2022","6/8/2022","6/9/2022","6/12/2022",
-                        "6/10/2022","6/9/2022","6/5/2022","6/11/2022","6/12/2022",
-                        "6/16/2022","6/18/2022","6/12/2022","6/13/2022",
-                        "6/10/2022","6/11/2022","6/9/2022","6/7/2022","6/9/2022",
-                        "6/8/2022","6/11/2022","6/9/2022","6/10/2022",
-                        "6/14/2022","6/13/2022","6/9/2022","6/8/2022","6/9/2022",
-                        "6/13/2022","6/9/2022","6/11/2022","6/6/2022",
-                        "6/9/2022","6/16/2022","6/8/2022","6/11/2022","6/11/2022",
-                        "6/8/2022","6/15/2022","6/14/2022","6/8/2022",
-                        "6/10/2022","6/6/2022","6/9/2022","6/8/2022","6/14/2022",
-                        "6/10/2022","6/14/2022","6/9/2022","6/8/2022")
-)
-
-linelist <- linelist %>%
-  mutate(SpecimenDate = as.Date(SpecimenDate, "%m/%d/%Y"))
 ```
 
-The functions in this package were designed to simplify and standardize the most frequent recoding tasks. The examples below will use simulated outbreak data:
+The functions in this package were designed to simplify and standardize the most frequent recoding tasks. The examples below will use simulated outbreak data included in this package.
 
 ```{r glance, message=FALSE, warning=FALSE, echo=FALSE}
+linelist <- linelist
+
 head(linelist, 10)
 ```
 
-## recode_race
+## recode_race()
 
-`recode_race` can be used several different ways: ethnicity and race (CalREDIE), race only (CAIR2), LOINC codes (Syndromic, thank you Monterey for suggestion), and 'Multi-race Status' (VRBIS). If recoding using ethnicity and race, order should be `recode_race(ethnicity, race)`. To abbreviate long categories (i.e. Native Hawaiian/Other Pacific Islander to NHOPI), set `abbr_names` to TRUE.
+`recode_race()` can be used several different ways: ethnicity and race (CalREDIE), race only (CAIR2), LOINC codes (Syndromic, thank you Monterey for suggestion), and 'Multi-race Status' (VRBIS). If recoding using ethnicity and race, order should be `recode_race(ethnicity, race)`. To abbreviate long categories (i.e. Native Hawaiian/Other Pacific Islander to NHOPI), set `abbr_names` to TRUE.
 
 ```{r recode-race}
 linelist |>
@@ -197,7 +47,7 @@ recode_race("2028-9") #Syndromic/ESSENCE
 recode_race("3") #VRBIS
 ```
 
-## recode_gender
+## recode_gender()
 
 Can be used with CalREDIE, VRBIS, and CAIR2 (or really any other dataset that abbreviates their gender variable to single letters).
 
@@ -207,7 +57,7 @@ linelist |>
   count(Gender)
 ```
 
-## recode_orientation
+## recode_orientation()
 
 Designed specifically for use with CalREDIE. Expects CTCIAdtlDemOrient variable.
 
@@ -217,9 +67,9 @@ linelist |>
   count(SexualOrientation)
 ```
 
-## age_groups
+## age_groups()
 
-"If you have to copy and paste code more than twice, create a function". With `age_groups`, we no longer have to copy + paste long `dplyr::case_when` statements to recode age to age groups.
+"If you have to copy and paste code more than twice, create a function". With `age_groups()`, we no longer have to copy + paste long `dplyr::case_when()` statements to recode age to age groups.
 
 ```{r age-groups}
 linelist |>
@@ -243,9 +93,9 @@ The default age groups is set to decade, but the following presets are available
 
 Please note: the returned output is set to factor to maintain proper ordering.
 
-## clean_address
+## clean_address()
 
-Our best attempt to standardize and clean addresses is through `clean_address`. This function will: convert characters to title casing, recode abbreviated cardinal directions, and recode abbreviated street endings (i.e. Street, Circle, Plaza). Set `keep_extra` to FALSE to drop additional address data (i.e. Apartment, Unit).
+Our best attempt to standardize and clean addresses is through `clean_address()`. This function will: convert characters to title casing, recode abbreviated cardinal directions, and recode abbreviated street endings (i.e. Street, Circle, Plaza). Set `keep_extra` to FALSE to drop additional address data (i.e. Apartment, Unit).
 
 ```{r clean-address}
 cases <- data.frame(
@@ -258,7 +108,7 @@ cases %>%
     )
 ```
 
-## clean_phone
+## clean_phone()
 
 We also attempt to standardize phone number to a 10 digit U.S. format. If after removing country code and symbols, and length is not 10 characters, returned value is NA.
 
@@ -271,15 +121,15 @@ cases %>%
   mutate(HomePhone_clean = clean_phone(HomePhone))
 ```
 
-## recode_ctract
+## recode_ctract()
 
-Census tract across datasets are not always the same - some contain state and county fips codes, some do not. To make them match, use `recode_ctract` to remove state and county fips code.
+Census tract across datasets are not always the same - some contain state and county fips codes, some do not. To make them match, use `recode_ctract()` to remove state and county fips code.
 
 ```{r extra-recode}
 recode_ctract("06059099244")
 ```
 
-## vrbis_manner_death
+## vrbis_manner_death()
 
 Expects "Manner of Death" variable, follows CCDF data dictionary
 
@@ -287,7 +137,7 @@ Expects "Manner of Death" variable, follows CCDF data dictionary
 vrbis_manner_death("A")
 ```
 
-## vrbis_place_death
+## vrbis_place_death()
 
 Expects "Place of Death (Facility)", follows CCDF data dictionary
 
@@ -295,11 +145,11 @@ Expects "Place of Death (Facility)", follows CCDF data dictionary
 vrbis_place_death(6)
 ```
 
-## vrbis_resident
+## vrbis_resident()
 
-To use `vrbis_resident`, you will need to know your county fips code and CCDF county code (appendix G). Returned output is 0/1 where 1 indicates death belongs to your county. For columns, you'll need (in order): "Place of Death (Facility)", "County of Death (Code)", "Decedents County of Residence (NCHS Code)". Next, plug in your fips code to `fips` and CCDF county code to `county_code` arguments.
+To use `vrbis_resident()`, you will need to know your county fips code and CCDF county code (appendix G). Returned output is 0/1 where 1 indicates death belongs to your county. For columns, you'll need (in order): "Place of Death (Facility)", "County of Death (Code)", "Decedents County of Residence (NCHS Code)". Next, plug in your fips code to `fips` and CCDF county code to `county_code` arguments.
 
-```{r vrbis3, message = FALSE, warning = FALSE, eval = FALSE}
+```{r vrbis3, message = FALSE, warning = FALSE}
 #Example 1 - OC SNF resident
 vrbis_resident(
   "6",
@@ -328,7 +178,7 @@ vrbis_resident(
   )
 ```
 
-## suppress
+## suppress()
 
 Small cell sizes may need to be suppressed to protect patient confidentiality prior to reporting. In this example, any cell sizes `less_than` 10 will be suppressed and `replace_with` double asterisk.
 
@@ -339,7 +189,7 @@ linelist %>%
   mutate(n_suppress = suppress(n, less_than = 10, replace_with = "**"))
 ```
 
-## hiv_redact
+## hiv_redact()
 
 Depending on unit/program policy, any mention of HIV or AIDS may need to be removed from the dataset. While not yet exhaustive, this function accounts for several variations of HIV and AIDS. If found, a warning message is printed to the console.
 
@@ -351,7 +201,7 @@ df <- hiv_redact(df)
 print(df)
 ```
 
-## baby_name
+## baby_name()
 
 Removes variants of baby/twin/newborn from first name. Addresses data quality issue in birth hepatitis B doses.
 
