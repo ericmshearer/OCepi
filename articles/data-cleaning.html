@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OCepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,12 +35,14 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/data-cleaning.html">Data Cleaning</a></li>
+<li><a class="dropdown-item" href="../articles/calculations.html">Calculations</a></li>
+    <li><a class="dropdown-item" href="../articles/data-cleaning.html">Data Cleaning</a></li>
     <li><a class="dropdown-item" href="../articles/date-conversions.html">Date Conversions</a></li>
     <li><a class="dropdown-item" href="../articles/extending-ggplot2.html">Extending ggplot2</a></li>
     <li><a class="dropdown-item" href="../articles/linking_data.html">Linking Data</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/ericmshearer/OCepi"><span class="fa fa-github2"></span> github</a></li>
@@ -68,33 +70,24 @@
     
 <p>The functions in this package were designed to simplify and
 standardize the most frequent recoding tasks. The examples below will
-use simulated outbreak data:</p>
-<pre><code><span><span class="co">#&gt;                 Ethnicity                             Race Gender Age</span></span>
-<span><span class="co">#&gt; 1  Non-Hispanic or Latino                   Multiple Races      M  46</span></span>
-<span><span class="co">#&gt; 2                 Unknown                          Unknown      M   4</span></span>
-<span><span class="co">#&gt; 3  Non-Hispanic or Latino                            White      F  52</span></span>
-<span><span class="co">#&gt; 4  Non-Hispanic or Latino                            White      F  77</span></span>
-<span><span class="co">#&gt; 5                 Unknown American Indian or Alaska Native      M  71</span></span>
-<span><span class="co">#&gt; 6  Non-Hispanic or Latino                            Other      M  70</span></span>
-<span><span class="co">#&gt; 7  Non-Hispanic or Latino        Black or African American      F  11</span></span>
-<span><span class="co">#&gt; 8  Non-Hispanic or Latino        Black or African American      F   8</span></span>
-<span><span class="co">#&gt; 9      Hispanic or Latino American Indian or Alaska Native      F  41</span></span>
-<span><span class="co">#&gt; 10 Non-Hispanic or Latino        Black or African American      M  56</span></span>
-<span><span class="co">#&gt;    SexualOrientation SpecimenDate</span></span>
-<span><span class="co">#&gt; 1                HET   2022-06-07</span></span>
-<span><span class="co">#&gt; 2                HET   2022-06-09</span></span>
-<span><span class="co">#&gt; 3                UNK   2022-06-07</span></span>
-<span><span class="co">#&gt; 4                UNK   2022-06-11</span></span>
-<span><span class="co">#&gt; 5                HET   2022-06-10</span></span>
-<span><span class="co">#&gt; 6                HET   2022-06-09</span></span>
-<span><span class="co">#&gt; 7                HET   2022-06-08</span></span>
-<span><span class="co">#&gt; 8                HET   2022-06-12</span></span>
-<span><span class="co">#&gt; 9                HET   2022-06-12</span></span>
-<span><span class="co">#&gt; 10               HET   2022-06-10</span></span></code></pre>
+use simulated outbreak data included in this package.</p>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 6</span></span></span>
+<span><span class="co">#&gt;    Ethnicity              Race       Gender   Age SexualOrientation SpecimenDate</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Non-Hispanic or Latino Multiple … M         46 HET               2022-06-07  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Unknown                Unknown    M          4 HET               2022-06-09  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Non-Hispanic or Latino White      F         52 UNK               2022-06-07  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Non-Hispanic or Latino White      F         77 UNK               2022-06-11  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Unknown                American … M         71 HET               2022-06-10  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Non-Hispanic or Latino Other      M         70 HET               2022-06-09  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Non-Hispanic or Latino Black or … F         11 HET               2022-06-08  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Non-Hispanic or Latino Black or … F          8 HET               2022-06-12  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Hispanic or Latino     American … F         41 HET               2022-06-12  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Non-Hispanic or Latino Black or … M         56 HET               2022-06-10</span></span></code></pre>
 <div class="section level2">
-<h2 id="recode_race">recode_race<a class="anchor" aria-label="anchor" href="#recode_race"></a>
+<h2 id="recode_race">recode_race()<a class="anchor" aria-label="anchor" href="#recode_race"></a>
 </h2>
-<p><code>recode_race</code> can be used several different ways:
+<p><code><a href="../reference/recode_race.html">recode_race()</a></code> can be used several different ways:
 ethnicity and race (CalREDIE), race only (CAIR2), LOINC codes
 (Syndromic, thank you Monterey for suggestion), and ‘Multi-race Status’
 (VRBIS). If recoding using ethnicity and race, order should be
@@ -107,16 +100,18 @@ ethnicity and race (CalREDIE), race only (CAIR2), LOINC codes
 <span>    race_ethnicity <span class="op">=</span> <span class="fu"><a href="../reference/recode_race.html">recode_race</a></span><span class="op">(</span><span class="va">Ethnicity</span>, <span class="va">Race</span>, abbr_names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">count</span><span class="op">(</span><span class="va">race_ethnicity</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                           race_ethnicity  n</span></span>
-<span><span class="co">#&gt; 1          American Indian/Alaska Native 10</span></span>
-<span><span class="co">#&gt; 2                                  Asian  7</span></span>
-<span><span class="co">#&gt; 3                 Black/African American 16</span></span>
-<span><span class="co">#&gt; 4                        Hispanic/Latinx 19</span></span>
-<span><span class="co">#&gt; 5                         Multiple Races  6</span></span>
-<span><span class="co">#&gt; 6 Native Hawaiian/Other Pacific Islander 10</span></span>
-<span><span class="co">#&gt; 7                                  Other 15</span></span>
-<span><span class="co">#&gt; 8                                Unknown  8</span></span>
-<span><span class="co">#&gt; 9                                  White 14</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 2</span></span></span>
+<span><span class="co">#&gt;   race_ethnicity                             n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> American Indian/Alaska Native             10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Asian                                      7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Black/African American                    16</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Hispanic/Latinx                           19</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Multiple Races                             6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Native Hawaiian/Other Pacific Islander    10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Other                                     15</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> Unknown                                    8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span> White                                     14</span></span></code></pre></div>
 <p>Other use cases:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/recode_race.html">recode_race</a></span><span class="op">(</span><span class="st">"2028-9"</span><span class="op">)</span> <span class="co">#Syndromic/ESSENCE</span></span>
@@ -126,7 +121,7 @@ ethnicity and race (CalREDIE), race only (CAIR2), LOINC codes
 <span><span class="co">#&gt; [1] "American Indian/Alaska Native"</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="recode_gender">recode_gender<a class="anchor" aria-label="anchor" href="#recode_gender"></a>
+<h2 id="recode_gender">recode_gender()<a class="anchor" aria-label="anchor" href="#recode_gender"></a>
 </h2>
 <p>Can be used with CalREDIE, VRBIS, and CAIR2 (or really any other
 dataset that abbreviates their gender variable to single letters).</p>
@@ -134,14 +129,15 @@ dataset that abbreviates their gender variable to single letters).</p>
 <code class="sourceCode R"><span><span class="va">linelist</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>Gender <span class="op">=</span> <span class="fu"><a href="../reference/recode_gender.html">recode_gender</a></span><span class="op">(</span><span class="va">Gender</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">count</span><span class="op">(</span><span class="va">Gender</span><span class="op">)</span></span>
-<span><span class="co">#&gt;              Gender  n</span></span>
-<span><span class="co">#&gt; 1            Female 48</span></span>
-<span><span class="co">#&gt; 2              Male 38</span></span>
-<span><span class="co">#&gt; 3   Missing/Unknown 15</span></span>
-<span><span class="co">#&gt; 4 Transgender woman  4</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
+<span><span class="co">#&gt;   Gender              n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Female             51</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Male               39</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Missing/Unknown    15</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="recode_orientation">recode_orientation<a class="anchor" aria-label="anchor" href="#recode_orientation"></a>
+<h2 id="recode_orientation">recode_orientation()<a class="anchor" aria-label="anchor" href="#recode_orientation"></a>
 </h2>
 <p>Designed specifically for use with CalREDIE. Expects
 CTCIAdtlDemOrient variable.</p>
@@ -149,33 +145,37 @@ CTCIAdtlDemOrient variable.</p>
 <code class="sourceCode R"><span><span class="va">linelist</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>SexualOrientation <span class="op">=</span> <span class="fu"><a href="../reference/recode_orientation.html">recode_orientation</a></span><span class="op">(</span><span class="va">SexualOrientation</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">count</span><span class="op">(</span><span class="va">SexualOrientation</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                     SexualOrientation  n</span></span>
-<span><span class="co">#&gt; 1                            Bisexual  1</span></span>
-<span><span class="co">#&gt; 2 Gay, lesbian, or same gender-loving  3</span></span>
-<span><span class="co">#&gt; 3            Heterosexual or straight 89</span></span>
-<span><span class="co">#&gt; 4                     Missing/Unknown 12</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 2</span></span></span>
+<span><span class="co">#&gt;   SexualOrientation                       n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Bisexual                                1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Gay, lesbian, or same gender-loving     3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Heterosexual or straight               89</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Missing/Unknown                        12</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="age_groups">age_groups<a class="anchor" aria-label="anchor" href="#age_groups"></a>
+<h2 id="age_groups">age_groups()<a class="anchor" aria-label="anchor" href="#age_groups"></a>
 </h2>
 <p>“If you have to copy and paste code more than twice, create a
-function”. With <code>age_groups</code>, we no longer have to copy +
-paste long <code><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">dplyr::case_when</a></code> statements to recode age to age
-groups.</p>
+function”. With <code><a href="../reference/age_groups.html">age_groups()</a></code>, we no longer have to copy +
+paste long <code><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">dplyr::case_when()</a></code> statements to recode age to
+age groups.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">linelist</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>age_group <span class="op">=</span> <span class="fu"><a href="../reference/age_groups.html">age_groups</a></span><span class="op">(</span><span class="va">Age</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"decade"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">count</span><span class="op">(</span><span class="va">age_group</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   age_group  n</span></span>
-<span><span class="co">#&gt; 1       0-9 12</span></span>
-<span><span class="co">#&gt; 2     10-19 11</span></span>
-<span><span class="co">#&gt; 3     20-29 11</span></span>
-<span><span class="co">#&gt; 4     30-39 13</span></span>
-<span><span class="co">#&gt; 5     40-49 12</span></span>
-<span><span class="co">#&gt; 6     50-59 12</span></span>
-<span><span class="co">#&gt; 7     60-69  6</span></span>
-<span><span class="co">#&gt; 8     70-79 17</span></span>
-<span><span class="co">#&gt; 9       80+ 11</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 2</span></span></span>
+<span><span class="co">#&gt;   age_group     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 0-9          12</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 10-19        11</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 20-29        11</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 30-39        13</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 40-49        12</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 50-59        12</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> 60-69         6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> 70-79        17</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span> 80+          11</span></span></code></pre></div>
 <p>The default age groups is set to decade, but the following presets
 are available for use:</p>
 <ul>
@@ -211,10 +211,10 @@ M, 4-6 Years, 6+ Years</li>
 ordering.</p>
 </div>
 <div class="section level2">
-<h2 id="clean_address">clean_address<a class="anchor" aria-label="anchor" href="#clean_address"></a>
+<h2 id="clean_address">clean_address()<a class="anchor" aria-label="anchor" href="#clean_address"></a>
 </h2>
 <p>Our best attempt to standardize and clean addresses is through
-<code>clean_address</code>. This function will: convert characters to
+<code><a href="../reference/clean_address.html">clean_address()</a></code>. This function will: convert characters to
 title casing, recode abbreviated cardinal directions, and recode
 abbreviated street endings (i.e. Street, Circle, Plaza). Set
 <code>keep_extra</code> to FALSE to drop additional address data
@@ -234,7 +234,7 @@ abbreviated street endings (i.e. Street, Circle, Plaza). Set
 <span><span class="co">#&gt; 3   233 W Green Plz Unit 3    233 West Green Plaza Unit 3</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="clean_phone">clean_phone<a class="anchor" aria-label="anchor" href="#clean_phone"></a>
+<h2 id="clean_phone">clean_phone()<a class="anchor" aria-label="anchor" href="#clean_phone"></a>
 </h2>
 <p>We also attempt to standardize phone number to a 10 digit U.S.
 format. If after removing country code and symbols, and length is not 10
@@ -252,17 +252,17 @@ characters, returned value is NA.</p>
 <span><span class="co">#&gt; 3  +442071539000            &lt;NA&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="recode_ctract">recode_ctract<a class="anchor" aria-label="anchor" href="#recode_ctract"></a>
+<h2 id="recode_ctract">recode_ctract()<a class="anchor" aria-label="anchor" href="#recode_ctract"></a>
 </h2>
 <p>Census tract across datasets are not always the same - some contain
 state and county fips codes, some do not. To make them match, use
-<code>recode_ctract</code> to remove state and county fips code.</p>
+<code><a href="../reference/recode_ctract.html">recode_ctract()</a></code> to remove state and county fips code.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/recode_ctract.html">recode_ctract</a></span><span class="op">(</span><span class="st">"06059099244"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "099244"</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="vrbis_manner_death">vrbis_manner_death<a class="anchor" aria-label="anchor" href="#vrbis_manner_death"></a>
+<h2 id="vrbis_manner_death">vrbis_manner_death()<a class="anchor" aria-label="anchor" href="#vrbis_manner_death"></a>
 </h2>
 <p>Expects “Manner of Death” variable, follows CCDF data dictionary</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -270,7 +270,7 @@ state and county fips codes, some do not. To make them match, use
 <span><span class="co">#&gt; [1] "Accident"</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="vrbis_place_death">vrbis_place_death<a class="anchor" aria-label="anchor" href="#vrbis_place_death"></a>
+<h2 id="vrbis_place_death">vrbis_place_death()<a class="anchor" aria-label="anchor" href="#vrbis_place_death"></a>
 </h2>
 <p>Expects “Place of Death (Facility)”, follows CCDF data dictionary</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -278,12 +278,12 @@ state and county fips codes, some do not. To make them match, use
 <span><span class="co">#&gt; [1] "LTCF"</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="vrbis_resident">vrbis_resident<a class="anchor" aria-label="anchor" href="#vrbis_resident"></a>
+<h2 id="vrbis_resident">vrbis_resident()<a class="anchor" aria-label="anchor" href="#vrbis_resident"></a>
 </h2>
-<p>To use <code>vrbis_resident</code>, you will need to know your county
-fips code and CCDF county code (appendix G). Returned output is 0/1
-where 1 indicates death belongs to your county. For columns, you’ll need
-(in order): “Place of Death (Facility)”, “County of Death (Code)”,
+<p>To use <code><a href="../reference/vrbis_resident.html">vrbis_resident()</a></code>, you will need to know your
+county fips code and CCDF county code (appendix G). Returned output is
+0/1 where 1 indicates death belongs to your county. For columns, you’ll
+need (in order): “Place of Death (Facility)”, “County of Death (Code)”,
 “Decedents County of Residence (NCHS Code)”. Next, plug in your fips
 code to <code>fips</code> and CCDF county code to
 <code>county_code</code> arguments.</p>
@@ -296,6 +296,7 @@ code to <code>fips</code> and CCDF county code to
 <span>  fips <span class="op">=</span> <span class="st">"059"</span>,</span>
 <span>  county_code <span class="op">=</span> <span class="st">"30"</span></span>
 <span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1</span></span>
 <span></span>
 <span><span class="co">#Example 2 - OC Community Death</span></span>
 <span><span class="fu"><a href="../reference/vrbis_resident.html">vrbis_resident</a></span><span class="op">(</span></span>
@@ -305,6 +306,7 @@ code to <code>fips</code> and CCDF county code to
 <span>  fips <span class="op">=</span> <span class="st">"059"</span>,</span>
 <span>  county_code <span class="op">=</span> <span class="st">"30"</span></span>
 <span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1</span></span>
 <span></span>
 <span><span class="co">#Example 3 - Non-OC resident dies in OC facility</span></span>
 <span><span class="fu"><a href="../reference/vrbis_resident.html">vrbis_resident</a></span><span class="op">(</span></span>
@@ -313,10 +315,11 @@ code to <code>fips</code> and CCDF county code to
 <span>  <span class="st">"058"</span>,</span>
 <span>  fips <span class="op">=</span> <span class="st">"059"</span>,</span>
 <span>  county_code <span class="op">=</span> <span class="st">"30"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="suppress">suppress<a class="anchor" aria-label="anchor" href="#suppress"></a>
+<h2 id="suppress">suppress()<a class="anchor" aria-label="anchor" href="#suppress"></a>
 </h2>
 <p>Small cell sizes may need to be suppressed to protect patient
 confidentiality prior to reporting. In this example, any cell sizes
@@ -327,19 +330,21 @@ confidentiality prior to reporting. In this example, any cell sizes
 <span>  <span class="fu">mutate</span><span class="op">(</span>age_group <span class="op">=</span> <span class="fu"><a href="../reference/age_groups.html">age_groups</a></span><span class="op">(</span><span class="va">Age</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">count</span><span class="op">(</span><span class="va">age_group</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>n_suppress <span class="op">=</span> <span class="fu"><a href="../reference/suppress.html">suppress</a></span><span class="op">(</span><span class="va">n</span>, less_than <span class="op">=</span> <span class="fl">10</span>, replace_with <span class="op">=</span> <span class="st">"**"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   age_group  n n_suppress</span></span>
-<span><span class="co">#&gt; 1       0-9 12         12</span></span>
-<span><span class="co">#&gt; 2     10-19 11         11</span></span>
-<span><span class="co">#&gt; 3     20-29 11         11</span></span>
-<span><span class="co">#&gt; 4     30-39 13         13</span></span>
-<span><span class="co">#&gt; 5     40-49 12         12</span></span>
-<span><span class="co">#&gt; 6     50-59 12         12</span></span>
-<span><span class="co">#&gt; 7     60-69  6         **</span></span>
-<span><span class="co">#&gt; 8     70-79 17         17</span></span>
-<span><span class="co">#&gt; 9       80+ 11         11</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 3</span></span></span>
+<span><span class="co">#&gt;   age_group     n n_suppress</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 0-9          12 12        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 10-19        11 11        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 20-29        11 11        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 30-39        13 13        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 40-49        12 12        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 50-59        12 12        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> 60-69         6 **        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> 70-79        17 17        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span> 80+          11 11</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="hiv_redact">hiv_redact<a class="anchor" aria-label="anchor" href="#hiv_redact"></a>
+<h2 id="hiv_redact">hiv_redact()<a class="anchor" aria-label="anchor" href="#hiv_redact"></a>
 </h2>
 <p>Depending on unit/program policy, any mention of HIV or AIDS may need
 to be removed from the dataset. While not yet exhaustive, this function
@@ -364,7 +369,7 @@ message is printed to the console.</p>
 <span><span class="co">#&gt; 4</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="baby_name">baby_name<a class="anchor" aria-label="anchor" href="#baby_name"></a>
+<h2 id="baby_name">baby_name()<a class="anchor" aria-label="anchor" href="#baby_name"></a>
 </h2>
 <p>Removes variants of baby/twin/newborn from first name. Addresses data
 quality issue in birth hepatitis B doses.</p>
@@ -389,7 +394,7 @@ quality issue in birth hepatitis B doses.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>

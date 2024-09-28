@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OCepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,12 +35,14 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/data-cleaning.html">Data Cleaning</a></li>
+<li><a class="dropdown-item" href="../articles/calculations.html">Calculations</a></li>
+    <li><a class="dropdown-item" href="../articles/data-cleaning.html">Data Cleaning</a></li>
     <li><a class="dropdown-item" href="../articles/date-conversions.html">Date Conversions</a></li>
     <li><a class="dropdown-item" href="../articles/extending-ggplot2.html">Extending ggplot2</a></li>
     <li><a class="dropdown-item" href="../articles/linking_data.html">Linking Data</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/ericmshearer/OCepi"><span class="fa fa-github2"></span> github</a></li>
@@ -72,26 +74,25 @@
 <p>Core Functions:</p>
 <ul>
 <li>
-<code>mmwr_year</code> - calculate epidemiological year</li>
+<code><a href="../reference/mmwr_year.html">mmwr_year()</a></code> - calculate epidemiological year</li>
 <li>
-<code>mmwr_week</code> - calculate epidemiological week (or disease
-week)</li>
+<code><a href="../reference/mmwr_week.html">mmwr_week()</a></code> - calculate epidemiological week (or
+disease week)</li>
 <li>
-<code>week_ending_date</code> - calculate Saturday of disease
+<code><a href="../reference/week_ending_date.html">week_ending_date()</a></code> - calculate Saturday of disease
 week</li>
 <li>
-<code>mmwr_calendar</code> - returns data.frame with columns for
+<code><a href="../reference/mmwr_calendar.html">mmwr_calendar()</a></code> - returns data.frame with columns for
 disease week, week start and end date, for a given epidemiological
 year</li>
 <li>
-<code>mmwrweek_to_date</code> - calculate week ending date from
+<code><a href="../reference/mmwrweek_to_date.html">mmwrweek_to_date()</a></code> - calculate week ending date from
 epidemiological year and week</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">SpecimenDate</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>SpecimenDate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">SpecimenDate</span>, format <span class="op">=</span> <span class="st">"%m/%d/%Y"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">SpecimenDate</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">SpecimenDate</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">SpecimenDate</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
 <span>    epi_year <span class="op">=</span> <span class="fu"><a href="../reference/mmwr_year.html">mmwr_year</a></span><span class="op">(</span><span class="va">SpecimenDate</span><span class="op">)</span>,</span>
 <span>    disease_week <span class="op">=</span> <span class="fu"><a href="../reference/mmwr_week.html">mmwr_week</a></span><span class="op">(</span><span class="va">SpecimenDate</span><span class="op">)</span>,</span>
@@ -110,8 +111,8 @@ epidemiological year and week</li>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2022-06-06       <span style="text-decoration: underline;">2</span>022           23 2022-06-11</span></span></code></pre></div>
 <p>Convert epidemiological year and week to week ending date:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="va">dates</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">epi_year</span>, <span class="va">disease_week</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="va">dates</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">epi_year</span>, <span class="va">disease_week</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
 <span>    week_ending <span class="op">=</span> <span class="fu"><a href="../reference/mmwrweek_to_date.html">mmwrweek_to_date</a></span><span class="op">(</span><span class="va">epi_year</span>, <span class="va">disease_week</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
@@ -126,10 +127,10 @@ epidemiological year and week</li>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     <span style="text-decoration: underline;">2</span>022           23 2022-06-11 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     <span style="text-decoration: underline;">2</span>022           23 2022-06-11 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     <span style="text-decoration: underline;">2</span>022           23 2022-06-11</span></span></code></pre></div>
-<p>To make <code>mmwr_calendar</code> with total disease weeks +
+<p>To make <code><a href="../reference/mmwr_calendar.html">mmwr_calendar()</a></code> with total disease weeks +
 start/end dates:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/mmwr_calendar.html">mmwr_calendar</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/mmwr_calendar.html">mmwr_calendar</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    Year Week      Start        End</span></span>
 <span><span class="co">#&gt; 1  2023    1 2023-01-01 2023-01-07</span></span>
@@ -154,7 +155,7 @@ start/end dates:</p>
 <span><span class="co">#&gt; 20 2023   20 2023-05-14 2023-05-20</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="respiratory-season">Respiratory Season<a class="anchor" aria-label="anchor" href="#respiratory-season"></a>
+<h2 id="assign_season">assign_season()<a class="anchor" aria-label="anchor" href="#assign_season"></a>
 </h2>
 <p>For epidemiologists working viral respiratory surveillance,
 patients/laboratory results can also be categorized by season. Season in
@@ -163,7 +164,8 @@ year.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>spec_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2023-10-01"</span>,<span class="st">"2023-11-04"</span>,<span class="st">"2024-09-28"</span>,<span class="st">"2024-09-29"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>season <span class="op">=</span> <span class="fu"><a href="../reference/assign_season.html">assign_season</a></span><span class="op">(</span><span class="va">spec_date</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>season <span class="op">=</span> <span class="fu"><a href="../reference/assign_season.html">assign_season</a></span><span class="op">(</span><span class="va">spec_date</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    spec_date  season</span></span>
 <span><span class="co">#&gt; 1 2023-10-01 2023-24</span></span>
 <span><span class="co">#&gt; 2 2023-11-04 2023-24</span></span>
@@ -171,43 +173,20 @@ year.</p>
 <span><span class="co">#&gt; 4 2024-09-29 2024-25</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="month">Month<a class="anchor" aria-label="anchor" href="#month"></a>
+<h2 id="to_month">to_month()<a class="anchor" aria-label="anchor" href="#to_month"></a>
 </h2>
 <p>An alternative to grouping cases at the year or week level is by
 month. Returned output is a date formatted YYYY-MM-01.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>spec_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2023-10-01"</span>,<span class="st">"2023-11-04"</span>,<span class="st">"2024-09-28"</span>,<span class="st">"2024-09-29"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>month <span class="op">=</span> <span class="fu"><a href="../reference/to_month.html">to_month</a></span><span class="op">(</span><span class="va">spec_date</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>month <span class="op">=</span> <span class="fu"><a href="../reference/to_month.html">to_month</a></span><span class="op">(</span><span class="va">spec_date</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    spec_date      month</span></span>
 <span><span class="co">#&gt; 1 2023-10-01 2023-10-01</span></span>
 <span><span class="co">#&gt; 2 2023-11-04 2023-11-01</span></span>
 <span><span class="co">#&gt; 3 2024-09-28 2024-09-01</span></span>
 <span><span class="co">#&gt; 4 2024-09-29 2024-09-01</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="time-between-dates">Time Between Dates<a class="anchor" aria-label="anchor" href="#time-between-dates"></a>
-</h2>
-<p><code>time_between</code> calculates the time elapsed between two
-dates in the following units: days, weeks, months and years. Value is
-always rounded down to account for complete elapsed time. Note: order of
-dates does not necessarily matter, but beware of sign.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">episode_date</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-04-01"</span><span class="op">)</span></span>
-<span><span class="va">death_date</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-05-15"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/time_between.html">time_between</a></span><span class="op">(</span><span class="va">death_date</span>, <span class="va">episode_date</span>, unit <span class="op">=</span> <span class="st">"days"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 44</span></span>
-<span><span class="fu"><a href="../reference/time_between.html">time_between</a></span><span class="op">(</span><span class="va">episode_date</span>, <span class="va">death_date</span>, unit <span class="op">=</span> <span class="st">"days"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] -44</span></span>
-<span></span>
-<span><span class="va">dob</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1986-04-01"</span><span class="op">)</span></span>
-<span><span class="va">vaccine_date</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2023-05-15"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/time_between.html">time_between</a></span><span class="op">(</span><span class="va">vaccine_date</span>, <span class="va">dob</span>, unit <span class="op">=</span> <span class="st">"years"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 37</span></span>
-<span><span class="fu"><a href="../reference/time_between.html">time_between</a></span><span class="op">(</span><span class="va">dob</span>, <span class="va">vaccine_date</span>, unit <span class="op">=</span> <span class="st">"years"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] -37</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -220,7 +199,7 @@ dates does not necessarily matter, but beware of sign.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>

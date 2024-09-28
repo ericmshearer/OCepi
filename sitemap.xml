@@ -2,6 +2,7 @@
 <url><loc>https://ericmshearer.github.io/OCepi/404.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/LICENSE-text.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/LICENSE.html</loc></url>
+<url><loc>https://ericmshearer.github.io/OCepi/articles/calculations.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/articles/data-cleaning.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/articles/date-conversions.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/articles/extending-ggplot2.html</loc></url>
@@ -9,6 +10,7 @@
 <url><loc>https://ericmshearer.github.io/OCepi/articles/linking_data.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/authors.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/index.html</loc></url>
+<url><loc>https://ericmshearer.github.io/OCepi/news/index.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/add_percent.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/age_groups.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/apollo_label.html</loc></url>
@@ -18,13 +20,14 @@
 <url><loc>https://ericmshearer.github.io/OCepi/reference/clean_address.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/clean_phone.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/desaturate_geom.html</loc></url>
+<url><loc>https://ericmshearer.github.io/OCepi/reference/elr.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/end_points.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/geom_dumbbell.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/geom_lollipop.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/highlight_geom.html</loc></url>
-<url><loc>https://ericmshearer.github.io/OCepi/reference/highlight_title.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/hiv_redact.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/index.html</loc></url>
+<url><loc>https://ericmshearer.github.io/OCepi/reference/linelist.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/match_id_1.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/match_id_2.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/match_id_3.html</loc></url>
@@ -35,6 +38,8 @@
 <url><loc>https://ericmshearer.github.io/OCepi/reference/mmwrweek_to_date.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/n_percent.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/nssp_date_range.html</loc></url>
+<url><loc>https://ericmshearer.github.io/OCepi/reference/oc_city_sf.html</loc></url>
+<url><loc>https://ericmshearer.github.io/OCepi/reference/oc_zip_sf.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/pipe.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/pretty_words.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/rate_per_100k.html</loc></url>
