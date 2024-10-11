@@ -102,7 +102,7 @@ cases <- data.frame(
   Address = c("1234 Main Street Apt 204","501 N Capital St","233 W Green Plz Unit 3")
 )
 
-cases %>%
+cases |>
   mutate(
     Address_clean = clean_address(Address, keep_extra = TRUE)
     )
@@ -117,7 +117,7 @@ cases <- data.frame(
   HomePhone = c("1-714-777-1234","(949) 555-1234","+442071539000")
 )
 
-cases %>%
+cases |>
   mutate(HomePhone_clean = clean_phone(HomePhone))
 ```
 
@@ -183,9 +183,9 @@ vrbis_resident(
 Small cell sizes may need to be suppressed to protect patient confidentiality prior to reporting. In this example, any cell sizes `less_than` 10 will be suppressed and `replace_with` double asterisk.
 
 ```{r suppress}
-linelist %>%
-  mutate(age_group = age_groups(Age)) %>%
-  count(age_group) %>%
+linelist |>
+  mutate(age_group = age_groups(Age)) |>
+  count(age_group) |>
   mutate(n_suppress = suppress(n, less_than = 10, replace_with = "**"))
 ```
 
@@ -211,4 +211,25 @@ baby_name("baby BOY")
 baby_name("NEWBORN")
 
 baby_name("twin A")
+```
+
+## pos()/neg()
+
+To simplify the tedious task of recoding ELR results, we coalesced as many common variants of "positive" and "negative" into `pos()` and `neg()`. We built the functions in such a way you can use them with either `%in%` or `grepl()` string detection.
+
+```{r elr}
+elr <- data.frame(
+  Results = c("Pos","POSITIVE","DETECTED","NOT DETECTED","reactive")
+)
+
+elr <- elr |>
+  mutate(
+    Results = toupper(Results),
+    test_result = case_when(
+      Results %in% pos() ~ "Positive", #method 1
+      grepl(neg(collapse = TRUE), Results, ignore.case = TRUE) ~ "Negative" #method 2
+    )
+  )
+
+print(elr)
 ```

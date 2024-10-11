@@ -18,15 +18,9 @@ library(dplyr)
 linelist <- linelist
 ```
 
-## MMWR
+## MMWR Conversions
 
-Core Functions:
-
--   `mmwr_year()` - calculate epidemiological year
--   `mmwr_week()` - calculate epidemiological week (or disease week)
--   `week_ending_date()` - calculate Saturday of disease week
--   `mmwr_calendar()` - returns data.frame with columns for disease week, week start and end date, for a given epidemiological year
--   `mmwrweek_to_date()` - calculate week ending date from epidemiological year and week
+For most time series data, we prefer to aggregate at the week or year level for reporting purposes. Like most epidemiologists, we rely on MMWR disease week and year. For week, we have two flavors - disease week and week ending date (Saturday of disease week).
 
 ```{r mmwr-forward, message = FALSE, warning = FALSE}
 dates <- linelist |>
@@ -41,7 +35,9 @@ dates <- linelist |>
 head(dates)
 ```
 
-Convert epidemiological year and week to week ending date:
+## mmwrweek_to_date()
+
+For those that need to convert epidemiological year and week to week ending date:
 
 ```{r mmwr-reverse}
 dates <- dates |>
@@ -52,6 +48,8 @@ dates <- dates |>
 
 head(dates)
 ```
+
+## mmwr_calendar()
 
 To make `mmwr_calendar()` with total disease weeks + start/end dates:
 

@@ -1,19 +1,16 @@
 url: https://ericmshearer.github.io/OCepi/
 template:
   bootstrap: 5
-  theme: arrow-light
   bslib:
-    base_font:
-      google: Roboto
-    heading_font:
-      google: Roboto
-    code_font:
-      google: JetBrains Mono
-    primary: '#353d42'
+    base_font: {google: {family: "Source Sans Pro"}}
+    code_font: {google: {family: "Source Code Pro"}}
+    primary: "#353d42"
+    font_scale: 1.2
+    pkgdown-nav-height: 78px
 navbar:
   bg: primary
   right:
-  - icon: fa-github2
-    text: github
+  - icon: fa-github
     href: https://github.com/ericmshearer/OCepi
+    aria-label: "GitHub"
 

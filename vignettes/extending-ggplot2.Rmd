@@ -18,51 +18,55 @@ library(dplyr)
 library(ggplot2)
 ```
 
-Core functions:
-
--   `theme_apollo()`, `apollo_label()` - minimal, clean theme for plots
--   `end_points()` - subset data at last time series data point
--   `wrap_labels()` - wrap long axis labels to better fit plot
--   `cdcd_color()` - recall our most used colors
--   `geom_dumbbell()` - dumbbell plot
--   `geom_lollipop()` - lollipop plot
--   `highlight_geom()` - highlight geom\_\* of interest based on expression
--   `desaturate_geom()` - desaturate geom\_\* of interest based on expression
+This article will demonstrate the different ways we extend ggplot2 through themes, colors, and labels.
 
 ## theme_apollo() & apollo_label()
 
-Using West Nile Virus data, we'll build a plot using our theme, labels, and colors:
+Using the built-in linelist dataset, we'll build a plot using our theme, labels, and colors:
 
-```{r boring-plot, fig.width = 10, fig.asp = 0.85}
-wnv <- read.csv("https://data.chhs.ca.gov/dataset/3205b420-3f62-4a02-8d2e-9a9ed34c49f4/resource/6ef33c1b-9f54-49f2-a92e-51a1b78f0a06/download/vendor.csv", na.strings = "", stringsAsFactors = FALSE) |>
-  group_by(County) |>
-  summarise(Total = sum(Reported.Positive.Cases)) |>
-  ungroup() |>
-  arrange(desc(Total)) |>
-  head(5)
+```{r boring-plot, fig.width = 9, fig.asp = 0.82}
+dis_x <- linelist
 
-ggplot(data = wnv, aes(x = reorder(County, -Total), y = Total)) +
+dis_x |>
+  mutate(age_groups = age_groups(Age, type = "hcv")) |>
+  count(age_groups) |>
+  ggplot(aes(x = age_groups, y = n)) +
   geom_bar(stat = "identity", fill = cdcd_color("dodgers")) +
   theme_apollo() +
-  apollo_label(data = wnv, aes(label = format(Total, big.mark = ",")), vjust = -0.3) +
-  scale_x_discrete(labels = scales::label_wrap(10)) +
-  scale_y_continuous(expand = c(0,0), limits = c(0,2000), labels = scales::label_number(big.mark = ",")) +
+  apollo_label(aes(label = n), vjust = -0.3) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,50)) +
   labs(
-    title = "West Nile Virus - Top 5 Jurisdictions",
+    title = "Disease X by Age Group",
     subtitle = "PHS/Communicable Disease Control",
-    x = "Jurisdictions",
+    x = "Age Group (years)",
     y = "Total Cases",
-    caption = "*Case counts are cumulative starting 2006."
+    caption = "*This is a caption."
   )
 ```
 
 For horizontal plots or maps, update `theme_apollo(direction = "horizontal")` or `theme_apollo(direction = "map")` respectively.
 
+## cdcd_color()
+
+Color palette below contains our favorite/most used colors:
+
+```{r colors, echo = FALSE, fig.width = 8, fig.asp = 0.75}
+colorKey <- data.frame(colorName = names(cdcd_color()))
+text_color <- ifelse(names(cdcd_color()) %in% c("dodgers","title color","axis color"), "#FFFFFF","#000000")
+
+ggplot(data = colorKey, aes(x = 1, y = 1:nrow(colorKey), fill = colorName, label = colorName)) +
+      geom_tile() +
+      scale_fill_manual(values = cdcd_color()) +
+      theme_void()+
+      theme(legend.position = "none") + 
+      geom_text(size = 7, color = text_color, fontface = "bold")
+```
+
 ## end_points()
 
 For line plots with \>1 group, it is recommended to direct label groups. `end_points()` will subset the data to the last date in a time series, even if groups end at different dates (thank you Butte County for the suggestion).
 
-```{r end-points, fig.width = 12, fig.asp = 0.7}
+```{r end-points, fig.width = 14, fig.asp = 0.7}
 covid <- read.csv("https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/046cdd2b-31e5-4d34-9ed3-b48cdbc4be7a/download/covid19cases_test.csv", na.strings = "", stringsAsFactors = FALSE) |>
   filter(area %in% c("Orange","Los Angeles","San Diego"))
 
@@ -74,17 +78,15 @@ covid <- covid |>
     rate_ma_7 = round(zoo::rollmean(rate, k = 7, align = "right", na.pad = FALSE, fill = 0), digits = 2)
   ) |>
   ungroup() |>
-  filter(date <= "2020-12-23")
+  filter(date <= "2020-12-23", date > "2020-08-01")
 
 ggplot(data = covid, aes(x = date, y = rate_ma_7, color = area)) +
   geom_line(linewidth = 1.2) +
   theme_apollo(legend = "Hide") +
   geom_text(data = end_points(covid, date = date), aes(label = area), hjust = -0.05, show.legend = FALSE, size = 4.5) +
-  scale_x_date(date_labels = "%m/%Y", date_breaks = "2 months", expand = expansion(add = c(0,35))) +
+  scale_x_date(date_labels = "%m/%Y", date_breaks = "1 month", expand = expansion(add = c(0,15))) +
   scale_y_continuous(expand = c(0,0), limits = c(0,155)) +
   labs(
-    title = "COVID-19 Incidence Rates by County, 2020",
-    subtitle = "PHS/Communicable Disease Control",
     x = "Episode Date",
     y = "Crude Rate per 100k",
     color = "County"
@@ -103,10 +105,9 @@ re <- data.frame(group = c("Native Hawaiian or Other Pacific Islander","Black or
 
 ggplot(data = re, aes(x = group, y = score, label = score)) +
   geom_col() +
-  theme_apollo(direction = "vertical") +
+  theme_apollo() +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
   labs(
-    title = "Outcomes Across Select Race/Ethnicity\n",
     x = "Race/Ethnicity",
     y = "Percentage (%)"
   ) +
@@ -119,10 +120,9 @@ With wrapping:
 ggplot(data = re, aes(x = group, y = score, label = score)) +
   geom_col() +
   scale_x_discrete(labels = wrap_labels()) +
-  theme_apollo(direction = "vertical") +
+  theme_apollo() +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
     labs(
-    title = "Outcomes Across Select Race/Ethnicity\n",
     x = "Race/Ethnicity",
     y = "Percentage (%)"
   ) +
@@ -141,8 +141,11 @@ pre_post <- data.frame(Country = c("UK-A","US-A","UK-B","US-B"), PRE = c(0,1,2,3
 
 ggplot(data = pre_post, aes(x = PRE, xend = POST, y = Country)) +
   geom_dumbbell(colour_x = cdcd_color("mustard"), colour_xend = cdcd_color("mustard"), size = 5, linewidth = 2, colour = "black") +
-  labs(title = "Dumbbell Plot", x = "Pre/Post Scores", y = "Country") +
-  theme_apollo(direction = "vertical")
+  labs(
+    x = "Pre/Post Scores",
+    y = "Country"
+    ) +
+  theme_apollo()
 ```
 
 ## geom_lollipop()
@@ -156,8 +159,11 @@ Lollipop plot is similar to dumbbell plot, but has only one point.
 ```{r lollipop, fig.width = 10, fig.asp = 0.85}
 ggplot(data = pre_post, aes(x = Country, y = POST, yend = 0)) +
   geom_lollipop(color = cdcd_color("dodgers"), line.colour = "#000000", size = 5, linewidth = 1) +
-  labs(title = "Lollipop Plot", x = "Country", y = "Post Score") +
-  theme_apollo(direction = "vertical")
+  labs(
+    x = "Country",
+    y = "Post Score"
+    ) +
+  theme_apollo()
 ```
 
 An alternate use case for `geom_lollipop()` is labeling specific dates in time series plot.
@@ -180,12 +186,7 @@ ggplot(df, aes(x = date, y = value)) +
   geom_lollipop(data = filter(df, date == peak_date), aes(x = date, y = value, yend = value * 0.7), color = cdcd_color("london pink"), line.colour = "#000000", linetype = "dotted", size = 2.5) +
     scale_x_date(expand = expansion(add = c(0,10)), breaks = "month", date_labels = "%b-%y") +
   scale_y_continuous(expand = expansion(add = c(0,10))) +
-  theme_apollo(direction = "vertical") +
-  labs(
-    title = "Labeling line plot with geom_lollipop\n",
-    x = "Date",
-    y = "No. of Observations"
-  )
+  theme_apollo()
 ```
 
 ## highlight_geom() & desaturate_geom()
@@ -206,42 +207,42 @@ Both highlighting approaches work with `facet_wrap()` and `facet_grid()`. Curren
 
 #### Bar - Highlight
 
-```{r highlight-bar, fig.width = 12, fig.asp = 0.9, warning = FALSE}
-vpd <- read.csv("https://data.chhs.ca.gov/dataset/bd6a1ca8-dd41-4cbf-84a2-0e899af64b67/resource/a7a4d868-f6d2-49c9-8a11-904c69a0e3a0/download/izb-cases-by-county-year-2022.csv", na.strings = "", stringsAsFactors = FALSE) |>
-  filter(Disease == "Pertussis", County %in% c("Orange","Riverside"), Year >= 2009)
+```{r highlight-bar, fig.width = 12, fig.asp = 0.75, warning = FALSE}
+tbl <- linelist |>
+  mutate(age_groups = age_groups(Age, type = "enteric")) |>
+  count(age_groups) |>
+  mutate(
+    percent = add_percent(n, digits = 1),
+    label = n_percent(n, percent, reverse = TRUE)
+  )
 
-ggplot(data = vpd, aes(x = as.character(Year), y = Count)) +
+ggplot(data = tbl, aes(x = age_groups, y = percent)) +
   geom_col() +
-  facet_wrap(~County, nrow = 2) +
-  apollo_label(data = vpd, aes(label = Count), vjust = -0.3) +
-  highlight_geom(Count > 200, pal = cdcd_color("london pink")) +
-  scale_y_continuous(expand = c(0,0), limits = c(0,525)) +
+  apollo_label(data = tbl, aes(label = label), vjust = -0.3) +
+  highlight_geom(percent == max(percent), pal = cdcd_color("london pink")) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,32), label = scales::label_percent(scale = 1)) +
   theme_apollo() +
   labs(
-    title = "Pertussis Cases by Year, Orange & Riverside Counties",
-    subtitle = "PHS/Communicable Disease Control",
-    x = "Year",
-    y = "Total Cases",
-    caption = "*Years with >200 cases are highlighted."
+    x = "Age Groups (years)",
+    y = "Proportion (%)"
   )
 ```
 
-#### Line - Highlight
+#### Line - highlight
 
-```{r desaturate-line, fig.width = 12, fig.asp = 0.7}
+```{r higlight-line, fig.width = 14, fig.asp = 0.7}
 ggplot(data = covid, aes(x = date, y = rate_ma_7, group = area)) +
   geom_line(linewidth = 1.2) +
-  apollo_label(data = end_points(covid, date), aes(label = area), hjust = -0.05, vjust = 0) +
-  highlight_geom(area == "Orange", pal = cdcd_color("london pink"), linewidth = 1.5) +
-  scale_x_date(date_labels = "%m/%Y", date_breaks = "2 months", expand = expansion(add = c(0,35))) +
+  theme_apollo(legend = "Hide") +
+  apollo_label(data = end_points(covid, date = date), aes(label = area), hjust = -0.05) +
+  highlight_geom(area == "Orange", pal = cdcd_color("orange")) +
+  scale_x_date(date_labels = "%m/%Y", date_breaks = "1 month", expand = expansion(add = c(0,15))) +
   scale_y_continuous(expand = c(0,0), limits = c(0,155)) +
-  theme_apollo() +
   labs(
-    title = "desaturate_geom - line plot",
-    subtitle = "Main group is highlighted, all others desaturated",
     x = "Episode Date",
-    y = "Crude Rate per 100k"
-    )
+    y = "Crude Rate per 100k",
+    color = "County"
+  )
 ```
 
 #### Shapefile/Map - desaturate
@@ -253,9 +254,5 @@ ggplot(data = oc_zip_sf) +
   geom_sf() +
   desaturate_geom(Zip %in% c(92702:92708), pal = cdcd_color("dodgers"), desaturate = 0.75, linewidth = 0.5) +
   geom_sf_text(data = base_zip, aes(label = Zip)) +
-  theme_apollo(direction = "map") +
-  labs(
-    title = "Orange County Zip Codes",
-    subtitle = "Highlight geographies of interest"
-  )
+  theme_apollo(direction = "map")
 ```
