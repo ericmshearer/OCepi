@@ -73,8 +73,9 @@
 </h2>
 <p>For most time series data, we prefer to aggregate at the week or year
 level for reporting purposes. Like most epidemiologists, we rely on MMWR
-disease week and year. For week, we have two flavors - disease week and
-week ending date (Saturday of disease week).</p>
+disease week and year. For week, we have two flavors -
+<code>mwwr_week</code> and <code>week_ending_date</code> (Saturday of
+disease week). For year, we use <code>mmwr_year</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">SpecimenDate</span><span class="op">)</span> <span class="op">|&gt;</span></span>
