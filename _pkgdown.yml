@@ -2,9 +2,13 @@ url: https://ericmshearer.github.io/OCepi/
 template:
   bootstrap: 5
   bslib:
-    base_font: {google: {family: "Source Sans Pro"}}
-    code_font: {google: {family: "Source Code Pro"}}
-    primary: "#353d42"
+    base_font:
+      google:
+        family: Source Sans Pro
+    code_font:
+      google:
+        family: Source Code Pro
+    primary: '#353d42'
     font_scale: 1.2
     pkgdown-nav-height: 78px
 navbar:
@@ -12,5 +16,5 @@ navbar:
   right:
   - icon: fa-github
     href: https://github.com/ericmshearer/OCepi
-    aria-label: "GitHub"
+    aria-label: GitHub
 
