@@ -20,7 +20,7 @@ linelist <- linelist
 
 ## MMWR Conversions
 
-For most time series data, we prefer to aggregate at the week or year level for reporting purposes. Like most epidemiologists, we rely on MMWR disease week and year. For week, we have two flavors - disease week and week ending date (Saturday of disease week).
+For most time series data, we prefer to aggregate at the week or year level for reporting purposes. Like most epidemiologists, we rely on MMWR disease week and year. For week, we have two flavors - `mwwr_week` and `week_ending_date` (Saturday of disease week). For year, we use `mmwr_year`.
 
 ```{r mmwr-forward, message = FALSE, warning = FALSE}
 dates <- linelist |>
