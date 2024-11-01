@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OCepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,21 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.1" id="ocepi-021-2024-11-01">OCepi 0.2.1 (2024-11-01)<a class="anchor" aria-label="anchor" href="#ocepi-021-2024-11-01"></a></h2>
+<div class="section level4">
+<h4 id="breaking-changes-0-2-1">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-2-1"></a></h4>
+<ul><li>
+<code><a href="../reference/wrap_labels.html">OCepi::wrap_labels()</a></code> now has argument <code>delim</code> so user can set what string or symbol to wrap the text at (thanks Jen).</li>
+<li>
+<code><a href="../reference/theme_apollo.html">OCepi::theme_apollo()</a></code> has more flexibility in setting legend position via <code>legend</code> argument: top, right, bottom, left, or none.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="new-features-0-2-1">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-2-1"></a></h4>
+<ul><li>Added <code>OCepi::to_quarter(x, fiscal = FALSE)</code> to convert dates to quarter or fiscal quarter (July 1 to June 30).</li>
+<li>Additional argument <code>add_in</code> now available in <code><a href="../reference/elr.html">OCepi::pos()</a></code> and <code><a href="../reference/elr.html">OCepi::neg()</a></code>. Useful for adding additional lab results on the fly when recoding.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="ocepi-020-2024-09-27">OCepi 0.2.0 (2024-09-27)<a class="anchor" aria-label="anchor" href="#ocepi-020-2024-09-27"></a></h2>
 <div class="section level4">
