@@ -1,5 +1,5 @@
 test_that("specify to show legend at top", {
-  theme <- theme_apollo(direction = "horizontal", legend = "Show")
+  theme <- theme_apollo(direction = "horizontal", legend = "top")
   expect_s3_class(theme, "theme")
   expect_equal(theme$legend.position, "top")
 })

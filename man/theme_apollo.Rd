@@ -7,15 +7,15 @@
 theme_apollo(
   direction = c("vertical", "horizontal", "map"),
   font = NULL,
-  legend = c("Show", "Hide")
+  legend = "top"
 )
 }
 \arguments{
-\item{direction}{If using coord_flip, specify "horizontal". Otherwise use "vertical".}
+\item{direction}{If using coord_flip, specify horizontal. Otherwise use vertical.}
 
-\item{font}{Option to specify font, either system or Google fonts.}
+\item{font}{Option to specify font otherwise set to default.}
 
-\item{legend}{Option to display legend ("Show") or hide ("Hide").}
+\item{legend}{Set legend position to top, right, bottom, or left. To hide, use none.}
 }
 \value{
 Theme for standard ggplots.

@@ -4,13 +4,18 @@
 \alias{wrap_labels}
 \title{Wrap Long Axis Labels}
 \usage{
-wrap_labels()
+wrap_labels(x, delim)
+}
+\arguments{
+\item{x}{Input list of labels.}
+
+\item{delim}{Vector of characters or words to break label.}
 }
 \value{
 Wrapped labels.
 }
 \description{
-Shorten total width of x-axis labels by breaking/wrapping text at forward slash or at "or".
+Break long axis labels at one or more "delimiters".
 }
 \examples{
 df <- data.frame(group = c("Native Hawaiian or Other Pacific Islander",
@@ -18,5 +23,5 @@ df <- data.frame(group = c("Native Hawaiian or Other Pacific Islander",
 
 ggplot(data = df, aes(x = group, y = score)) +
  geom_col() +
- scale_x_discrete(labels = wrap_labels())
+ scale_x_discrete(labels = wrap_labels(delim = "or"))
 }

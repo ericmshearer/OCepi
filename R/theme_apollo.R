@@ -1,8 +1,8 @@
 #' Apollo Theme
 #'
-#' @param direction If using coord_flip, specify "horizontal". Otherwise use "vertical".
-#' @param font Option to specify font, either system or Google fonts.
-#' @param legend Option to display legend ("Show") or hide ("Hide").
+#' @param direction If using coord_flip, specify horizontal. Otherwise use vertical.
+#' @param font Option to specify font otherwise set to default.
+#' @param legend Set legend position to top, right, bottom, or left. To hide, use none.
 #' @return Theme for standard ggplots.
 #' @export
 #' @importFrom ggplot2 theme
@@ -13,24 +13,18 @@
 #' @importFrom ggplot2 element_line
 #' @importFrom grid unit
 
-theme_apollo <- function(direction = c("vertical","horizontal","map"), font = NULL, legend = c("Show","Hide")) {
+theme_apollo <- function(direction = c("vertical","horizontal","map"), font = NULL, legend = "top") {
 
   if(missing(direction)) {
     direction <- "vertical"
   }
 
   orient = match.arg(direction)
-  leg = match.arg(legend)
+  legend_loc = legend
 
   title_color = cdcd_color("title color")
   axis_color = cdcd_color("axis color")
   grid_color = cdcd_color("grid color")
-
-  if(leg == "Show"){
-    legend_loc = "top"
-  } else {
-    legend_loc = "none"
-  }
 
   if(missing(font)){
     font = NULL
@@ -44,6 +38,7 @@ theme_apollo <- function(direction = c("vertical","horizontal","map"), font = NU
            ticks_y = unit(0, "cm")
            panel_y = element_line(color = grid_color, linewidth = 0.20)
            panel_x = element_blank()
+           title_loc = 0
            axis_title = element_text(family = font, size = 15, color = axis_color)
            axis_text = element_text(family = font, size = 15, color = axis_color)
            axis_text_x = element_text(family = font, margin = margin(t = 5, r = 0, b = 10, l = 0), color = axis_color)
@@ -54,6 +49,7 @@ theme_apollo <- function(direction = c("vertical","horizontal","map"), font = NU
            ticks_y = unit(0.15, "cm")
            panel_y = element_blank()
            panel_x = element_line(color = grid_color, linewidth = 0.20)
+           title_loc = 0
            axis_title = element_text(family = font, size = 15, color = axis_color)
            axis_text = element_text(family = font, size = 15, color = axis_color)
            axis_text_x = element_text(family = font, margin = margin(t = 5, r = 0, b = 10, l = 0), color = axis_color)
@@ -68,6 +64,7 @@ theme_apollo <- function(direction = c("vertical","horizontal","map"), font = NU
            axis_text = element_blank()
            axis_text_x = element_blank()
            axis_text_y = element_blank()
+           title_loc = 0.5
            # axis_title = element_text(family = NULL, size = 15, color = "#FFFFFF")
            # axis_text = element_text(family = NULL, size = 15, color = "#FFFFFF")
            # axis_text_x = element_text(family = NULL, margin = margin(t = 1, r = 1, b = 1, l = 1), color = "#FFFFFF")
@@ -77,8 +74,8 @@ theme_apollo <- function(direction = c("vertical","horizontal","map"), font = NU
 
   theme(
 
-    plot.title = element_text(family = font, size = 24, hjust = 0, face = "bold", color = title_color, margin = margin(t = 10, r = 0, b = 0, l = 0)),
-    plot.subtitle = element_text(family = font, size = 20, hjust = 0, margin = margin(t = 5, r = 0, b = 27, l = 0), color = title_color),
+    plot.title = element_text(family = font, size = 24, hjust = title_loc, face = "bold", color = title_color, margin = margin(t = 10, r = 0, b = 0, l = 0)),
+    plot.subtitle = element_text(family = font, size = 20, hjust = title_loc, margin = margin(t = 5, r = 0, b = 27, l = 0), color = title_color),
     plot.caption = element_text(family = font, size = 12, color = title_color),
 
     legend.title = element_text(family = font, size = 12, color = axis_color),

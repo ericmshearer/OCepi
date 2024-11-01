@@ -1,4 +1,14 @@
-# OCepi 0.2.1
+# OCepi 0.2.1 (2024-11-01)
+
+### Breaking Changes
+
+-   `OCepi::wrap_labels()` now has argument `delim` so user can set what string or symbol to wrap the text at (thanks Jen).
+-   `OCepi::theme_apollo()` has more flexibility in setting legend position via `legend` argument: top, right, bottom, left, or none.
+
+### New Features
+
+-   Added `OCepi::to_quarter(x, fiscal = FALSE)` to convert dates to quarter or fiscal quarter (July 1 to June 30).
+-   Additional argument `add_in` now available in `OCepi::pos()` and `OCepi::neg()`. Useful for adding additional lab results on the fly when recoding.
 
 # OCepi 0.2.0 (2024-09-27)
 

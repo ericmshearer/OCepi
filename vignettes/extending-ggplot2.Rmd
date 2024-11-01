@@ -96,12 +96,12 @@ ggplot(data = covid, aes(x = date, y = rate_ma_7, color = area)) +
 
 ## wrap_labels()
 
-For categories with long titles (e.g. race/ethnicity), you may need to wrap text to better fit under/next to the axis. Functions like `scales::label_wrap()` are very useful in wrapping long labels via width argument. Our function will always wrap label at the forward slash, or if labels contains "or" (e.g. Black or African American), the "or" is replaced by a forward slash and then wrapped.
+For categories with long titles (e.g. race/ethnicity), you may need to wrap text to better fit under/next to the axis. Functions like `scales::label_wrap()` are very useful in wrapping long labels via width argument. Our function will wrap label at whatever delimiter you specify (e.g. or, forward slash, hyphen, etc.)
 
 Without wrapping:
 
 ```{r no-wrap, fig.width = 8, fig.asp = 0.8}
-re <- data.frame(group = c("Native Hawaiian or Other Pacific Islander","Black or African American","American Indian or Alaska Native"), score = c(89.5, 84, 73))
+re <- data.frame(group = c("Native Hawaiian or Other Pacific Islander","Black or African American","American Indian/Alaska Native"), score = c(89.5, 84, 73))
 
 ggplot(data = re, aes(x = group, y = score, label = score)) +
   geom_col() +
@@ -119,7 +119,7 @@ With wrapping:
 ```{r wrap-label, fig.width = 8, fig.asp = 0.8}
 ggplot(data = re, aes(x = group, y = score, label = score)) +
   geom_col() +
-  scale_x_discrete(labels = wrap_labels()) +
+  scale_x_discrete(labels = wrap_labels(delim = c("or","/"))) +
   theme_apollo() +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
     labs(

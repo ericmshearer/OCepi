@@ -3,28 +3,26 @@
 \name{pos}
 \alias{pos}
 \alias{neg}
-\title{ELR Terms - Positive}
+\title{ELR Terms}
 \usage{
-pos(collapse = FALSE)
+pos(collapse = FALSE, add_in = NULL)
 
-neg(collapse = FALSE)
+neg(collapse = FALSE, add_in = NULL)
 }
 \arguments{
 \item{collapse}{Boolean to collapse string separated by "|".}
+
+\item{add_in}{Vector of additional lab results.}
 }
 \value{
-Vector of characters.
-
 Vector of characters.
 }
 \description{
 A vector of SNOMED codes and keywords to be used with ELR recoding.
-
-A vector of SNOMED codes and keywords to be used with ELR recoding.
 }
 \examples{
-pos(collapse = FALSE)
+pos(collapse = TRUE)
 pos()
-neg(collapse = FALSE)
+neg(collapse = TRUE)
 neg()
 }

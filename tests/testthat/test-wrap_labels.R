@@ -2,16 +2,16 @@ df <- data.frame(group = c("Native Hawaiian or Other Pacific Islander","Black/Af
 
 x <- ggplot(data = df, aes(x = group, y = score)) +
   geom_col() +
-  scale_x_discrete(labels = wrap_labels())
+  scale_x_discrete(labels = wrap_labels(delim = c("/","or")))
 
 test_that("check class", {
-  expect_equal(class(scale_x_discrete(labels = wrap_labels()))[2], "ScaleDiscrete")
+  expect_equal(class(scale_x_discrete(labels = wrap_labels(delim = c("/","or"))))[2], "ScaleDiscrete")
 })
 
 test_that("check wrap with or", {
   expect_equal(
     ggplot2::ggplot_build(x)$layout$panel_params[[1]]$x$get_labels()[[1]],
-    "American Indian/\n Alaska Native"
+    "American Indian or\n Alaska Native"
     )
 })
 
