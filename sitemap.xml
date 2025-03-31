@@ -19,6 +19,7 @@
 <url><loc>https://ericmshearer.github.io/OCepi/reference/cdcd_color.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/clean_address.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/clean_phone.html</loc></url>
+<url><loc>https://ericmshearer.github.io/OCepi/reference/dashboard_tbl.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/desaturate_geom.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/elr.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/end_points.html</loc></url>
@@ -43,6 +44,7 @@
 <url><loc>https://ericmshearer.github.io/OCepi/reference/pipe.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/pretty_words.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/rate_per_100k.html</loc></url>
+<url><loc>https://ericmshearer.github.io/OCepi/reference/read_redcap.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/recode_ctract.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/recode_gender.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/recode_orientation.html</loc></url>
@@ -59,5 +61,6 @@
 <url><loc>https://ericmshearer.github.io/OCepi/reference/vrbis_resident.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/week_ending_date.html</loc></url>
 <url><loc>https://ericmshearer.github.io/OCepi/reference/wrap_labels.html</loc></url>
+<url><loc>https://ericmshearer.github.io/OCepi/reference/write_redcap.html</loc></url>
 </urlset>
 

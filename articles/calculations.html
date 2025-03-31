@@ -10,8 +10,8 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
 <link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Calculations">
 </head>
 <body>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OCepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,11 +86,15 @@ to multiply proportion by 100, add argument
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Asian                      7     6.7</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Black/African American    16    15.2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Hispanic/Latinx           19    18.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Multiple Races             6     5.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> NHOPI                     10     9.5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Other                     15    14.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> Unknown                    8     7.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Missing/Unknown            8     7.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Multiple Races             6     5.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> NHOPI                     10     9.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> Other                     15    14.3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span> White                     14    13.3</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="n_percent">n_percent()<a class="anchor" aria-label="anchor" href="#n_percent"></a>
+</h2>
 <p>When preparing data for {ggplot2}, you may want to create labels with
 n and percent. Use argument <code>n_suppress</code> to suppress low
 values and <code>reverse</code> to set order of n and % (default is n
@@ -110,18 +114,66 @@ then %).</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Asian                      7     6.7 **        </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Black/African American    16    15.2 15.2% (16)</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Hispanic/Latinx           19    18.1 18.1% (19)</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Multiple Races             6     5.7 **        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> NHOPI                     10     9.5 9.5% (10) </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Other                     15    14.3 14.3% (15)</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> Unknown                    8     7.6 **        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Missing/Unknown            8     7.6 **        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Multiple Races             6     5.7 **        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> NHOPI                     10     9.5 9.5% (10) </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> Other                     15    14.3 14.3% (15)</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span> White                     14    13.3 13.3% (14)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="dashboard_tbl">dashboard_tbl()<a class="anchor" aria-label="anchor" href="#dashboard_tbl"></a>
+</h2>
+<p>Pre-aggregating data for dashboarding can be a tedious and
+disorganized task. One way to aggregate and organize your data is to
+summarize all your data into one table. To use
+<code>dashboard_tbl</code>, start with your data, then select which
+columns you want to summarize, then call the function:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">linelist</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    race_ethnicity <span class="op">=</span> <span class="fu"><a href="../reference/recode_race.html">recode_race</a></span><span class="op">(</span><span class="va">Ethnicity</span>, <span class="va">Race</span><span class="op">)</span>,</span>
+<span>    agegroups <span class="op">=</span> <span class="fu"><a href="../reference/age_groups.html">age_groups</a></span><span class="op">(</span><span class="va">Age</span><span class="op">)</span>,</span>
+<span>    Gender <span class="op">=</span> <span class="fu"><a href="../reference/recode_gender.html">recode_gender</a></span><span class="op">(</span><span class="va">Gender</span><span class="op">)</span></span>
+<span>    <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">Gender</span>, <span class="va">agegroups</span>, <span class="va">race_ethnicity</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/dashboard_tbl.html">dashboard_tbl</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          Variable                               Category  n Percent      Label</span></span>
+<span><span class="co">#&gt; 1          Gender                                 Female 51    48.6 48.6% (51)</span></span>
+<span><span class="co">#&gt; 2          Gender                                   Male 39    37.1 37.1% (39)</span></span>
+<span><span class="co">#&gt; 3          Gender                        Missing/Unknown 15    14.3 14.3% (15)</span></span>
+<span><span class="co">#&gt; 4       agegroups                                    0-9 12    11.4 11.4% (12)</span></span>
+<span><span class="co">#&gt; 5       agegroups                                  10-19 11    10.5 10.5% (11)</span></span>
+<span><span class="co">#&gt; 6       agegroups                                  20-29 11    10.5 10.5% (11)</span></span>
+<span><span class="co">#&gt; 7       agegroups                                  30-39 13    12.4 12.4% (13)</span></span>
+<span><span class="co">#&gt; 8       agegroups                                  40-49 12    11.4 11.4% (12)</span></span>
+<span><span class="co">#&gt; 9       agegroups                                  50-59 12    11.4 11.4% (12)</span></span>
+<span><span class="co">#&gt; 10      agegroups                                  60-69  6     5.7   5.7% (6)</span></span>
+<span><span class="co">#&gt; 11      agegroups                                  70-79 17    16.2 16.2% (17)</span></span>
+<span><span class="co">#&gt; 12      agegroups                                    80+ 11    10.5 10.5% (11)</span></span>
+<span><span class="co">#&gt; 13      agegroups                        Missing/Unknown  0     0.0     0% (0)</span></span>
+<span><span class="co">#&gt; 14 race_ethnicity          American Indian/Alaska Native 10     9.5  9.5% (10)</span></span>
+<span><span class="co">#&gt; 15 race_ethnicity                                  Asian  7     6.7   6.7% (7)</span></span>
+<span><span class="co">#&gt; 16 race_ethnicity                 Black/African American 16    15.2 15.2% (16)</span></span>
+<span><span class="co">#&gt; 17 race_ethnicity                        Hispanic/Latinx 19    18.1 18.1% (19)</span></span>
+<span><span class="co">#&gt; 18 race_ethnicity                        Missing/Unknown  8     7.6   7.6% (8)</span></span>
+<span><span class="co">#&gt; 19 race_ethnicity                         Multiple Races  6     5.7   5.7% (6)</span></span>
+<span><span class="co">#&gt; 20 race_ethnicity Native Hawaiian/Other Pacific Islander 10     9.5  9.5% (10)</span></span>
+<span><span class="co">#&gt; 21 race_ethnicity                                  Other 15    14.3 14.3% (15)</span></span>
+<span><span class="co">#&gt; 22 race_ethnicity                                  White 14    13.3 13.3% (14)</span></span></code></pre></div>
+<p>It is important to remember you only pass the columns you want
+summarized into the function, otherwise it will attempt to summarize all
+columns. If you’re wanting to summarize by group or year, use
+<code>group_by</code> and include that column in the group of columns
+you pass into the function. To adjust digits on percent via
+<code>digits</code> argument, and change n % order using
+<code>reverse</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="rate_per_100k">rate_per_100k()<a class="anchor" aria-label="anchor" href="#rate_per_100k"></a>
 </h2>
 <p>Another common calculation for our team are is incidence rate per
 100,000.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">linelist</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>race_ethnicity <span class="op">=</span> <span class="fu"><a href="../reference/recode_race.html">recode_race</a></span><span class="op">(</span><span class="va">Ethnicity</span>, <span class="va">Race</span>, abbr_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">race_ethnicity</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"White"</span>,<span class="st">"NHOPI"</span>,<span class="st">"Multiple Races"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -146,7 +198,7 @@ then %).</p>
 dates in the following units: days, weeks, months and years. Value is
 always rounded down to account for complete elapsed time. Note: order of
 dates does not necessarily matter, but beware of sign.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">episode_date</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-04-01"</span><span class="op">)</span></span>
 <span><span class="va">death_date</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-05-15"</span><span class="op">)</span></span>
 <span></span>
