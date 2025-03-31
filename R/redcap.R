@@ -13,7 +13,7 @@
 #' @importFrom httr content
 #' @importFrom cli cli_alert_success
 #' @importFrom cli cli_alert_danger
-#' @importFrom utils read.csv
+#' @importFrom readr read_csv
 #' @importFrom utils write.csv
 #' @importFrom utils capture.output
 read_redcap <- function(url, token, content, raw = FALSE){
@@ -42,7 +42,7 @@ read_redcap <- function(url, token, content, raw = FALSE){
   if(response$status_code == 200){
     cli::cli_alert_success("Importing data from REDCap...")
     content <- httr::content(response, "text")
-    records <- utils::read.csv(content, na.strings = "")
+    records <- readr::read_csv(content, na = "")
     return(records)
   } else {
     cli::cli_alert_danger("Invalid token. Check the API token and try again.")
