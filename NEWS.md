@@ -1,4 +1,9 @@
-# OCepi 0.3.0
+# OCepi 0.3.0 (2025-03-31)
+
+### New Features
+
+-   Added `OCepi::dashboard_tbl()` to more efficiently summarize data across columns in preparation for dashboard reporting.
+-   Added experimental functions for REDCap to import/write data from project.
 
 # OCepi 0.2.1 (2024-11-01)
 
