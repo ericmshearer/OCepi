@@ -11,7 +11,7 @@ test_that("loinc input", {
 })
 
 test_that("multi-race status from VRBIS input", {
-  expect_equal(recode_race("9"), "Unknown")
+  expect_equal(recode_race("9"), "Missing/Unknown")
 })
 
 df <- data.frame(

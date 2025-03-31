@@ -15,7 +15,7 @@
 #' df
 add_percent <- function(n, digits = 2, multiply = TRUE){
 
-  if(multiply == TRUE){
+  if(multiply){
     proportion = round(n/sum(n) * 100, digits = digits)
   } else{
     proportion = round(n/sum(n), digits = digits)

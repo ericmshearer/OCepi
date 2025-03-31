@@ -19,9 +19,3 @@ String API URL with new date range.
 \description{
 Customize date range in API URL without having to recreate within ESSENCE.
 }
-\examples{
-\dontrun{
-url <- "https::///www.syndromic.com/timeSeries?data_source&startDate=14Apr2024&medicalGroupingSystem&endDate=20Jul2024&percentParam"
-nssp_date_range(url, start = as.Date("2024-01-01"), end = as.Date("2024-06-04"))
-}
-}

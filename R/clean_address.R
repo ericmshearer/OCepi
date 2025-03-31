@@ -49,7 +49,7 @@ clean_address <- function(address_var, keep_extra = TRUE){
   address_var = gsub("\\bRM\\b", "ROOM", address_var)
   address_var = gsub("\\bSPC\\b", "SPACE", address_var)
 
-  if(keep_extra == TRUE){
+  if(keep_extra){
     return(pretty_words(address_var))
   } else{
     address_var = gsub(" (APARTMENT|#|ROOM|SPACE|ROOM|UNIT)(| )\\w+", "", address_var) #remove extra info i.e. APT, Unit, etc.

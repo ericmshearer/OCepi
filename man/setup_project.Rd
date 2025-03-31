@@ -4,14 +4,16 @@
 \alias{setup_project}
 \title{Setup R Project}
 \usage{
-setup_project(read_me = FALSE)
+setup_project(subs = c("R", "data", "output"), read_me = FALSE)
 }
 \arguments{
+\item{subs}{Character, vector of sub-directories to create if not already present.}
+
 \item{read_me}{Boolean to indicate if you want to use built-in OCepi Rmd template.}
 }
 \value{
 Three sub-directories and READme.
 }
 \description{
-Spend less thinking about how to setup R project directories.
+Spend less time thinking about how to setup R project directories. If not currently working within a R Project, function will return an error.
 }

@@ -27,6 +27,8 @@ linelist |>
   mutate(percent = add_percent(n, digits = 1))
 ```
 
+## n_percent()
+
 When preparing data for {ggplot2}, you may want to create labels with n and percent. Use argument `n_suppress` to suppress low values and `reverse` to set order of n and % (default is n then %).
 
 ```{r prop2}
@@ -38,6 +40,23 @@ linelist |>
     label = n_percent(n, percent, reverse = TRUE, n_suppress = 10)
     )
 ```
+
+## dashboard_tbl()
+
+Pre-aggregating data for dashboarding can be a tedious and disorganized task. One way to aggregate and organize your data is to summarize all your data into one table. To use `dashboard_tbl`, start with your data, then select which columns you want to summarize, then call the function:
+
+```{r dash-tbl}
+linelist %>%
+  mutate(
+    race_ethnicity = recode_race(Ethnicity, Race),
+    agegroups = age_groups(Age),
+    Gender = recode_gender(Gender)
+    ) %>%
+  select(Gender, agegroups, race_ethnicity) %>%
+  dashboard_tbl()
+```
+
+It is important to remember you only pass the columns you want summarized into the function, otherwise it will attempt to summarize all columns. If you're wanting to summarize by group or year, use `group_by` and include that column in the group of columns you pass into the function. To adjust digits on percent via `digits` argument, and change n % order using `reverse`.
 
 ## rate_per_100k()
 

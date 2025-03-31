@@ -65,7 +65,7 @@ recode_race <- function(ethnicity, race, abbr_names = FALSE){
       `Native Hawaiian/Other Pacific Islander` = c("Native Hawaiian or Other Pacific Islander","Native Hawaiian","Other Pacific Islander","2076-8","2079-2","2087-5","2088-3","2080-0","2500-7","5"),
       White = c("White","2106-3","1"),
       Other = c("Other","Other race","6","2131-1"),
-      Unknown = c(NA_character_,"Unknown","Unknown race","9","NR","PHC1175","POL","UNK")
+      `Missing/Unknown` = c(NA_character_,"Unknown","Unknown race","9","NR","PHC1175","POL","UNK")
     ),
     Abbr = list(
       `AI/AN` = c("American Indian or Alaska Native","1002-5","3"),
@@ -77,7 +77,7 @@ recode_race <- function(ethnicity, race, abbr_names = FALSE){
       NHOPI = c("Native Hawaiian or Other Pacific Islander","Native Hawaiian","Other Pacific Islander","2076-8","2079-2","2087-5","2088-3","2080-0","2500-7","5"),
       White = c("White","2106-3","1"),
       Other = c("Other","Other race","6","2131-1"),
-      Unknown = c(NA_character_,"Unknown","Unknown race","9","NR","PHC1175","POL","UNK")
+      `Missing/Unknown` = c(NA_character_,"Unknown","Unknown race","9","NR","PHC1175","POL","UNK")
     )
   )
   if(abbr_names){
