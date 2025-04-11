@@ -23,7 +23,7 @@ dashboard_tbl <- function(data, group_by = NULL, reverse = TRUE, digits = 1, n_s
     data <- lapply(names(data), function(n, data){
       data[[n]]$Variable <- n
       return (data[[n]])
-      }, data) %>%
+    }, data) |>
       rapply(as.character, classes = "factor", how = "replace")
 
     out <- do.call(rbind, data)
@@ -43,20 +43,18 @@ dashboard_tbl <- function(data, group_by = NULL, reverse = TRUE, digits = 1, n_s
       rapply(as.character, classes = "factor", how = "replace")
 
     data <- data %>%
-      do.call(rbind,
-              lapply(function(subdf){
-                lapply(names(subdf), function(n, subdf){
-                  subdf[[n]]$Variable <- n
-                  return (subdf[[n]])}, subdf)
-                })
-              )
+      lapply(function(subdf){
+        do.call(rbind, lapply(names(subdf), function(n, subdf){
+          subdf[[n]]$Variable <- n
+          return (subdf[[n]])
+        }, subdf))
+      })
 
-    out <- do.call(rbind,
-                   lapply(names(data), function(n, data){
-                     data[[n]]$Year <- n
-                     return (data[[n]])},
-                     data)
-                   )
+    out <- do.call(rbind, lapply(names(data), function(n, data){
+      data[[n]]$Year <- n
+      return (data[[n]])},
+      data
+    ))
 
     out <- out[,c("Year","Variable","Category","n","Percent","Label")]
     out$Percent <- ifelse(out$Variable == splinter, NA, out$Percent)
