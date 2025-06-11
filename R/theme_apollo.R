@@ -25,6 +25,7 @@ theme_apollo <- function(direction = c("vertical","horizontal","map"), font = NU
   title_color = cdcd_color("title color")
   axis_color = cdcd_color("axis color")
   grid_color = cdcd_color("grid color")
+  grid_color2 = cdcd_color("grid color 2")
 
   if(missing(font)){
     font = NULL
@@ -36,7 +37,7 @@ theme_apollo <- function(direction = c("vertical","horizontal","map"), font = NU
          vertical = {
            ticks_x = unit(0.15, "cm")
            ticks_y = unit(0, "cm")
-           panel_y = element_line(color = grid_color, linewidth = 0.20)
+           panel_y = element_line(color = grid_color2, linewidth = 0.20)
            panel_x = element_blank()
            title_loc = 0
            axis_title = element_text(family = font, size = 15, color = axis_color)
@@ -48,7 +49,7 @@ theme_apollo <- function(direction = c("vertical","horizontal","map"), font = NU
            ticks_x = unit(0, "cm")
            ticks_y = unit(0.15, "cm")
            panel_y = element_blank()
-           panel_x = element_line(color = grid_color, linewidth = 0.20)
+           panel_x = element_line(color = grid_color2, linewidth = 0.20)
            title_loc = 0
            axis_title = element_text(family = font, size = 15, color = axis_color)
            axis_text = element_text(family = font, size = 15, color = axis_color)
@@ -88,7 +89,7 @@ theme_apollo <- function(direction = c("vertical","horizontal","map"), font = NU
     axis.text = axis_text,
     axis.text.x = axis_text_x,
     axis.text.y = axis_text_y,
-    axis.ticks = element_line(color = grid_color, linewidth = 0.1),
+    axis.ticks = element_line(color = grid_color2, linewidth = 0.1),
     axis.ticks.length.x = ticks_x,
     axis.ticks.length.y = ticks_y,
     axis.line = element_blank(),

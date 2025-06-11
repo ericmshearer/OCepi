@@ -29,6 +29,7 @@ cd_cols <- c(
   `title color` = "#231f20",
   `axis color` = "#353d42",
   `grid color` = "#E8EDEE",
+  `grid color 2` = "gray65",
   "plum" = "#b366a4",
   "mustard" = "#da9400",
   "dodgers"= "#005A9C"
