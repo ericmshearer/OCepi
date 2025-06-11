@@ -1,3 +1,9 @@
+# OCepi 0.3.2 (2025-06-11)
+
+### Enhancement
+
+-   Darker grid lines when using `OCepi::theme_apollo()`.
+
 # OCepi 0.3.1 (2025-04-11)
 
 ### Bug Fixes
