@@ -1,3 +1,11 @@
+# OCepi 0.3.3 (2025-07-17)
+
+### Enhancement
+
+-   Add missing API features to `OCepi::write_redcap()`
+-   Simplify API arguments in `OCepi::read_readcap()`
+-   Add ability to pull metadata (data dictionary or blank template) via `OCepi::redcap_metadata()`.
+
 # OCepi 0.3.2 (2025-06-11)
 
 ### Enhancement
