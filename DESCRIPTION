@@ -13,9 +13,7 @@ Imports:
     magrittr,
     dplyr,
     rlang,
-    cli,
     httr,
-    jsonlite,
     readr
 License: MIT + file LICENSE
 Encoding: UTF-8

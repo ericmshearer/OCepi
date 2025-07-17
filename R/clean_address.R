@@ -43,16 +43,19 @@ clean_address <- function(address_var, keep_extra = TRUE){
   address_var = gsub("\\bHTS\\b", "HEIGHTS", address_var)
   address_var = gsub("\\bRDG\\b", "RIDGE", address_var)
   address_var = gsub("\\bCV\\b", "COVE", address_var)
+  address_var = gsub("\\bTER\\b", "TERRACE", address_var)
 
   #extra
   address_var = gsub("\\bAPT\\b", "APARTMENT", address_var)
   address_var = gsub("\\bRM\\b", "ROOM", address_var)
   address_var = gsub("\\bSPC\\b", "SPACE", address_var)
+  address_var = gsub("\\bTRLR\\b", "TRAILER", address_var)
+  address_var = gsub("\\bSTE\\b", "SUITE", address_var)
 
   if(keep_extra){
     return(pretty_words(address_var))
   } else{
-    address_var = gsub(" (APARTMENT|#|ROOM|SPACE|ROOM|UNIT)(| )\\w+", "", address_var) #remove extra info i.e. APT, Unit, etc.
+    address_var = gsub(" (APARTMENT|#|ROOM|SPACE|ROOM|UNIT|TRAILER|SUITE)(| )\\w+", "", address_var) #remove extra info i.e. APT, Unit, etc.
     return(pretty_words(address_var))
   }
 }

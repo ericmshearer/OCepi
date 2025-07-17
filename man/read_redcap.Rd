@@ -2,22 +2,30 @@
 % Please edit documentation in R/redcap.R
 \name{read_redcap}
 \alias{read_redcap}
-\title{Import Data from REDCap Project}
+\title{Read in Data from REDCap Project}
 \usage{
-read_redcap(url, token, content, raw = FALSE)
+read_redcap(
+  url,
+  token,
+  raw = TRUE,
+  exportCheckboxLabel = FALSE,
+  exportSurveyFields = FALSE
+)
 }
 \arguments{
-\item{url}{API url, character.}
+\item{url}{Character, API url.}
 
-\item{token}{API token, character.}
+\item{token}{Character, token from project.}
 
-\item{content}{Currently limited to: record, userRole, user.}
+\item{raw}{Logical, export the raw coded values or labels for the options of multiple choice fields.}
 
-\item{raw}{Logical to return raw or labeled data.}
+\item{exportCheckboxLabel}{Logical, export the checkbox value as the checkbox option's label (e.g., 'Choice 1').}
+
+\item{exportSurveyFields}{Logical, export the survey identifier field (e.g., 'redcap_survey_identifier') or survey timestamp fields (e.g., instrument+'_timestamp') when surveys are utilized in the project.}
 }
 \value{
 Data.frame with project data.
 }
 \description{
-Import project data from REDCap into R via the API. Import options include raw/labeled data and data type.
+This method allows you to import/read in a set of records for a project. To use this method, you must have API Import/Update privileges in the project. Please be aware that Data Export user rights will be applied to this API request. For example, if you have 'No Access' data export rights in the project, then the API data export will fail and return an error. And if you have 'De-Identified' or 'Remove All Identifier Fields' data export rights, then some data fields *might* be removed and filtered out of the data set returned from the API. To make sure that no data is unnecessarily filtered out of your API request, you should have 'Full Data Set' export rights in the project.
 }

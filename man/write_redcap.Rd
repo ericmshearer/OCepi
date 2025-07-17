@@ -2,22 +2,22 @@
 % Please edit documentation in R/redcap.R
 \name{write_redcap}
 \alias{write_redcap}
-\title{Write Data to REDCap Project}
+\title{Write New or Modified Data to REDCap Project}
 \usage{
-write_redcap(df, url, token, content)
+write_redcap(df, url, token, forceAutoNumber = FALSE)
 }
 \arguments{
 \item{df}{Data.frame to write back to REDCap.}
 
-\item{url}{API url, character.}
+\item{url}{Character, API url.}
 
-\item{token}{API token, character.}
+\item{token}{Character, token from project.}
 
-\item{content}{Currently limited to: record, userRole, user.}
+\item{forceAutoNumber}{Logical, if TRUE new record ids will be automatically determined.}
 }
 \value{
 Success or warning message, no data returned.
 }
 \description{
-Write data from R back to REDCap project via API. You must be working with raw, unlabeled data.
+This method allows you to upload/write a set of records for a project. To use this method, you must have API Export privileges in the project.
 }
