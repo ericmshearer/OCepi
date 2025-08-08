@@ -86,7 +86,8 @@ write_redcap <- function(df, url, token, forceAutoNumber = FALSE){
     data = csv,
     overwriteBehavior = "normal", #blank/empty values will be ignored
     forceAutoNumber = con_opt(forceAutoNumber),
-    returnContent = "json"
+    returnFormat = "json",
+    returnContent = "counts"
   )
 
   response <- httr::POST(url = url, body = post_body, encode = "form")
@@ -96,9 +97,9 @@ write_redcap <- function(df, url, token, forceAutoNumber = FALSE){
   if(httr::http_error(response)) {
     stop(paste("HTTP Error:", httr::status_code(response), httr::content(response, "text", encoding = "UTF-8")))
   } else if(is.list(response_content) && "count" %in% names(response_content)) {
-    paste("Successfully uploaded/modified", response_content$count, "record(s).")
+    message(paste("Successfully uploaded/modified", response_content$count, "record(s)."))
   } else {
-    stop("Some other error message I didn't account for.")
+    stop("Some other error I didn't account for.")
   }
 }
 
@@ -117,20 +118,20 @@ redcap_metadata <- function(url, token, forms = NULL, return = c("dictionary","t
 
   return_what <- match.arg(return, choices = c("dictionary","template"))
 
-  get_forms <- sapply(seq_along(forms), function(i){
-    name_tag <- sprintf("forms[%s]", i-1)
-    result <- list(forms[i])
-    names(result) <- name_tag
-    return(result)
-  })
-
   formData <- list("token" = token,
                    content = "metadata",
                    format = "csv",
-                   returnFormat = "json"
+                   returnContent = "json"
   )
 
   if(!is.null(forms)){
+    get_forms <- sapply(seq_along(forms), function(i){
+      name_tag <- sprintf("forms[%s]", i-1)
+      result <- list(forms[i])
+      names(result) <- name_tag
+      return(result)
+    })
+
     formData <- c(formData, get_forms)
   }
 
@@ -139,16 +140,47 @@ redcap_metadata <- function(url, token, forms = NULL, return = c("dictionary","t
 
   form_names <- unique(dat$form_name)
 
-  new_cols <- paste(form_names, "complete", sep = "_")
+  new_cols1 <- paste(form_names, "complete", sep = "_")
 
-  empty_matrix <- matrix(nrow = 0, ncol = nrow(dat))
+  fields <- as.data.frame(dat)[!dat$field_type %in% c("descriptive","checkbox"),c("field_name")]
+
+  temp <- dat[dat$field_type %in% c("checkbox"),]
+
+  parts <- lapply(temp$select_choices_or_calculations, function(x){
+    trimws(unlist(strsplit(x, "\\|")))
+  })
+
+  nums <- lapply(parts, function(x){
+    regmatches(x, regexpr("^\\d+", x))
+  })
+
+  temp$max_num <- sapply(nums, function(x){
+    max(as.numeric(x))
+  })
+
+  var_names <- temp$field_name
+
+  vars <- temp[,c("field_name","max_num")]
+
+  new_cols2 <- lapply(var_names, function(x){
+    var_temp <- vars[vars$field_name %in% c(x),]
+    # var_temp <- filter(vars, field_name == x)
+    new_cols <- paste0(var_temp$field_name, "___", 1:var_temp$max_num)
+    return(new_cols)
+  }) |>
+    unlist()
+
+  total_cols <- length(c(new_cols1, fields, new_cols2))
+
+  empty_matrix <- matrix(nrow = 0, ncol = total_cols)
 
   #Setup template
   template <- as.data.frame(empty_matrix)
-  colnames(template) <- dat$field_name
+
+  colnames(template) <- c(new_cols1, fields, new_cols2)
+
   template[nrow(template)+1,] <- NA
   template[] <- lapply(template, as.character)
-  template[,new_cols] <- 0
 
   if(return == "template"){
     return(template)
