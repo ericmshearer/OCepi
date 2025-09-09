@@ -112,16 +112,22 @@ recode_race <- function(ethnicity, race, abbr_names = FALSE){
 #'
 #' Reformat phone number column to 10 digit U.S. format. If international or invalid phone number (e.g. not 10 digits), returns NA.
 #'
-#' @param phone_var Phone number variable.
+#' @param x Phone Character or numeric, number variable.
 #'
-#' @return Reformatted phone number.
+#' @return Character, phone number containing 10 digits if valid.
 #' @export
 #'
 #' @examples
 #' clean_phone("1-714-834-8180")
-clean_phone <- function(phone_var){
-  phone_var = gsub("\\-|\\+|\\(|\\)|\\s+", "", phone_var)
-  phone_var = ifelse(startsWith(phone_var, "1"), substr(phone_var, 2, nchar(phone_var)), phone_var)
-  out = ifelse(nchar(phone_var) == 10, phone_var, NA)
+clean_phone <- function(x){
+  x <- trimws(gsub("\\s\\d+$", "", x))
+  x <- trimws(gsub("[^0-9]", "", x))
+  x <- ifelse(startsWith(x, "1"), substr(x, 2, nchar(x)), x)
+  x <- ifelse(nchar(x) == 10, x, NA)
+  out <- ifelse(val_phone(x), x, NA)
   return(out)
+}
+
+val_phone <- function(x){
+  grepl("^[2-9]\\d{2}(?!1/555\\d11)\\d{7}$", x, perl = TRUE)
 }

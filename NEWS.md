@@ -1,3 +1,9 @@
+# OCepi 0.3.4 (2025-09-09)
+
+### Bug Fixes
+
+-   `OCepi::clean_phone()` now mirrors internal REDCap validation for standard US phone numbers, including N11 codes.
+
 # OCepi 0.3.3 (2025-07-17)
 
 ### Enhancement

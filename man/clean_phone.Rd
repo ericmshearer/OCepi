@@ -4,13 +4,13 @@
 \alias{clean_phone}
 \title{Clean Phone Number}
 \usage{
-clean_phone(phone_var)
+clean_phone(x)
 }
 \arguments{
-\item{phone_var}{Phone number variable.}
+\item{x}{Phone Character or numeric, number variable.}
 }
 \value{
-Reformatted phone number.
+Character, phone number containing 10 digits if valid.
 }
 \description{
 Reformat phone number column to 10 digit U.S. format. If international or invalid phone number (e.g. not 10 digits), returns NA.
