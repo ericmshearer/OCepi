@@ -1,4 +1,4 @@
-# OCepi (development version)
+# OCepi 0.4.0
 
 ### New Features
 
