@@ -11,6 +11,7 @@
 #' @return Desaturated geon
 #' @export
 #' @importFrom rlang enquo
+#' @importFrom ggplot2 ggplot_add
 #'
 #' @examples
 #' df <- data.frame(locations = letters[1:5], scores = c(80,84,91,89,80))
@@ -35,7 +36,7 @@ desaturate_geom <- function(expr, pal = NULL, size = 3.14, desaturate = 0.75, li
 #' @usage NULL
 #' @export
 #' @import dplyr
-ggplot_add.desaturate <- function(object, plot, object_name){
+ggplot_add.desaturate <- function(object, plot, ...){
 
   factor <- get_interval(plot$data) #for time series
 

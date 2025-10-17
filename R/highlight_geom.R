@@ -33,7 +33,7 @@ highlight_geom <- function(expr, pal = NULL, size = 3.14, linewidth = 1.2) {
 #' @usage NULL
 #' @export
 #' @import dplyr
-ggplot_add.highlight <- function(object, plot, object_name) {
+ggplot_add.highlight <- function(object, plot, ...) {
 
   factor <- get_interval(plot$data) #for time series
 

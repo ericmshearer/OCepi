@@ -9,6 +9,6 @@ test_that("returns a ggplot object", {
 
   expect_type(
     plot,
-    "list"
+    "object"
   )
 })

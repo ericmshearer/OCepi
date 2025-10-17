@@ -1,10 +1,14 @@
-# OCepi 0.4.0
+# OCepi 0.4.0 (2025-10-17)
 
 ### New Features
 
 -   `OCepi::combine_redcap_checkboxes()` combines one, some, or all checkbox variables to one united variable.
 -   `OCepi::redcap_metadata()` simplified/refactored.
 -   Testing `OCepi::delete_redcap_record()` to delete whole or partial records.
+
+### Breaking Changes
+
+-   Removed `OCepi::geom_dumbbell()`.
 
 # OCepi 0.3.4 (2025-09-09)
 

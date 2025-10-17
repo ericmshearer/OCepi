@@ -1,5 +1,5 @@
 ---
-title: "Date Conversions"
+title: "date-conversions"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{date-conversions}

@@ -1,5 +1,5 @@
 ---
-title: "Extending ggplot2"
+title: "extending-ggplot2"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{extending-ggplot2}
@@ -127,66 +127,6 @@ ggplot(data = re, aes(x = group, y = score, label = score)) +
     y = "Percentage (%)"
   ) +
   apollo_label(vjust = -0.3)
-```
-
-## geom_dumbbell()
-
-Dumbbell plots consist of two points connected by a solid line. Useful in showing changes in pre/post test scores or timelines. Dataset requires two x variables (x and xend) and y variable (usually character/factor).
-
--   To customize the points, use colour_x, colour_end, and size.
--   To customize line, use colour and linewidth.
-
-```{r cleveland, fig.width = 10, fig.asp = 0.7}
-pre_post <- data.frame(Country = c("UK-A","US-A","UK-B","US-B"), PRE = c(0,1,2,3), POST = c(4,5,6,7))
-
-ggplot(data = pre_post, aes(x = PRE, xend = POST, y = Country)) +
-  geom_dumbbell(colour_x = cdcd_color("mustard"), colour_xend = cdcd_color("mustard"), size = 5, linewidth = 2, colour = "black") +
-  labs(
-    x = "Pre/Post Scores",
-    y = "Country"
-    ) +
-  theme_apollo()
-```
-
-## geom_lollipop()
-
-Lollipop plot is similar to dumbbell plot, but has only one point.
-
--   To customize the stem, use line.colour, linewidth, and linetype (default stem color is black.)
--   To customize point, use size and color.
--   For most plots, set `yend = 0`.
-
-```{r lollipop, fig.width = 10, fig.asp = 0.85}
-ggplot(data = pre_post, aes(x = Country, y = POST, yend = 0)) +
-  geom_lollipop(color = cdcd_color("dodgers"), line.colour = "#000000", size = 5, linewidth = 1) +
-  labs(
-    x = "Country",
-    y = "Post Score"
-    ) +
-  theme_apollo()
-```
-
-An alternate use case for `geom_lollipop()` is labeling specific dates in time series plot.
-
-```{r lollipop2, fig.width = 10, fig.asp = 0.85}
-set.seed(1234)
-df <- data.frame(
-  type = "a",
-  date = seq.Date(from = as.Date("2023-01-01"), to = as.Date("2023-12-01"), by = "month"),
-  value = c(1,2,1,3,4,6,8,10,14,12,9,8),
-  stringsAsFactors = FALSE
-  )
-
-peak_date = as.Date("2023-07-01")
-peak_n = 8
-
-ggplot(df, aes(x = date, y = value)) +
-  geom_line(linewidth = 1) +
-  annotate("text", x = peak_date, y = peak_n * 0.6, label = "Intervention Started\nHere.", size = 5) +
-  geom_lollipop(data = filter(df, date == peak_date), aes(x = date, y = value, yend = value * 0.7), color = cdcd_color("london pink"), line.colour = "#000000", linetype = "dotted", size = 2.5) +
-    scale_x_date(expand = expansion(add = c(0,10)), breaks = "month", date_labels = "%b-%y") +
-  scale_y_continuous(expand = expansion(add = c(0,10))) +
-  theme_apollo()
 ```
 
 ## highlight_geom() & desaturate_geom()
