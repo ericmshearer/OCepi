@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OCepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.4.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,12 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">redcap_metadata</span><span class="op">(</span><span class="va">url</span>, <span class="va">token</span>, forms <span class="op">=</span> <span class="cn">NULL</span>, return <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dictionary"</span>, <span class="st">"template"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">redcap_metadata</span><span class="op">(</span></span>
+<span>  <span class="va">url</span>,</span>
+<span>  <span class="va">token</span>,</span>
+<span>  return <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dictionary"</span>, <span class="st">"template"</span><span class="op">)</span>,</span>
+<span>  repeating_instrument <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -60,17 +65,17 @@
 <dd><p>Character, token from project.</p></dd>
 
 
-<dt id="arg-forms">forms<a class="anchor" aria-label="anchor" href="#arg-forms"></a></dt>
-<dd><p>Vector, if not specified will include all forms.</p></dd>
-
-
 <dt id="arg-return">return<a class="anchor" aria-label="anchor" href="#arg-return"></a></dt>
 <dd><p>Character, dictionary or template. If bulk uploading new records, use template.</p></dd>
+
+
+<dt id="arg-repeating-instrument">repeating_instrument<a class="anchor" aria-label="anchor" href="#arg-repeating-instrument"></a></dt>
+<dd><p>Boolean, adds two additional columns (redcap_repeat_instrument, redcap_repeat_instance) to template option.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Data.frame with project metadata.</p>
+    <p>Data.frame</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
