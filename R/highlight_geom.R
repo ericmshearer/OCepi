@@ -81,5 +81,5 @@ ggplot_add.highlight <- function(object, plot, object_name) {
   plot$layers <- lapply(plot$layers, faded_layer)
 
   #final output
-  plot %+% hi_layers
+  plot + hi_layers
 }
