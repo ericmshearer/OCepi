@@ -89,5 +89,5 @@ ggplot_add.desaturate <- function(object, plot, object_name){
   plot$layers <- lapply(plot$layers, desaturate_layer, style = style)
 
   #final output
-  plot %+% hi_layers
+  plot + hi_layers
 }

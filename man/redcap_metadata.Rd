@@ -4,19 +4,24 @@
 \alias{redcap_metadata}
 \title{Read in Metadata from REDCap Project}
 \usage{
-redcap_metadata(url, token, forms = NULL, return = c("dictionary", "template"))
+redcap_metadata(
+  url,
+  token,
+  return = c("dictionary", "template"),
+  repeating_instrument = FALSE
+)
 }
 \arguments{
 \item{url}{Character, API url.}
 
 \item{token}{Character, token from project.}
 
-\item{forms}{Vector, if not specified will include all forms.}
-
 \item{return}{Character, dictionary or template. If bulk uploading new records, use template.}
+
+\item{repeating_instrument}{Boolean, adds two additional columns (redcap_repeat_instrument, redcap_repeat_instance) to template option.}
 }
 \value{
-Data.frame with project metadata.
+Data.frame
 }
 \description{
 This method allows you to read in the metadata for a project. To use this method, you must have API Export privileges in the project. If you're starting a new project and want to bulk upload records, you return = "template" to get a blank data.frame to populate. Otherwise, set return = "dictionary" to see all specs about project. You can send this dictionary to others to upload into their instance of REDCap.
