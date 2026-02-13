@@ -1,5 +1,3 @@
-# OCepi 0.5.0
-
 # OCepi 0.4.1 (2026-02-12)
 
 ### New Features
