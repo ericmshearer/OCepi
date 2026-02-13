@@ -21,3 +21,14 @@ test_that("check wrap with forward slash", {
     "Black/\nAfrican American"
   )
 })
+
+x2 <- ggplot(data = df, aes(x = group, y = score)) +
+  geom_col() +
+  scale_x_discrete(labels = wrap_labels(delim = "/"))
+
+test_that("check wrap with forward slash", {
+  expect_equal(
+    ggplot2::ggplot_build(x2)$layout$panel_params[[1]]$x$get_labels()[[2]],
+    "Black/\nAfrican American"
+  )
+})

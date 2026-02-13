@@ -1,3 +1,15 @@
+# OCepi 0.4.1 (2026-02-12)
+
+### New Features
+
+-   `OCepi::clean_city()` calculates string distance between input variable and reference.
+-   `OCepi::create_unique_ids()` creates alphanumeric ids of n length.
+
+### Enhancement
+
+-   Updated unit testing.
+
+
 # OCepi 0.4.0 (2025-10-17)
 
 ### New Features

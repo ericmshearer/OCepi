@@ -1,3 +1,28 @@
+#' Create Unique Alphanumeric ID's
+#'
+#' @param n Numeric or integer, how many ID's do you need.
+#' @param char_len Numeric or integer, total ID character length. Default set to 12.
+#'
+#' @returns Character, length of n unique ID's.
+#' @export
+#'
+#' @examples
+#' create_unique_ids(n = 5)
+create_unique_ids <- function(n, char_len = 12){
+  pool <- c(letters, LETTERS, 0:9)
+
+  res <- character(n)
+  for(i in seq(n)){
+    this_res <- paste0(sample(pool, char_len, replace = TRUE), collapse = "")
+    while(this_res %in% res){
+      #if there was a duplicate, redo
+      this_res <- paste0(sample(pool, char_len, replace = TRUE), collapse = "")
+    }
+    res[i] <- this_res
+  }
+  return(res)
+}
+
 #' Read in Data from REDCap Project
 #'
 #' This method allows you to import/read in a set of records for a project. To use this method, you must have API Import/Update privileges in the project. Please be aware that Data Export user rights will be applied to this API request. For example, if you have 'No Access' data export rights in the project, then the API data export will fail and return an error. And if you have 'De-Identified' or 'Remove All Identifier Fields' data export rights, then some data fields *might* be removed and filtered out of the data set returned from the API. To make sure that no data is unnecessarily filtered out of your API request, you should have 'Full Data Set' export rights in the project.

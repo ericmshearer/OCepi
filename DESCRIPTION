@@ -8,14 +8,15 @@ Authors@R: c(
 Description: Collection of standardized methods that address the mundane data wrangling tasks for public health epidemiologists. The functions included in this package can be broadly applied but were made specifically for epidemiologists at county and State agencies.
 Depends:
     ggplot2,
-    R (>= 3.5.0)
+    R (>= 4.1.0)
 Imports:
     magrittr,
     dplyr,
     rlang,
     httr,
     readr,
-    tibble
+    tibble,
+    stringdist
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
