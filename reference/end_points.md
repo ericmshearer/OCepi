@@ -1,0 +1,39 @@
+# Subset Data To Label Line Plot
+
+Subset dataframe to label last point in geom_line. Function takes into
+account time series that don't end at the same time point.
+
+## Usage
+
+``` r
+end_points(df, date = NULL, group_by = NULL)
+```
+
+## Arguments
+
+- df:
+
+  Dataframe
+
+- date:
+
+  Date column to be used in plot - can be date, year, or week.
+
+- group_by:
+
+  For time series that end at different dates, specify group variable.
+
+## Value
+
+Data.frame filtered at maximum (or most recent) date including all
+groups at that date.
+
+## Examples
+
+``` r
+df <- data.frame(Date = seq.Date(from = as.Date("2023-01-01"), to = as.Date("2023-12-01"),
+by = "month"), scores = sample(65:99, 12))
+end_points(df, Date)
+#>         Date scores
+#> 1 2023-12-01     96
+```

@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   calculations: calculations.html
@@ -7,7 +7,7 @@ articles:
   date-conversions: date-conversions.html
   extending-ggplot2: extending-ggplot2.html
   linking_data: linking_data.html
-last_built: 2025-10-17T22:24Z
+last_built: 2026-02-13T05:13Z
 urls:
   reference: https://ericmshearer.github.io/OCepi/reference
   article: https://ericmshearer.github.io/OCepi/articles

@@ -1,0 +1,63 @@
+# linking-data
+
+Another type of repetitive task is creating unique identifiers to join
+disparate datasets. Often this includes using identifiers such as name,
+date of birth, and for more specific matching, address and/or phone
+number.
+
+A few things to be aware of when using the methods below:
+
+- Names will be automatically converted to upper case. Address is not.
+- Date format in both datasets you want to join must be formatted the
+  same. Inconsistent formatting will result in little to no matching.
+
+## match_id_1
+
+`match_id_1` uses the first four characters of the first and last name,
+full date of birth, and the first 10 characters of the address. It is
+recommended to tidy up the address using `clean_address` from this
+package prior to using `match_id_1`.
+
+``` r
+match_id_1("Mickey","Mouse","1955-07-17","1313 Disneyland Dr")
+#> [1] "MICKMOUS1955-07-171313 Disne"
+```
+
+## match_id_2
+
+`match_id_2` uses the same variables as `match_id_1` except it uses the
+full address.
+
+``` r
+match_id_2("Mickey","Mouse","1955-07-17","1313 Disneyland Dr")
+#> [1] "MICKMOUS1955-07-171313 Disneyland Dr"
+```
+
+## match_id_3
+
+`match_id_3` uses the first four characters of first and last name, full
+date of birth, and phone number. Phone number can be quite messy - some
+contain parentheses, dashes, and/or country codes. One option to tidy up
+phone number is to use `clean_phone` from this package. Please be aware
+this function looks for valid, 10 digit U.S. based phone numbers. If you
+are dealing with a mix of international and U.S. phone numbers, other
+approaches may be needed.
+
+``` r
+match_id_3("Mickey","Mouse","1955-07-17","714-781-4636")
+#> [1] "MICKMOUS1955-07-17714-781-4636"
+match_id_3("Mickey","Mouse","1955-07-17",clean_phone("714-781-4636"))
+#> [1] "MICKMOUS1955-07-177147814636"
+```
+
+## match_id_4
+
+`match_id_4` is the most sensitive approach of making unique id’s. This
+id uses the first four characters of the first and last name plus date
+of birth. When using this id to join data, it is recommended to use
+other identifiers to validate the matches (e.g. phone number, address).
+
+``` r
+match_id_4("Mickey","Mouse","1955-07-17")
+#> [1] "MICKMOUS1955-07-17"
+```

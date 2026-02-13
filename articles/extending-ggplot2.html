@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OCepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,7 +93,7 @@ theme, labels, and colors:</p>
 <span>    y <span class="op">=</span> <span class="st">"Total Cases"</span>,</span>
 <span>    caption <span class="op">=</span> <span class="st">"*This is a caption."</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="extending-ggplot2_files/figure-html/boring-plot-1.png" width="864"></p>
+<p><img src="extending-ggplot2_files/figure-html/boring-plot-1.png" class="r-plt" alt="" width="864"></p>
 <p>For horizontal plots or maps, update
 <code>theme_apollo(direction = "horizontal")</code> or
 <code>theme_apollo(direction = "map")</code> respectively.</p>
@@ -102,7 +102,7 @@ theme, labels, and colors:</p>
 <h2 id="cdcd_color">cdcd_color()<a class="anchor" aria-label="anchor" href="#cdcd_color"></a>
 </h2>
 <p>Color palette below contains our favorite/most used colors:</p>
-<p><img src="extending-ggplot2_files/figure-html/colors-1.png" width="768"></p>
+<p><img src="extending-ggplot2_files/figure-html/colors-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 <div class="section level2">
 <h2 id="end_points">end_points()<a class="anchor" aria-label="anchor" href="#end_points"></a>
@@ -137,7 +137,7 @@ County for the suggestion).</p>
 <span>    color <span class="op">=</span> <span class="st">"County"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="../reference/cdcd_color.html">cdcd_color</a></span><span class="op">(</span><span class="st">"dodgers"</span>,<span class="st">"mustard"</span>,<span class="st">"london pink"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="extending-ggplot2_files/figure-html/end-points-1.png" width="1344"></p>
+<p><img src="extending-ggplot2_files/figure-html/end-points-1.png" class="r-plt" alt="" width="1344"></p>
 </div>
 <div class="section level2">
 <h2 id="wrap_labels">wrap_labels()<a class="anchor" aria-label="anchor" href="#wrap_labels"></a>
@@ -160,7 +160,7 @@ delimiter you specify (e.g. or, forward slash, hyphen, etc.)</p>
 <span>    y <span class="op">=</span> <span class="st">"Percentage (%)"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/apollo_label.html">apollo_label</a></span><span class="op">(</span>vjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="extending-ggplot2_files/figure-html/no-wrap-1.png" width="768"></p>
+<p><img src="extending-ggplot2_files/figure-html/no-wrap-1.png" class="r-plt" alt="" width="768"></p>
 <p>With wrapping:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">re</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">score</span>, label <span class="op">=</span> <span class="va">score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -173,7 +173,7 @@ delimiter you specify (e.g. or, forward slash, hyphen, etc.)</p>
 <span>    y <span class="op">=</span> <span class="st">"Percentage (%)"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/apollo_label.html">apollo_label</a></span><span class="op">(</span>vjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="extending-ggplot2_files/figure-html/wrap-label-1.png" width="768"></p>
+<p><img src="extending-ggplot2_files/figure-html/wrap-label-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 <div class="section level2">
 <h2 id="highlight_geom-desaturate_geom">highlight_geom() &amp; desaturate_geom()<a class="anchor" aria-label="anchor" href="#highlight_geom-desaturate_geom"></a>
@@ -233,7 +233,7 @@ highlight/desaturate function.</p>
 <span>    x <span class="op">=</span> <span class="st">"Age Groups (years)"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Proportion (%)"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="extending-ggplot2_files/figure-html/highlight-bar-1.png" width="1152"></p>
+<p><img src="extending-ggplot2_files/figure-html/highlight-bar-1.png" class="r-plt" alt="" width="1152"></p>
 </div>
 <div class="section level4">
 <h4 id="line---highlight">Line - highlight<a class="anchor" aria-label="anchor" href="#line---highlight"></a>
@@ -253,7 +253,7 @@ highlight/desaturate function.</p>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">colour</span> : <span style="color: #0000BB;">"County"</span></span></span></code></pre></div>
-<p><img src="extending-ggplot2_files/figure-html/higlight-line-1.png" width="1344"></p>
+<p><img src="extending-ggplot2_files/figure-html/higlight-line-1.png" class="r-plt" alt="" width="1344"></p>
 </div>
 <div class="section level4">
 <h4 id="shapefilemap---desaturate">Shapefile/Map - desaturate<a class="anchor" aria-label="anchor" href="#shapefilemap---desaturate"></a>
@@ -266,7 +266,7 @@ highlight/desaturate function.</p>
 <span>  <span class="fu"><a href="../reference/desaturate_geom.html">desaturate_geom</a></span><span class="op">(</span><span class="va">Zip</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">92702</span><span class="op">:</span><span class="fl">92708</span><span class="op">)</span>, pal <span class="op">=</span> <span class="fu"><a href="../reference/cdcd_color.html">cdcd_color</a></span><span class="op">(</span><span class="st">"dodgers"</span><span class="op">)</span>, desaturate <span class="op">=</span> <span class="fl">0.75</span>, linewidth <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf_text</span><span class="op">(</span>data <span class="op">=</span> <span class="va">base_zip</span>, <span class="fu">aes</span><span class="op">(</span>label <span class="op">=</span> <span class="va">Zip</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_apollo.html">theme_apollo</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"map"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="extending-ggplot2_files/figure-html/highlight-sf-1.png" width="1152"></p>
+<p><img src="extending-ggplot2_files/figure-html/highlight-sf-1.png" class="r-plt" alt="" width="1152"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -280,7 +280,7 @@ highlight/desaturate function.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
