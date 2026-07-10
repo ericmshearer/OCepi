@@ -7,3 +7,4 @@
 ^\.github$
 ^READme\.Rmd$
 ^codecov\.yml$
+R/tbl2.R

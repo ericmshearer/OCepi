@@ -32,5 +32,6 @@ cd_cols <- c(
   `grid color 2` = "gray65",
   "plum" = "#b366a4",
   "mustard" = "#da9400",
-  "dodgers"= "#005A9C"
+  "dodgers"= "#005A9C",
+  "complex blue" = "#173448"
  )

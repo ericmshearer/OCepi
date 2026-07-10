@@ -13,6 +13,19 @@ template:
     pkgdown-nav-height: 78px
 navbar:
   bg: primary
+  left:
+    - text: "Articles"
+      menu:
+        - text: "Calculations"
+          href: articles/calculations.html
+        - text: "Data Cleaning"
+          href: articles/data-cleaning.html
+        - text: "Date Conversions"
+          href: articles/data-conversions.html
+        - text: "Extending ggplot2"
+          href: articles/extending-ggplot2.html
+        - text: "Linking Data"
+          href: articles/linking_data.html
   right:
   - icon: fa-github
     href: https://github.com/ericmshearer/OCepi

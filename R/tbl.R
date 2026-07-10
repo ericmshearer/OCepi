@@ -65,7 +65,7 @@ dashboard_tbl <- function(data, group_by = NULL, reverse = TRUE, digits = 1, n_s
 }
 
 init_tbl <- function(col){
-  as.data.frame(table(col))
+  as.data.frame(table(col, useNA = "ifany"))
 }
 
 final_tbl <- function(tbl, digits, reverse, n_suppress){

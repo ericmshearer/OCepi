@@ -31,6 +31,7 @@
 #' @docType data
 #'
 #' @usage data(linelist)
+#' @name linelist
 #'
 #' @format A tibble containing no PHI.
 #'
