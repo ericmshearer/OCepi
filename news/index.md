@@ -1,5 +1,16 @@
 # Changelog
 
+## OCepi 0.4.2 (2026-07-10)
+
+#### Enhancement
+
+- New color added to
+  [`OCepi::cdcd_color()`](https://ericmshearer.github.io/OCepi/reference/cdcd_color.md)
+- New age groups added to
+  [`OCepi::age_groups()`](https://ericmshearer.github.io/OCepi/reference/age_groups.md)
+- Better handling of NA values with
+  [`OCepi::dashboard_tbl()`](https://ericmshearer.github.io/OCepi/reference/dashboard_tbl.md)
+
 ## OCepi 0.4.1 (2026-02-12)
 
 #### New Features

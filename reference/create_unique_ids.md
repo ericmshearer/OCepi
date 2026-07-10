@@ -26,5 +26,5 @@ Character, length of n unique ID's.
 
 ``` r
 create_unique_ids(n = 5)
-#> [1] "Sy0ISrwZQdHO" "rDslYqjRmVMu" "JacgWfAlMkPN" "1WRZorR1u5Cj" "cJSLnb4eYrKP"
+#> [1] "e2kGJgwxHhiY" "O68LSSy0ISrw" "ZQdHOrDslYqj" "RmVMuJacgWfA" "lMkPN1WRZorR"
 ```

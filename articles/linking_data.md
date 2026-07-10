@@ -19,6 +19,7 @@ recommended to tidy up the address using `clean_address` from this
 package prior to using `match_id_1`.
 
 ``` r
+
 match_id_1("Mickey","Mouse","1955-07-17","1313 Disneyland Dr")
 #> [1] "MICKMOUS1955-07-171313 Disne"
 ```
@@ -29,6 +30,7 @@ match_id_1("Mickey","Mouse","1955-07-17","1313 Disneyland Dr")
 full address.
 
 ``` r
+
 match_id_2("Mickey","Mouse","1955-07-17","1313 Disneyland Dr")
 #> [1] "MICKMOUS1955-07-171313 Disneyland Dr"
 ```
@@ -44,6 +46,7 @@ are dealing with a mix of international and U.S. phone numbers, other
 approaches may be needed.
 
 ``` r
+
 match_id_3("Mickey","Mouse","1955-07-17","714-781-4636")
 #> [1] "MICKMOUS1955-07-17714-781-4636"
 match_id_3("Mickey","Mouse","1955-07-17",clean_phone("714-781-4636"))
@@ -58,6 +61,7 @@ of birth. When using this id to join data, it is recommended to use
 other identifiers to validate the matches (e.g. phone number, address).
 
 ``` r
+
 match_id_4("Mickey","Mouse","1955-07-17")
 #> [1] "MICKMOUS1955-07-17"
 ```

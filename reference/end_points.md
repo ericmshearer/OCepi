@@ -35,5 +35,5 @@ df <- data.frame(Date = seq.Date(from = as.Date("2023-01-01"), to = as.Date("202
 by = "month"), scores = sample(65:99, 12))
 end_points(df, Date)
 #>         Date scores
-#> 1 2023-12-01     96
+#> 1 2023-12-01     83
 ```

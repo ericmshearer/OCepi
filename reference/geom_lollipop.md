@@ -20,11 +20,6 @@ geom_lollipop(
 GeomLollipop
 ```
 
-## Format
-
-An object of class `GeomLollipop` (inherits from `Geom`, `ggproto`,
-`gg`) of length 7.
-
 ## Arguments
 
 - data:

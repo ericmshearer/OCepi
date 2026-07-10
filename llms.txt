@@ -16,6 +16,7 @@ package addresses the following priorities:
 For the latest development version:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("ericmshearer/OCepi")
 ```

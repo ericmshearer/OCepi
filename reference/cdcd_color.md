@@ -26,6 +26,8 @@ cdcd_color()
 #>    "#5ea15d"    "#63c5b5"    "#6da7de"    "#9e0059"    "#F28C28"    "#231f20" 
 #>   axis color   grid color grid color 2         plum      mustard      dodgers 
 #>    "#353d42"    "#E8EDEE"     "gray65"    "#b366a4"    "#da9400"    "#005A9C" 
+#> complex blue 
+#>    "#173448" 
 cdcd_color("green")
 #> [1] "#5ea15d"
 ```

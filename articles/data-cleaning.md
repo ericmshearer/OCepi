@@ -29,6 +29,7 @@ abbreviate long categories (i.e. Native Hawaiian/Other Pacific Islander
 to NHOPI), set `abbr_names` to TRUE.
 
 ``` r
+
 linelist |>
   mutate(
     race_ethnicity = recode_race(Ethnicity, Race, abbr_names = FALSE)
@@ -51,6 +52,7 @@ linelist |>
 Other use cases:
 
 ``` r
+
 recode_race("2028-9") #Syndromic/ESSENCE
 #> [1] "Asian"
 
@@ -64,6 +66,7 @@ Can be used with CalREDIE, VRBIS, and CAIR2 (or really any other dataset
 that abbreviates their gender variable to single letters).
 
 ``` r
+
 linelist |>
   mutate(Gender = recode_gender(Gender)) |>
   count(Gender)
@@ -81,6 +84,7 @@ Designed specifically for use with CalREDIE. Expects CTCIAdtlDemOrient
 variable.
 
 ``` r
+
 linelist |>
   mutate(SexualOrientation = recode_orientation(SexualOrientation)) |>
   count(SexualOrientation)
@@ -103,6 +107,7 @@ we no longer have to copy + paste long
 statements to recode age to age groups.
 
 ``` r
+
 linelist |>
   mutate(age_group = age_groups(Age), type = "decade") |>
   count(age_group)
@@ -149,6 +154,7 @@ abbreviated cardinal directions, and recode abbreviated street endings
 additional address data (i.e. Apartment, Unit).
 
 ``` r
+
 cases <- data.frame(
   Address = c("1234 Main Street Apt 204","501 N Capital St","233 W Green Plz Unit 3")
 )
@@ -170,6 +176,7 @@ If after removing country code and symbols, and length is not 10
 characters, returned value is NA.
 
 ``` r
+
 cases <- data.frame(
   HomePhone = c("1-714-777-1234","(949) 555-1234","+442071539000")
 )
@@ -190,6 +197,7 @@ state and county fips codes, some do not. To make them match, use
 to remove state and county fips code.
 
 ``` r
+
 recode_ctract("06059099244")
 #> [1] "099244"
 ```
@@ -199,6 +207,7 @@ recode_ctract("06059099244")
 Expects “Manner of Death” variable, follows CCDF data dictionary
 
 ``` r
+
 vrbis_manner_death("A")
 #> [1] "Accident"
 ```
@@ -208,6 +217,7 @@ vrbis_manner_death("A")
 Expects “Place of Death (Facility)”, follows CCDF data dictionary
 
 ``` r
+
 vrbis_place_death(6)
 #> [1] "LTCF"
 ```
@@ -224,6 +234,7 @@ your county. For columns, you’ll need (in order): “Place of Death
 code to `county_code` arguments.
 
 ``` r
+
 #Example 1 - OC SNF resident
 vrbis_resident(
   "6",
@@ -262,6 +273,7 @@ confidentiality prior to reporting. In this example, any cell sizes
 `less_than` 10 will be suppressed and `replace_with` double asterisk.
 
 ``` r
+
 linelist |>
   mutate(age_group = age_groups(Age)) |>
   count(age_group) |>
@@ -288,6 +300,7 @@ accounts for several variations of HIV and AIDS. If found, a warning
 message is printed to the console.
 
 ``` r
+
 df <- data.frame(cause = c("cancer","hepatitis","COVID-19","HIV"))
 print(df)
 #>       cause
@@ -312,6 +325,7 @@ Removes variants of baby/twin/newborn from first name. Addresses data
 quality issue in birth hepatitis B doses.
 
 ``` r
+
 baby_name("baby BOY")
 #> [1] NA
 
@@ -332,6 +346,7 @@ built the functions in such a way you can use them with either `%in%` or
 [`grepl()`](https://rdrr.io/r/base/grep.html) string detection.
 
 ``` r
+
 elr <- data.frame(
   Results = c("Pos","POSITIVE","DETECTED","NOT DETECTED","reactive")
 )

@@ -9,6 +9,7 @@ disease week and year. For week, we have two flavors - `mwwr_week` and
 `mmwr_year`.
 
 ``` r
+
 dates <- linelist |>
   select(SpecimenDate) |>
   arrange(SpecimenDate) |>
@@ -36,6 +37,7 @@ For those that need to convert epidemiological year and week to week
 ending date:
 
 ``` r
+
 dates <- dates |>
   select(epi_year, disease_week) |>
   mutate(
@@ -61,6 +63,7 @@ To make
 with total disease weeks + start/end dates:
 
 ``` r
+
 mmwr_calendar(2023) |>
   head(20)
 #>    Year Week      Start        End
@@ -93,6 +96,7 @@ patients/laboratory results can also be categorized by season. Season in
 this context spans week 40 of current year to week 39 of following year.
 
 ``` r
+
 df <- data.frame(spec_date = as.Date(c("2023-10-01","2023-11-04","2024-09-28","2024-09-29")))
 
 df |>
@@ -110,6 +114,7 @@ An alternative to grouping cases at the year or week level is by month.
 Returned output is a date formatted YYYY-MM-01.
 
 ``` r
+
 df <- data.frame(spec_date = as.Date(c("2023-10-01","2023-11-04","2024-09-28","2024-09-29")))
 
 df |>

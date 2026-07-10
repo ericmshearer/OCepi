@@ -9,6 +9,7 @@ Using the built-in linelist dataset, we’ll build a plot using our theme,
 labels, and colors:
 
 ``` r
+
 dis_x <- linelist
 
 dis_x |>
@@ -48,6 +49,7 @@ will subset the data to the last date in a time series, even if groups
 end at different dates (thank you Butte County for the suggestion).
 
 ``` r
+
 covid <- read.csv("https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/046cdd2b-31e5-4d34-9ed3-b48cdbc4be7a/download/covid19cases_test.csv", na.strings = "", stringsAsFactors = FALSE) |>
   filter(area %in% c("Orange","Los Angeles","San Diego"))
 
@@ -89,6 +91,7 @@ slash, hyphen, etc.)
 Without wrapping:
 
 ``` r
+
 re <- data.frame(group = c("Native Hawaiian or Other Pacific Islander","Black or African American","American Indian/Alaska Native"), score = c(89.5, 84, 73))
 
 ggplot(data = re, aes(x = group, y = score, label = score)) +
@@ -107,6 +110,7 @@ ggplot(data = re, aes(x = group, y = score, label = score)) +
 With wrapping:
 
 ``` r
+
 ggplot(data = re, aes(x = group, y = score, label = score)) +
   geom_col() +
   scale_x_discrete(labels = wrap_labels(delim = c("or","/"))) +
@@ -166,6 +170,7 @@ highlighted, placed labels after highlight/desaturate function.
 #### Bar - Highlight
 
 ``` r
+
 tbl <- linelist |>
   mutate(age_groups = age_groups(Age, type = "enteric")) |>
   count(age_groups) |>
@@ -191,6 +196,7 @@ ggplot(data = tbl, aes(x = age_groups, y = percent)) +
 #### Line - highlight
 
 ``` r
+
 ggplot(data = covid, aes(x = date, y = rate_ma_7, group = area)) +
   geom_line(linewidth = 1.2) +
   theme_apollo(legend = "Hide") +
@@ -212,6 +218,7 @@ ggplot(data = covid, aes(x = date, y = rate_ma_7, group = area)) +
 #### Shapefile/Map - desaturate
 
 ``` r
+
 base_zip <- oc_zip_sf
 
 ggplot(data = oc_zip_sf) +

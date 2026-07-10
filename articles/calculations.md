@@ -6,6 +6,7 @@ One of the most used calculations is proportion. If you do not want to
 multiply proportion by 100, add argument `multiply = FALSE`.
 
 ``` r
+
 linelist |>
   mutate(race_ethnicity = recode_race(Ethnicity, Race, abbr_names = TRUE)) |>
   count(race_ethnicity) |>
@@ -31,6 +32,7 @@ and percent. Use argument `n_suppress` to suppress low values and
 `reverse` to set order of n and % (default is n then %).
 
 ``` r
+
 linelist |>
   mutate(race_ethnicity = recode_race(Ethnicity, Race, abbr_names = TRUE)) |>
   count(race_ethnicity) |>
@@ -60,6 +62,7 @@ your data into one table. To use `dashboard_tbl`, start with your data,
 then select which columns you want to summarize, then call the function:
 
 ``` r
+
 linelist %>%
   mutate(
     race_ethnicity = recode_race(Ethnicity, Race),
@@ -106,6 +109,7 @@ Another common calculation for our team are is incidence rate per
 100,000.
 
 ``` r
+
 linelist |>
   mutate(race_ethnicity = recode_race(Ethnicity, Race, abbr_names = TRUE)) |>
   filter(race_ethnicity %in% c("White","NHOPI","Multiple Races")) |>
@@ -133,6 +137,7 @@ for complete elapsed time. Note: order of dates does not necessarily
 matter, but beware of sign.
 
 ``` r
+
 episode_date = as.Date("2020-04-01")
 death_date = as.Date("2020-05-15")
 
