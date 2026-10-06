@@ -26,7 +26,7 @@ Character in format YYYY-Q0#.
 
 ``` r
 to_quarter(Sys.Date())
-#> [1] "2026-Q03"
+#> [1] "2026-Q04"
 to_quarter(Sys.Date(), fiscal = TRUE)
-#> [1] "2026-Q01"
+#> [1] "2026-Q02"
 ```

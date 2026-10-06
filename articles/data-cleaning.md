@@ -164,9 +164,9 @@ cases |>
     Address_clean = clean_address(Address, keep_extra = TRUE)
     )
 #>                    Address                  Address_clean
-#> 1 1234 Main Street Apt 204 1234 Main Street Apartment 204
-#> 2         501 N Capital St       501 North Capital Street
-#> 3   233 W Green Plz Unit 3    233 West Green Plaza Unit 3
+#> 1 1234 Main Street Apt 204 1234 MAIN STREET APARTMENT 204
+#> 2         501 N Capital St       501 NORTH CAPITAL STREET
+#> 3   233 W Green Plz Unit 3    233 WEST GREEN PLAZA UNIT 3
 ```
 
 ## clean_phone()

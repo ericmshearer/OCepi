@@ -6,7 +6,14 @@ To use this method, you must have API Export privileges in the project.
 ## Usage
 
 ``` r
-write_redcap(df, url, token, forceAutoNumber = FALSE)
+write_redcap(
+  df,
+  url,
+  token,
+  forceAutoNumber = FALSE,
+  batch = FALSE,
+  batch_delay = 0.5
+)
 ```
 
 ## Arguments
@@ -26,6 +33,14 @@ write_redcap(df, url, token, forceAutoNumber = FALSE)
 - forceAutoNumber:
 
   Logical, if TRUE new record ids will be automatically determined.
+
+- batch:
+
+  Logical, TRUE if uploading large volumes of data.
+
+- batch_delay:
+
+  Numeric, time delay between batches when batch uploading.
 
 ## Value
 

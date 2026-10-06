@@ -7,12 +7,12 @@ number.
 ## Usage
 
 ``` r
-clean_address(address_var, keep_extra = TRUE)
+clean_address(x, keep_extra = TRUE)
 ```
 
 ## Arguments
 
-- address_var:
+- x:
 
   Address variable.
 
@@ -30,7 +30,7 @@ Address as character.
 ``` r
 x = "1234 N Main St Apt 405"
 clean_address(x, keep_extra = TRUE)
-#> [1] "1234 North Main Street Apartment 405"
+#> [1] "1234 NORTH MAIN STREET APARTMENT 405"
 clean_address(x, keep_extra = FALSE)
-#> [1] "1234 North Main Street"
+#> [1] "1234 NORTH MAIN STREET"
 ```

@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">OCepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -227,9 +227,9 @@ abbreviated street endings (i.e. Street, Circle, Plaza). Set
 <span>    Address_clean <span class="op">=</span> <span class="fu"><a href="../reference/clean_address.html">clean_address</a></span><span class="op">(</span><span class="va">Address</span>, keep_extra <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="co">#&gt;                    Address                  Address_clean</span></span>
-<span><span class="co">#&gt; 1 1234 Main Street Apt 204 1234 Main Street Apartment 204</span></span>
-<span><span class="co">#&gt; 2         501 N Capital St       501 North Capital Street</span></span>
-<span><span class="co">#&gt; 3   233 W Green Plz Unit 3    233 West Green Plaza Unit 3</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 1234 Main Street Apt 204 1234 MAIN STREET APARTMENT 204</span></span>
+<span><span class="co">#&gt; 2         501 N Capital St       501 NORTH CAPITAL STREET</span></span>
+<span><span class="co">#&gt; 3   233 W Green Plz Unit 3    233 WEST GREEN PLAZA UNIT 3</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="clean_phone">clean_phone()<a class="anchor" aria-label="anchor" href="#clean_phone"></a>

@@ -73,6 +73,7 @@ Simplest ways to contact me:
 - [`hiv_redact()`](https://ericmshearer.github.io/OCepi/reference/hiv_redact.md)
   : Redact HIV/AIDS from Dataframe
 - [`linelist`](https://ericmshearer.github.io/OCepi/reference/linelist.md)
+  [`suffix`](https://ericmshearer.github.io/OCepi/reference/linelist.md)
   : Outbreak Linelist
 - [`match_id_1()`](https://ericmshearer.github.io/OCepi/reference/match_id_1.md)
   : Match ID \#1 - Partial Name, DOB, Partial Address
