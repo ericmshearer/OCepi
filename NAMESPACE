@@ -57,27 +57,43 @@ export(wrap_labels)
 export(write_redcap)
 import(dplyr)
 import(ggplot2)
-importFrom(ggplot2,element_blank)
-importFrom(ggplot2,element_line)
-importFrom(ggplot2,element_rect)
-importFrom(ggplot2,element_text)
-importFrom(ggplot2,geom_text)
-importFrom(ggplot2,ggplot_add)
-importFrom(ggplot2,layer)
-importFrom(ggplot2,margin)
-importFrom(ggplot2,theme)
-importFrom(grid,gList)
-importFrom(grid,gTree)
-importFrom(grid,unit)
-importFrom(httr,POST)
-importFrom(httr,content)
-importFrom(httr,http_error)
+importFrom(cli,
+  cli_abort,
+  cli_alert,
+  cli_alert_info,
+  cli_alert_success
+)
+importFrom(ggplot2,
+  element_blank,
+  element_line,
+  element_rect,
+  element_text,
+  geom_text,
+  ggplot_add,
+  layer,
+  margin,
+  theme
+)
+importFrom(grid,
+  gList,
+  gTree,
+  unit
+)
+importFrom(httr,
+  POST,
+  content,
+  http_error,
+  status_code
+)
 importFrom(magrittr,"%>%")
 importFrom(readr,read_csv)
 importFrom(rlang,enquo)
 importFrom(stats,setNames)
 importFrom(stringdist,stringdist)
+importFrom(stringi,stri_replace_all_regex)
 importFrom(tibble,as_tibble)
-importFrom(utils,capture.output)
-importFrom(utils,read.csv)
-importFrom(utils,write.csv)
+importFrom(utils,
+  capture.output,
+  read.csv,
+  write.csv
+)

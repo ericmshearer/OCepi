@@ -4,7 +4,14 @@
 \alias{write_redcap}
 \title{Write New or Modified Data to REDCap Project}
 \usage{
-write_redcap(df, url, token, forceAutoNumber = FALSE)
+write_redcap(
+  df,
+  url,
+  token,
+  forceAutoNumber = FALSE,
+  batch = FALSE,
+  batch_delay = 0.5
+)
 }
 \arguments{
 \item{df}{Data.frame to write back to REDCap.}
@@ -14,6 +21,10 @@ write_redcap(df, url, token, forceAutoNumber = FALSE)
 \item{token}{Character, token from project.}
 
 \item{forceAutoNumber}{Logical, if TRUE new record ids will be automatically determined.}
+
+\item{batch}{Logical, TRUE if uploading large volumes of data.}
+
+\item{batch_delay}{Numeric, time delay between batches when batch uploading.}
 }
 \value{
 Success or warning message, no data returned.

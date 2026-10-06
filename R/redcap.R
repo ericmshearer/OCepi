@@ -38,6 +38,7 @@ create_unique_ids <- function(n, char_len = 12){
 #' @importFrom httr POST
 #' @importFrom httr content
 #' @importFrom httr http_error
+#' @importFrom httr status_code
 #' @importFrom readr read_csv
 #' @importFrom utils read.csv
 #' @importFrom utils write.csv
@@ -63,12 +64,12 @@ read_redcap <- function(url, token, raw = TRUE, exportCheckboxLabel = FALSE, exp
     exportSurveyFields = con_opt(exportSurveyFields)
   )
 
-  response <- httr::POST(url = url, body = params, encode = "form")
+  response <- POST(url = url, body = params, encode = "form")
 
-  if(httr::http_error(response)){
-    stop(paste("HTTP Error:", httr::status_code(response), httr::content(response, "text", encoding = "UTF-8")))
+  if(http_error(response)){
+    stop(paste("HTTP Error:", status_code(response), httr::content(response, "text", encoding = "UTF-8")))
   } else if(response$status_code == "200") {
-    content <- httr::content(response, "text")
+    content <- content(response, "text")
     records <- readr::read_csv(content, na = "")
   } else {
     stop("Some other error message I didn't account for.")
@@ -83,39 +84,80 @@ read_redcap <- function(url, token, raw = TRUE, exportCheckboxLabel = FALSE, exp
 #' @param url Character, API url.
 #' @param token Character, token from project.
 #' @param forceAutoNumber Logical, if TRUE new record ids will be automatically determined.
+#' @param batch Logical, TRUE if uploading large volumes of data.
+#' @param batch_delay Numeric, time delay between batches when batch uploading.
 #'
 #' @return Success or warning message, no data returned.
 #'
 #' @importFrom utils capture.output
 #' @importFrom utils write.csv
+#' @importFrom cli cli_alert_info
+#' @importFrom cli cli_alert
+#' @importFrom cli cli_alert_success
+#' @importFrom cli cli_abort
 #'
 #' @export
-write_redcap <- function(df, url, token, forceAutoNumber = FALSE){
+write_redcap <- function(df, url, token, forceAutoNumber = FALSE, batch = FALSE, batch_delay = 0.5){
 
-  csv <- df_to_csv(df)
-
-  post_body <- list(
-    "token" = token,
-    content = "record",
-    format = "csv",
-    data = csv,
-    overwriteBehavior = "normal", #blank/empty values will be ignored
-    forceAutoNumber = con_opt(forceAutoNumber),
-    returnFormat = "json",
-    returnContent = "counts"
+  stopifnot(
+    "`url` must be provided and non-empty." = !missing(url)   && !is.null(url)   && nzchar(url),
+    "`token` must be provided and non-empty." = !missing(token) && !is.null(token) && nzchar(token)
   )
 
-  response <- httr::POST(url = url, body = post_body, encode = "form")
+  n_records <- nrow(df)
 
-  response_content <- httr::content(response, "parsed", encoding = "UTF-8", show_col_types = FALSE)
+  # Hard-code batch size to 100
+  batch_size <- if (batch) 100 else n_records
+  n_batches <- ceiling(n_records / batch_size)
 
-  if(httr::http_error(response)) {
-    stop(paste("HTTP Error:", httr::status_code(response), httr::content(response, "text", encoding = "UTF-8")))
-  } else if(is.list(response_content) && "count" %in% names(response_content)) {
-    message(paste("Successfully uploaded/modified", response_content$count, "record(s)."))
+  if (batch) {
+    cli_alert_info("Starting to import/write {format(n_records, big.mark = ',')} record(s) in {n_batches} batches of 100 records...")
   } else {
-    stop("Some other error I didn't account for.")
+    cli_alert_info("Starting to import/write {format(n_records, big.mark = ',')} record(s)...")
   }
+
+  tic <- Sys.time()
+
+  for (i in seq_len(n_batches)) {
+    start_row <- ((i - 1) * batch_size) + 1
+    end_row   <- min(i * batch_size, n_records)
+    batch_df  <- df[start_row:end_row, , drop = FALSE]
+
+    if (batch) {
+      cli_alert("Writing batch {i} of {n_batches} | Rows: {start_row} through {end_row}")
+    }
+
+    csv <- df_to_csv(batch_df)
+
+    post_body <- list(
+      "token" = token,
+      content = "record",
+      format = "csv",
+      data = csv,
+      overwriteBehavior = "normal", #blank/empty values will be ignored
+      forceAutoNumber = con_opt(forceAutoNumber),
+      returnFormat = "json",
+      returnContent = "counts"
+    )
+
+    response <- POST(url = url, body = post_body, encode = "form")
+
+    response_content <- content(response, "parsed", encoding = "UTF-8", show_col_types = FALSE)
+
+    if (http_error(response)) {
+      cli_abort("Upload/import error on batch {i} | {response_content$error}")
+    } else if(is.list(response_content) && "count" %in% names(response_content)) {
+      cli_alert_success("Successfully uploaded/modified {response_content$count} record(s) in batch {i}")
+    } else {
+      stop(paste("Some other error I didn't account for in batch", i, "."))
+    }
+
+    if (batch && i < n_batches) Sys.sleep(batch_delay)
+  }
+
+  toc <- round(as.numeric(Sys.time() - tic), digits = 1)
+
+  cli_alert_success("Process complete | Time elapsed: {toc} seconds")
 }
 
 #' Read in Metadata from REDCap Project

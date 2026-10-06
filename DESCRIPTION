@@ -1,7 +1,7 @@
 Package: OCepi
 Type: Package
 Title: Collection of Common Data Cleaning Tools for Epidemiologists
-Version: 0.4.2
+Version: 0.4.3
 Authors@R: c(
     person("Eric", "Shearer", , "ericshearer@me.com", role = c("aut","cre","cph"))
   )
@@ -16,7 +16,9 @@ Imports:
     httr,
     readr,
     tibble,
-    stringdist
+    stringdist,
+    cli,
+    stringi
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -31,4 +33,4 @@ Suggests:
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://ericmshearer.github.io/OCepi/
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

@@ -3,17 +3,25 @@
 \docType{data}
 \name{linelist}
 \alias{linelist}
+\alias{suffix}
 \title{Outbreak Linelist}
 \format{
+A tibble containing no PHI.
+
 A tibble containing no PHI.
 }
 \usage{
 data(linelist)
+
+data(suffix)
 }
 \description{
 Outbreak Linelist
+
+Suffix Reference Table
 }
 \examples{
 data(linelist)
+data(suffix)
 }
 \keyword{datasets}

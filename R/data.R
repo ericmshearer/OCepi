@@ -40,3 +40,18 @@
 #' @examples
 #' data(linelist)
 "linelist"
+
+#' Suffix Reference Table
+#'
+#' @docType data
+#'
+#' @usage data(suffix)
+#' @name linelist
+#'
+#' @format A tibble containing no PHI.
+#'
+#' @keywords datasets
+#'
+#' @examples
+#' data(suffix)
+"suffix"

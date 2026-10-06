@@ -2,61 +2,35 @@
 #'
 #' Recode common address issues such as cardinal directions and street names, and removes extra location information such as unit or apartment number.
 #'
-#' @param address_var Address variable.
+#' @param x Address variable.
 #' @param keep_extra Defaults to TRUE. Option to keep/remove extra address components (e.g. Apartment, Unit, Space).
 #'
 #' @return Address as character.
+#' @importFrom stringi stri_replace_all_regex
 #' @export
 #'
 #' @examples
 #' x = "1234 N Main St Apt 405"
 #' clean_address(x, keep_extra = TRUE)
 #' clean_address(x, keep_extra = FALSE)
-clean_address <- function(address_var, keep_extra = TRUE){
+clean_address <- function(x, keep_extra = TRUE){
 
-  address_var = toupper(address_var) #convert to upper case
-  address_var = gsub("\\.", "", address_var) #remove any periods
+  x <- init_clean(x)
 
   #cardinal directions
-  address_var = gsub("\\bN\\b", "NORTH", address_var)
-  address_var = gsub("\\bS\\b", "SOUTH", address_var)
-  address_var = gsub("\\bE\\b", "EAST", address_var)
-  address_var = gsub("\\bW\\b", "WEST", address_var)
-  address_var = gsub("\\bSW\\b", "SOUTHWEST", address_var)
-  address_var = gsub("\\bNW\\b", "NORTHWEST", address_var)
-  address_var = gsub("\\bSE\\b", "SOUTEAST", address_var)
-  address_var = gsub("\\bNE\\b", "NORTHEAST", address_var)
+  x <- street_cardinal(x)
 
   #common street names
-  address_var = gsub("\\bHWY\\b", "HIGHWAY", address_var)
-  address_var = gsub("\\bRD\\b", "ROAD", address_var)
-  address_var = gsub("\\bCIR\\b", "CIRCLE", address_var)
-  address_var = gsub("\\bST\\b", "STREET", address_var)
-  address_var = gsub("\\bAVE\\b", "AVENUE", address_var)
-  address_var = gsub("\\bAV\\b", "AVENUE", address_var)
-  address_var = gsub("\\bBLVD\\b", "BOULEVARD", address_var)
-  address_var = gsub("\\bDR\\b", "DRIVE", address_var)
-  address_var = gsub("\\bLN\\b", "LANE", address_var)
-  address_var = gsub("\\bCT\\b", "COURT", address_var)
-  address_var = gsub("\\bPL\\b", "PLACE", address_var)
-  address_var = gsub("\\bPLZ\\b", "PLAZA", address_var)
-  address_var = gsub("\\bHTS\\b", "HEIGHTS", address_var)
-  address_var = gsub("\\bRDG\\b", "RIDGE", address_var)
-  address_var = gsub("\\bCV\\b", "COVE", address_var)
-  address_var = gsub("\\bTER\\b", "TERRACE", address_var)
+  x <- street_suffix(x)
 
-  #extra
-  address_var = gsub("\\bAPT\\b", "APARTMENT", address_var)
-  address_var = gsub("\\bRM\\b", "ROOM", address_var)
-  address_var = gsub("\\bSPC\\b", "SPACE", address_var)
-  address_var = gsub("\\bTRLR\\b", "TRAILER", address_var)
-  address_var = gsub("\\bSTE\\b", "SUITE", address_var)
+  #secondary units
+  x <- street_sec_unit(x)
 
   if(keep_extra){
-    return(pretty_words(address_var))
+    return(x)
   } else{
-    address_var = gsub(" (APARTMENT|#|ROOM|SPACE|ROOM|UNIT|TRAILER|SUITE)(| )\\w+", "", address_var) #remove extra info i.e. APT, Unit, etc.
-    return(pretty_words(address_var))
+    x <- trimws(gsub("(APARTMENT|#|BASEMENT|BUILDING|DEPARTMENT|FLOOR|FRONT|HANGER|LOBBY|LOWER|OFFICE|PENTHOUSE|ROOM|SPACE|SUITE|TRAILER|UNIT|UPPER\\b).*", "", x))
+    return(x)
   }
 }
 
@@ -180,4 +154,56 @@ clean_city <- function(x, reference, threshold = 0.15, redcap = FALSE, ooc = TRU
       }
     }
   }, USE.NAMES = FALSE)
+}
+
+init_clean <- function(x){
+  x <- gsub(" {2,}", " ", x, perl = TRUE)
+  x <- toupper(x)
+  x <- gsub("\\.|\\,", "", x)
+  x <- trimws(x)
+  return(x)
+}
+
+street_cardinal <- function(x){
+  patterns <- c("\\bSW\\b","\\bNW\\b","\\bSE\\b","\\bNE\\b","\\bN\\b","\\bS\\b","\\bE\\b","\\bW\\b")
+
+  replacements <- c("SOUTHWEST","NORTHWEST","SOUTHEAST","NORTHEAST","NORTH","SOUTH","EAST","WEST")
+
+  x <- stri_replace_all_regex(
+    x,
+    pattern = patterns,
+    replacement = replacements,
+    vectorize_all = FALSE
+  )
+
+  return(x)
+}
+
+street_suffix <- function(x){
+
+  x <- stri_replace_all_regex(
+    x,
+    pattern = suffix$abbreviation,
+    replacement = suffix$primary_suffix,
+    vectorize_all = FALSE
+  )
+
+  return(x)
+}
+
+street_sec_unit <- function(x){
+  patterns <- c("\\bAPT","\\bBSMT","\\bBLDG","\\bDEPT","\\bFL\\b","\\bFRNT","\\bHNGR","\\bLBBY",
+                "\\bLOWR","\\bOFC","\\bPH\\b","\\bRM","\\bSP\\b","\\bSPC","\\bSTE","\\bTRLR","\\bUPPR")
+
+  replacements <- c("APARTMENT","BASEMENT","BUILDING","DEPARTMENT","FLOOR","FRONT","HANGER","LOBBY","LOWER","OFFICE",
+                    "PENTHOUSE","ROOM","SPACE","SPACE","SUITE","TRAILER","UPPER")
+
+  x <- stri_replace_all_regex(
+    x,
+    pattern = patterns,
+    replacement = replacements,
+    vectorize_all = FALSE
+  )
+
+  return(x)
 }

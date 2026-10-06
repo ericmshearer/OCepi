@@ -1,3 +1,10 @@
+# OCepi 0.4.3 (2026-10-06)
+
+### Enhancement
+
+-   Align `OCepi::clean_address()` with address standards from U.S. Postal Service.
+-   Improved error handling/messaging for `OCepi::write_redcap()` as well as introducing batch uploading for high volume imports.
+
 # OCepi 0.4.2 (2026-07-10)
 
 ### Enhancement
